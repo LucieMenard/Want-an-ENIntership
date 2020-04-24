@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+		
+		<title>Want an ENIntership ?</title>
 	
-	<title>Sign up - Progressus Bootstrap template</title>
-
-	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png')}}">
+		
+		<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"> 
 	
-	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-
-	<!-- Custom styles for our template -->
-	<link rel="stylesheet" href="assets/css/bootstrap-theme.css" media="screen" >
-	<link rel="stylesheet" href="assets/css/main.css">
-
-	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-	<script src="assets/js/html5shiv.js"></script>
-	<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
-</head>
+		<!-- Custom styles for our template -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen" >
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+	
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
 
 <body>
 	<!-- Fixed navbar -->
@@ -38,9 +38,9 @@
 				<ul class="nav navbar-nav pull-right">
 					<li class="active"><a href="#">Accueil</a></li>
 					<!-- Il faut créer le fichier html derrière -->
-					<li><a href="recherche.html">Recherche</a></li>
-					<li><a href="contact.html">Contact</a></li>
-					<li><a class="btn" href="signin.html">S'INSCRIRE / SE CONNECTER</a></li>
+					<li><a href="recherche">Recherche</a></li>
+					<li><a href="contact">Contact</a></li>
+					<li><a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
@@ -129,7 +129,7 @@
 			<div class="container">
 				<div class="row">
 					
-					<div class="col-md-3 widget">
+					<div class="col-md-6 widget">
 						<h3 class="widget-title">Contact</h3>
 						<div class="widget-body">
 							Participants au projet :<br>
@@ -139,18 +139,6 @@
 							Lucie Ménard l7menard@enib.fr<br>
 							<br>
 							Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
-							</p>	
-						</div>
-					</div>
-
-					<div class="col-md-3 widget">
-						<h3 class="widget-title">Follow me</h3>
-						<div class="widget-body">
-							<p class="follow-me-icons">
-								<a href=""><i class="fa fa-twitter fa-2"></i></a>
-								<a href=""><i class="fa fa-dribbble fa-2"></i></a>
-								<a href=""><i class="fa fa-github fa-2"></i></a>
-								<a href=""><i class="fa fa-facebook fa-2"></i></a>
 							</p>	
 						</div>
 					</div>
@@ -174,10 +162,11 @@
 					<div class="col-md-6 widget">
 						<div class="widget-body">
 							<p class="simplenav">
-								<a href="#">Accueil</a> | 
-								<a href="about.html">Recherche</a> |
-								<a href="contact.html">Contact</a> |
-								<b><a href="signup.html">S'inscrire-Se connecter</a></b>
+								<a href="/">Accueil</a> | 
+								<a href="recherche">Recherche</a> |
+								<a href="contact">Contact</a> |
+								<a href="signin">Se connecter</a> |
+								<a href="signup">S'inscrire</a>
 							</p>
 						</div>
 					</div>

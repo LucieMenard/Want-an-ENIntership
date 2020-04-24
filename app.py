@@ -6,10 +6,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
+@app.route('/recherche')
+def recherche():
+    return render_template('recherche.html')
 
 @app.route('/contact')
 def contact():
@@ -18,6 +17,10 @@ def contact():
 @app.route('/signin')
 def signin():
     return render_template('signin.html')
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
 
 @app.route('/side')
 def side():
