@@ -61,7 +61,7 @@
 			<li class="active">Recherche</li>
 		</ol>
 
-		<div class="row">
+		<div class="container">
 
 			<!-- Article main content -->
 			<article class="col-xs-12 maincontent">
@@ -69,101 +69,97 @@
 					<h1 class="page-title">Rechercher une expérience</h1>
 				</header>
 
-				<div class="col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-2">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<h3 class="thin text-center">Rechercher une expérience</h3>
-							<p class="text-center text-muted">blablabla</p>
-							<hr>
-							<!-- Formulaire content -->
-							<form>
-								<div class="form-row">
-									<!-- Form control content -->
-									<div class="col-md-3 widget">
-										<label for="validationServer04">Type</label>
-										<select class="custom-select is-invalid" id="validationServer04" required>
-											<option>...</option>
-											<option>CDI</option>
-											<option>CDD</option>
-											<option>Stage</option>
-											<option>Alternance</option>
-										</select>
-									</div>
-
-									<!-- Radio content -->
-									<div class="col-md-3 widget">
-										<label for="validationServer01">Domaine</label>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios1" value="Informatique">
-											<label class="form-check-label" for="radios1">Informatique</label>
-										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios2" value="Electronique">
-											<label class="form-check-label" for="radios2">Electronique</label>
-										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios2" value="Mécatronique">
-											<label class="form-check-label" for="radios2">Mécatronique</label>
-										</div>
-									</div>
-
-									<!-- Radio content -->
-									<div class="col-md-3 widget">
-										<label for="validationServer01">Rémunéré</label>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios1" value="Informatique">
-											<label class="form-check-label" for="radios1">Oui</label>
-										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios2" value="Electronique">
-											<label class="form-check-label" for="radios2">Non</label>
-										</div>
-									</div>
-
-									<!-- Range content -->
-									<label for="customRange3">Durée min</label>
-									<input type="range" class="custom-range" min="0" max="24" step="0.5" id="rangeMin">
-
-									<label for="customRange3">Durée max</label>
-									<input type="range" class="custom-range" min="0" max="24" step="0.5" id="rangeMax">
-								</div>
+				<div class="container">
+					<div class="col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-2">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<h3 class="thin text-center">Rechercher une expérience :</h3>
+								<p class="text-center text-muted">Quelle type d'expérience cherchez vous ?</p>
 								<hr>
-								<hr>
-								<hr>
-								<!-- Entreprise content -->
-								<label for="validationServer01">Entreprise</label>
-								<div class="col-md-6 widget">
-									<div class="col-md-4 mb-3">
-										<input type="text" class="form-control is-valid" id="validationServer01">
-										<div class="valid-feedback"> </div>
-									</div>
-								</div>
+								<!-- Formulaire content -->
+								<form>
+									<div class="row mb-3">
+										<!-- Form control content -->
+										<div class="col-md-3 widget">
+											<label for="validationServer04">Type</label>
+											<select class="custom-select is-invalid" id="validationServer04" required>
+												<option>...</option>
+												<option>CDI</option>
+												<option>CDD</option>
+												<option>Stage</option>
+												<option>Alternance</option>
+											</select>
+										</div>
 
-								<div class="form-row">
-									<!-- Addresse content -->
-									<div class="form-row col-md-3 widget">
-									  	<input type="text" class="form-control" placeholder="Pays">
-									</div>
-									<div class="form-row col-md-3 widget">
-									 	<input type="text" class="form-control" placeholder="Ville">
-									</div>
-									<div class="form-row col-md-3 widget">
-									 	<input type="text" class="form-control" placeholder="addresse">
-									</div>
-								</div>
+										<!-- Radio content -->
+										<div class="col-md-3 widget">
+											<label for="validationServer01">Domaine</label>
+											<div class="form-check">
+												<input class="form-check-input" type="radio" name="radios"
+													id="radios1" value="Informatique">
+												<label class="form-check-label" for="radios1">Informatique</label>
+											</div>
+											<div class="form-check">
+												<input class="form-check-input" type="radio" name="radios"
+													id="radios2" value="Electronique">
+												<label class="form-check-label" for="radios2">Electronique</label>
+											</div>
+											<div class="form-check">
+												<input class="form-check-input" type="radio" name="radios"
+													id="radios2" value="Mécatronique">
+												<label class="form-check-label" for="radios2">Mécatronique</label>
+											</div>
+										</div>
 
-							</form>
+										<!-- Radio content -->
+										<div class="col-md-3 widget">
+											<label for="validationServer01">Rémunéré</label>
+											<div class="form-check">
+												<input class="form-check-input" type="radio" name="radios"
+													id="radios1" value="Informatique">
+												<label class="form-check-label" for="radios1">Oui</label>
+											</div>
+											<div class="form-check">
+												<input class="form-check-input" type="radio" name="radios"
+													id="radios2" value="Electronique">
+												<label class="form-check-label" for="radios2">Non</label>
+											</div>
+										</div>
+
+										<!-- Form control content -->
+										<div class="col-md-3 widget">
+											<label for="validationServer04">Durée</label>
+											<select class="custom-select is-invalid" id="validationServer04">
+												<option>...</option>
+												<option>1 mois</option>
+												<option>3 mois</option>
+												<option>4 mois</option>
+												<option>5 mois</option>
+												<option>6 mois</option>
+											</select>
+										</div>
+									</div>
+									<hr>
+									<!-- Entreprise content -->
+									<div class="row mb-3">
+										<div class="col-md-6 widget">
+											<input type="text" class="form-control" placeholder="Entreprise">	
+										</div>
+										<!-- Addresse content -->
+										<div class="form-row col-md-3 widget">
+											<input type="text" class="form-control" placeholder="Pays">
+										</div>
+										<div class="form-row col-md-3 widget">
+											<input type="text" class="form-control" placeholder="Ville">
+										</div>
+										</div>
+									</div>
+								</form>
+							</div>
 						</div>
-					</div>
-					<div class="form-row">
+						<!-- Bouton content -->
 						<button class="btn btn-primary" type="submit">Rechercher</button>
 					</div>
-
 				</div>
 
 			</article>
