@@ -1,192 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport"    content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
-		
-		<title>Want an ENIntership ?</title>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="Sergey Pozhilov (GetTemplate.com)">
+
+	<title>Want an ENIntership ?</title>
+
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png')}}">
+
+	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+
+
+	<script src="https://kit.fontawesome.com/8846054c71.js" crossorigin="anonymous"></script>
+	<!-- Custom styles for our template -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	
-		<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png')}}">
-		
-		<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"> 
-	
-		<!-- Custom styles for our template -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen" >
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
-	
-		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!--[if lt IE 9]>
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
-	</head>
+</head>
 
 <body>
-	<!-- Fixed navbar -->
-	<div class="navbar navbar-inverse navbar-fixed-top headroom" >
-		<div class="container">
-			<div class="navbar-header">
-				<!-- Button for smallest screens -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='images/logo.png')}}" alt="Progressus HTML5 template"></a>
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav pull-right">
-					<li class="active"><a href="#">Accueil</a></li>
-					<!-- Il faut créer le fichier html derrière -->
-					<li><a href="recherche">Recherche</a></li>
-					<li><a href="contact">Contact</a></li>
-					<li><a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a></li>
-				</ul>
-			</div><!--/.nav-collapse -->
-		</div>
-	</div> 
-	<!-- /.navbar -->
-
-	<header id="head" class="secondary"></header>
-
-	<!-- container -->
-	<div class="container">
-
-		<ol class="breadcrumb">
-			<li><a href="/">Home</a></li>
-			<li class="active">Registration</li>
-		</ol>
-
-		<div class="row">
-			
-			<!-- Article main content -->
-			<article class="col-xs-12 maincontent">
-				<header class="page-header">
-					<h1 class="page-title">Registration</h1>
-				</header>
-				
-				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<h3 class="thin text-center">Register a new account</h3>
-							<p class="text-center text-muted">Lorem ipsum dolor sit amet, <a href="signin">Login</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>
-							<hr>
-
-							<form>
-								<div class="top-margin">
-									<label>First Name</label>
-									<input type="text" class="form-control">
-								</div>
-								<div class="top-margin">
-									<label>Last Name</label>
-									<input type="text" class="form-control">
-								</div>
-								<div class="top-margin">
-									<label>Email Address <span class="text-danger">*</span></label>
-									<input type="text" class="form-control">
-								</div>
-
-								<div class="row top-margin">
-									<div class="col-sm-6">
-										<label>Password <span class="text-danger">*</span></label>
-										<input type="text" class="form-control">
-									</div>
-									<div class="col-sm-6">
-										<label>Confirm Password <span class="text-danger">*</span></label>
-										<input type="text" class="form-control">
-									</div>
-								</div>
-
-								<hr>
-
-								<div class="row">
-									<div class="col-lg-8">
-										<label class="checkbox">
-											<input type="checkbox"> 
-											I've read the <a href="page_terms.html">Terms and Conditions</a>
-										</label>                        
-									</div>
-									<div class="col-lg-4 text-right">
-										<button class="btn btn-action" type="submit">Register</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-
+	<div id="app">
+		<!-- Fixed navbar -->
+		<div class="navbar navbar-inverse navbar-fixed-top headroom">
+			<div class="container">
+				<div class="navbar-header">
+					<!-- Button for smallest screens -->
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span>
+						<span class="icon-bar"></span> </button>
+					<a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='images/logo.png')}}"
+							alt="Progressus HTML5 template"></a>
 				</div>
-				
-			</article>
-			<!-- /Article -->
-
-		</div>
-	</div>	<!-- /container -->
-	
-
-	<footer id="footer" class="top-space">
-
-		<div class="footer1">
-			<div class="container">
-				<div class="row">
-					
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Contact</h3>
-						<div class="widget-body">
-							Participants au projet :<br>
-							<br>
-							Antoine Martet a6martet@enib.fr<br>
-							Thomas Mazéas t7mazeas@enib.fr<br>
-							Lucie Ménard l7menard@enib.fr<br>
-							<br>
-							Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
-							</p>	
-						</div>
-					</div>
-
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Text widget</h3>
-						<div class="widget-body">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, dolores, quibusdam architecto voluptatem amet fugiat nesciunt placeat provident cumque accusamus itaque voluptate modi quidem dolore optio velit hic iusto vero praesentium repellat commodi ad id expedita cupiditate repellendus possimus unde?</p>
-							<p>Eius consequatur nihil quibusdam! Laborum, rerum, quis, inventore ipsa autem repellat provident assumenda labore soluta minima alias temporibus facere distinctio quas adipisci nam sunt explicabo officia tenetur at ea quos doloribus dolorum voluptate reprehenderit architecto sint libero illo et hic.</p>
-						</div>
-					</div>
-
-				</div> <!-- /row of widgets -->
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="/">Accueil</a></li>
+						<!-- Il faut créer le fichier html derrière -->
+						<li><a href="recherche">Recherche</a></li>
+						<li><a href="contact">Contact</a></li>
+						<li class="active"><a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a></li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
 			</div>
 		</div>
+		<!-- /.navbar -->
 
-		<div class="footer2">
-			<div class="container">
-				<div class="row">
-					
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="simplenav">
-								<a href="/">Accueil</a> | 
-								<a href="recherche">Recherche</a> |
-								<a href="contact">Contact</a> |
-								<a href="signin">Se connecter</a> |
-								<a href="signup">S'inscrire</a>
-							</p>
+		<header id="head" class="secondary"></header>
+
+		<!-- container -->
+		<div class="container">
+
+
+
+			<div class="row">
+
+				<!-- Article main content -->
+				<article class="col-xs-12 maincontent">
+					<header class="page-header">
+						<h1 class="page-title">Création d'un compte</h1>
+					</header>
+
+					<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+									<h3 class="thin text-center">Crées-toi un compte pour pouvoir accéder à toutes les fonctionnalités du site</h3>
+								</div>
+								<hr/>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-xs-6">
+											<label>Nom<span class="text-danger"> *</span></label>
+											<input v-model="user.Nom" id="test" class="form-control" required>
+										</div>
+										<div class="col-xs-6">
+											<label>Prénom<span class="text-danger"> *</span></label>
+											<input type="text" v-model="user.Prenom" class="form-control" required>
+										</div>
+									</div>
+									<br/>
+									<div class="row">
+										<div class="col-xs-7">
+											<label>Surnom</label>
+											<input type="text" v-model="user.Surnom" class="form-control">
+										</div>
+										<div class="col-xs-5">
+											<label>Date de Naissance</label>
+											<input type="date" v-model="user.Naissance" class="form-control">
+										</div>
+									</div>
+									<br />
+									<div class="row">
+										<div class="col-sm-8">
+											<label>Email<span class="text-danger"> *</span></label>
+											<input type="email" v-model="user.Email" class="form-control" required>
+										</div>
+
+										<div class="col-sm-4">
+											<label>Téléphone</label>
+											<input type="tel" v-model="user.Telephone" class="form-control">
+										</div>
+									</div>
+									<br />
+									<div class="row">
+										<div class="col-xs-6">
+											<label>Mot de passe<span class="text-danger"> *</span></label>
+											<input type="password" v-model="user.Mdp" class="form-control" required>
+										</div>
+
+										<div class="col-xs-6">
+											<label>Confirmation mot de passe<span class="text-danger"> *</span></label>
+											<input type="password" class="form-control" v-model="confirmPassword" required>
+										</div>
+									</div>
+									<br />
+									<div class="row">
+										<div class="col-md-5">
+											<label class="checkbox">
+												<input type="checkbox" v-model="user.Diplome">
+												<span class="text-danger">* </span>Diplomé ? Si oui, date :
+											</label>
+										</div>
+										<div class="col-md-7" v-if="user.Diplome">
+											<input type="date" v-model="user.DateDiplome" class="form-control">
+										</div>
+									</div>
+									<hr />
+
+
+
+									<div class="row">
+										<div class="col-xs-7">
+											<ul>
+												<li v-for="e in err" class="text-danger">[[ e ]]</li>
+											</ul>
+										</div>
+										<div class="col-xs-5">
+											<button class="btn btn-action" v-on:click="submit" type="submit"><i class="fas fa-save"></i> Sauvegarder</button>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
+
 					</div>
 
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="text-right">
-								Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by <a href="http://gettemplate.com/" rel="designer">gettemplate</a> 
-							</p>
-						</div>
-					</div>
+				</article>
+				<!-- /Article -->
 
-				</div> <!-- /row of widgets -->
 			</div>
-		</div>
-
-	</footer>	
-		
+		</div> <!-- /container -->
 
 
+		<footer id="footer" class="top-space">
+
+			<div class="footer1">
+				<div class="container">
+					<div class="row">
+
+						<div class="col-md-6 widget">
+							<h3 class="widget-title">Contact</h3>
+							<div class="widget-body">
+								Participants au projet :<br>
+								<br>
+								Antoine Martet a6martet@enib.fr<br>
+								Thomas Mazéas t7mazeas@enib.fr<br>
+								Lucie Ménard l7menard@enib.fr<br>
+								<br>
+								Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
+								</p>
+							</div>
+						</div>
+
+						<div class="col-md-6 widget">
+							<h3 class="widget-title">Text widget</h3>
+							<div class="widget-body">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, dolores,
+									quibusdam architecto voluptatem amet fugiat nesciunt placeat provident cumque
+									accusamus itaque voluptate modi quidem dolore optio velit hic iusto vero praesentium
+									repellat commodi ad id expedita cupiditate repellendus possimus unde?</p>
+								<p>Eius consequatur nihil quibusdam! Laborum, rerum, quis, inventore ipsa autem repellat
+									provident assumenda labore soluta minima alias temporibus facere distinctio quas
+									adipisci nam sunt explicabo officia tenetur at ea quos doloribus dolorum voluptate
+									reprehenderit architecto sint libero illo et hic.</p>
+							</div>
+						</div>
+
+					</div> <!-- /row of widgets -->
+				</div>
+			</div>
+
+			<div class="footer2">
+				<div class="container">
+					<div class="row">
+
+						<div class="col-md-6 widget">
+							<div class="widget-body">
+								<p class="simplenav">
+									<a href="/">Accueil</a> |
+									<a href="recherche">Recherche</a> |
+									<a href="contact">Contact</a> |
+									<a href="signin">Se connecter</a> |
+									<a href="signup">S'inscrire</a>
+								</p>
+							</div>
+						</div>
+
+						<div class="col-md-6 widget">
+							<div class="widget-body">
+								<p class="text-right">
+									Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by <a
+										href="http://gettemplate.com/" rel="designer">gettemplate</a>
+								</p>
+							</div>
+						</div>
+
+					</div> <!-- /row of widgets -->
+				</div>
+			</div>
+
+		</footer>
+
+	</div>
+
+	<script type="text/javascript" src="{{url_for('static', filename='js/signup.js')}}"></script>
 
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
@@ -196,4 +245,5 @@
 	<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
 	<script src=" {{url_for('static', filename='js/template.js')}} "></script>
 </body>
+
 </html>
