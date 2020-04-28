@@ -25,7 +25,7 @@
 	<![endif]-->
 </head>
 
-<body class="home">
+<body>
 	<!-- Fixed navigation bar  = navbar-->
 	<div class="navbar navbar-inverse navbar-fixed-top headroom" >
 		<div class="container">
@@ -36,11 +36,11 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
-					<li class="active"><a href="/">Accueil</a></li>
+					<li><a href="/">Accueil</a></li>
 					<!-- Il faut créer le fichier html derrière -->
 					<li><a href="recherche">Recherche</a></li>
 					<li><a href="addexp">Ajouter une expérience</a></li>
-					<li><a href="contact">Contact</a></li>
+					<li class="active"><a href="contact">Contact</a></li>
 					<li><a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
@@ -48,122 +48,16 @@
 	</div> 
 	<!-- /.navbar -->
 
-	<!-- Header -->
-	<header id="head">
-		<div class="container">
-			<div class="row">
-				<h1 class="lead" style="color: rgb(39, 41, 41) ;">Want an ENIntership ?</h1>
-				<p class="tagline" style="color:black;"> Projet d'élèves ingénieurs ENIB réalisé dans le cadre de leurs études.</p>
-				<!-- Il faut créer le fichier html derrière -->
-				<p><a class="btn btn-action btn-lg" role="button" href="recherche">Commencer votre recherche d'expérience</a></p>
-			</div>
-		</div>
-	</header>
-	<!-- /Header -->
-
-	<!-- Intro -->
-	<div class="container text-center">
-		<br> <br>
-		<h2 class="thin">Want an ENIntership permet une visualisation du réseau enibien.</h2>
-		<p class="text-muted">
-			Commencez dès à présent la recherche de votre prochain stage ou emploi !
-		</p>
-	</div>
-	<!-- /Intro-->
-
-	
-
-	
-	<!-- Social links. @TODO: replace by link/instructions in template -->
-	<section id="social">
-		<div class="container">
-			<div class="wrapper clearfix">
-				<!-- AddThis Button BEGIN -->
-				<div class="addthis_toolbox addthis_default_style">
-				<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-				<a class="addthis_button_tweet"></a>
-				<a class="addthis_button_linkedin_counter"></a>
-				<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-				</div>
-				<!-- AddThis Button END -->
-			</div>
-		</div>
-	</section>
-	<!-- /social links -->
+	<header id="head" class="secondary"></header>
 
 	<!-- container -->
 	<div class="container">
-		<div class="row">
-			
-			<!-- Article main content -->
-			<article class="col-xs-12 maincontent">
-				<div class="container">
-					<div class="col-md-4 col-md-offset-0 col-sm-10 col-sm-offset-1">
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<h3 class="thin text-center">Rechercher une expérience :</h3>
-								<hr>
-								<!-- Formulaire content -->
-								<form>
-									<!-- Entreprise content -->
-									<div class="row mb-3">
-										<div class="col-md-6 widget">
-											<input type="text" class="form-control" placeholder="Entreprise">	
-										</div>
-										<!-- Addresse content -->
-										<div class="form-row col-md-3 widget">
-											<input type="text" class="form-control" placeholder="Pays">
-										</div>
-										<div class="form-row col-md-3 widget">
-											<input type="text" class="form-control" placeholder="Ville">
-										</div>
-										</div>
-									</div>
-								</form>
-								<!-- Bouton content -->
-								<button class="btn btn-primary btn-lg btn-block" type="submit">Rechercher</button>
 
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</article>
-			<!-- /Article -->
-			
-			<!-- Sidebar -->
-			<aside class="col-sm-3 sidebar sidebar-right">
-				<section class="container">
-					<div id="map"></div>
-				</section>
-			</aside>
-			<!-- /Sidebar -->
-
-		</div>
+		<ol class="breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li class="active">Ajouter une expérience</li>
+		</ol>
 	</div>	<!-- /container -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	<footer id="footer" class="top-space">
 
@@ -225,7 +119,9 @@
 			</div>
 		</div>
 
-	</footer>		
+	</footer>	
+		
+
 
 
 
@@ -239,5 +135,7 @@
 	<!-- Google Maps -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script> 
 	<script src="{{url_for('static', filename='js/google-map.js')}}"></script>
+	
+
 </body>
 </html>
