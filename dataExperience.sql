@@ -38,4 +38,4 @@ CREATE TABLE public."Experience"
 TABLESPACE pg_default;
 
 ALTER TABLE public."Experience"
-    OWNER to postgres;
+    OWNER to u4kq3mqz3af6qaixesbk;

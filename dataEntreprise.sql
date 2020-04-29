@@ -17,4 +17,4 @@ CREATE TABLE public."Entreprise"
 TABLESPACE pg_default;
 
 ALTER TABLE public."Entreprise"
-    OWNER to postgres;
+    OWNER to u4kq3mqz3af6qaixesbk;
