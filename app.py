@@ -10,6 +10,10 @@ def index():
 def recherche():
     return render_template('recherche.html')
 
+@app.route('/addexp')
+def addexp():
+    return render_template('addexp.html')
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
