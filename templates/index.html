@@ -9,10 +9,15 @@
 	<title>Want an ENIntership ?</title>
 
 	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png')}}">
-	
+	<!-- Google map -->
 	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"> 
+	<!-- Leaflet CSS -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+	integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+	crossorigin=""/>
+	
 
 	<!-- Custom styles for our template -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen" >
@@ -134,35 +139,14 @@
 			<!-- Sidebar -->
 			<aside class="col-sm-3 sidebar sidebar-right">
 				<section class="container">
-					<div id="map"></div>
+					<!-- <div id="map"></div> -->
+					<div id="maCarte" style="height:500px;"></div>
 				</section>
 			</aside>
 			<!-- /Sidebar -->
 
 		</div>
 	</div>	<!-- /container -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	<footer id="footer" class="top-space">
@@ -239,5 +223,22 @@
 	<!-- Google Maps -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script> 
 	<script src="{{url_for('static', filename='js/google-map.js')}}"></script>
+
+	<!-- Leaflet JS-->
+	<!-- Make sure you put this AFTER Leaflet's CSS -->
+	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+	integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+	crossorigin=""></script>
+	<script>
+		//initialisation de la carte
+		var carte = L.map('maCarte').setView([48.3606, -4.5666], 16);
+		//chargement des tuiles
+		L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                    // Il est toujours bien de laisser le lien vers la source des données
+                    attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+                    minZoom: 1,
+                    maxZoom: 20
+                }).addTo(carte);
+	</script>
 </body>
 </html>
