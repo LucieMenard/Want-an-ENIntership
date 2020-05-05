@@ -19,4 +19,4 @@ CREATE TABLE public."Utilisateur"
 TABLESPACE pg_default;
 
 ALTER TABLE public."Utilisateur"
-    OWNER to postgres;
+    OWNER to u4kq3mqz3af6qaixesbk;

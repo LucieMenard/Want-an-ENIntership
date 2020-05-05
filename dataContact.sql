@@ -16,4 +16,4 @@ CREATE TABLE public."Contact"
 TABLESPACE pg_default;
 
 ALTER TABLE public."Contact"
-    OWNER to postgres;
+    OWNER to u4kq3mqz3af6qaixesbk;

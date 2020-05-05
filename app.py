@@ -26,9 +26,9 @@ def signin():
 def signup():
     return render_template('signup.html')
 
-@app.route('/side')
+@app.route('/profil')
 def side():
-    return render_template('sidebar-left.html')
+    return render_template('profil.html')
 
 if __name__=="__main__":
     app.run(debug=True)
