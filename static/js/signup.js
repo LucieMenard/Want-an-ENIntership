@@ -43,8 +43,26 @@ var vm = new Vue({
 
 
         submit : function(){
+            let vue = this
             this.err = []
             this.validate()
+            if (this.err.length == 0){
+                $.ajax({
+                    url: '/saveUser',
+                    data: {
+                        'newUser' : JSON.stringify(vue.user) 
+                    },
+                    type: 'POST',
+                    success: function(a){
+                        console.log(a)
+                        id = 1
+                        document.location.href = '/profil/'+a['id']
+                    },
+                    error: function (a, status, error) {
+                        console.log('Erreur : ' + error + '\nStatus : ' + status)
+                    }
+                })
+            }
         }
     }
 })
