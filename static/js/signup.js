@@ -23,12 +23,12 @@ var vm = new Vue({
     methods : {
         validate: function(){
             //Regular expression of an email
-            let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-            
+            let regMail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+            let regMdp = /^[\W\w]{6,}$/
             if (!this.user.Email || !this.user.Nom || !this.user.Prenom || !this.user.Mdp){
                 this.err.push('Les champs marqués avec une * sont obligatoires')
             } 
-            if (!this.user.Email.match(reg)){
+            if (!this.user.Email.match(regMail)){
                 this.err.push("L'email n'est pas valide")
             }
 
@@ -38,6 +38,10 @@ var vm = new Vue({
 
             if (this.user.Diplome && !this.user.DateDiplome){
                 this.err.push("La date du diplôme doit-être spécifiée")
+            }
+
+            if (!this.user.Mdp.match(regMdp)){
+                this.err.push("Le mot de passe doit contenir au moins 6 caractères")
             }
         },
 
@@ -54,9 +58,12 @@ var vm = new Vue({
                     },
                     type: 'POST',
                     success: function(a){
-                        console.log(a)
-                        id = 1
-                        document.location.href = '/profil/'+a['id']
+                        if (a=='False'){
+                            vue.err.push("L'adresse mail existe déjà dans la base de donnée")
+                        } else {
+                            console.log(a)
+                            document.location.href = '/profil/'+a['id']
+                        }                    
                     },
                     error: function (a, status, error) {
                         console.log('Erreur : ' + error + '\nStatus : ' + status)

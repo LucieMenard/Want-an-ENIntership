@@ -7,6 +7,12 @@ app = Flask(__name__)
 
 
 def connexion():
+    # con = psycopg2.connect(database='WAE_Local',
+    #                        user='postgres',
+    #                        host='localhost',
+    #                        password='basket',
+    #                        port='5432')
+                           
     con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
                            user='u4kq3mqz3af6qaixesbk',
                            host='bn1io6th4a3umkgpylvg-postgresql.services.clever-cloud.com',
@@ -53,7 +59,7 @@ def profil(id):
 
 #----- Requêtes HTTP -----#
 @app.route('/getUser', methods=['POST'])
-#Récupère un utilisateur à partir de son ID
+# Récupère un utilisateur à partir de son ID
 def getUser():
     con = connexion()
     cur = con.cursor()
@@ -61,21 +67,25 @@ def getUser():
     cur.execute(
         """ SELECT * FROM "Utilisateur" WHERE "Utilisateur".ident = %s""", (id,))
     data = fetchToJson(cur.fetchall())
-    print(data[0])
     return Response(json.dumps(data[0]))
 
 
 @app.route('/saveUser', methods=['POST'])
-#Sauvegarde un utilisateur et renvoie son ID récemment crée. 
-#A penser : Gérer le fait qu'un email peut être enregistré une seule fois 
+# Sauvegarde un utilisateur et renvoie son ID récemment crée.
+# A penser : Gérer le fait qu'un email peut être enregistré une seule fois
 def saveUser():
     user = json.loads(request.form['newUser'])
-    print(user)
     con = connexion()
     cur = con.cursor()
+    cur.execute(""" SELECT "mail" FROM "Utilisateur" """, ())
+    mails = cur.fetchall()
+    for i in mails:
+        if (i[0]==user['Email']):
+            return 'False'
+
     if (user['DateDiplome'] == ''):
         cur.execute("""INSERT INTO "Utilisateur"("fam_name", "first_name", "surname", "diploma", "mail", "mdp", "date_diplo", "phone_number") VALUES (%s, %s, %s, %s, %s, %s, NULL, %s); """,
-                    (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['Telephone']))
+                (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['Telephone']))
     else:
         cur.execute("""INSERT INTO "Utilisateur"("fam_name", "first_name", "surname", "diploma", "mail", "mdp", "date_diplo", "phone_number") VALUES (%s, %s, %s, %s, %s, %s, %s, %s); """,
                     (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['DateDiplome'], user['Telephone']))
@@ -85,19 +95,17 @@ def saveUser():
     id = cur.fetchall()
     for i in id:
         x = {
-            'id':i[0]
+            'id': i[0]
         }
-    print(x)
-
     return x
 
 
 #----- Modèles -----#
 def fetchToJson(users):
-    liste=[]
+    liste = []
     for user in users:
         x = {
-          'Id': user[0],
+            'Id': user[0],
             'Nom': user[1],
             'Prenom': user[2],
             'Surnom': user[3],
@@ -110,10 +118,6 @@ def fetchToJson(users):
             x['DateDiplome'] = user[7].isoformat()
         liste.append(x)
     return liste
-
-
-
-    
 
 if __name__ == "__main__":
     app.run(debug=True)
