@@ -57,7 +57,7 @@
 			<li><a href="/">Home</a></li>
 			<li class="active">Ajouter une expérience</li>
 		</ol>
-
+		
 		<!-- Article main content -->
 		<article class="col-xs-12 maincontent">
 			<header class="page-header">
@@ -76,7 +76,7 @@
 								<!-- Entreprise content -->
 								<div class="row mb-3">
 									<div class="col-md-3 widget">
-										<input type="text" class="form-control" placeholder="Entreprise">	
+										<input type="text" v-model="exp.Company" class="form-control" placeholder="Entreprise">	
 									</div>
 									<!-- Bouton content -->
 									<button class="btn-secondary center-block" type="submit">+</button>
@@ -87,7 +87,7 @@
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
 										<label for="validationServer04">Type</label>
-										<select class="custom-select is-invalid" id="validationServer04" required>
+										<select class="custom-select is-invalid" v-model="exp.Type" id="validationServer04" required>
 											<option>...</option>
 											<option>CDI</option>
 											<option>CDD</option>
@@ -102,49 +102,40 @@
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="radios"
 												id="radios1" value="Informatique">
-											<label class="form-check-label" for="radios1">Informatique</label>
+											<label class="form-check-label" v-model="exp.Domain" for="radios1">Informatique</label>
 										</div>
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="radios"
 												id="radios2" value="Electronique">
-											<label class="form-check-label" for="radios2">Electronique</label>
+											<label class="form-check-label" v-model="exp.Domain" for="radios2">Electronique</label>
 										</div>
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="radios"
 												id="radios2" value="Mécatronique">
-											<label class="form-check-label" for="radios2">Mécatronique</label>
+											<label class="form-check-label" v-model="exp.Domain" for="radios2">Mécatronique</label>
 										</div>
 									</div>
 
 									<!-- Radio content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer01">Rémunéré</label>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios1" value="Informatique">
-											<label class="form-check-label" for="radios1">Oui</label>
-										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios2" value="Electronique">
-											<label class="form-check-label" for="radios2">Non</label>
-										</div>
+										<label class="checkbox">
+										<input type="checkbox" v-model="exp.Money">Rémunéré ?</label>
 									</div>
 
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
 										<label for="validationServer04">Durée</label>
-										<select class="custom-select is-invalid" id="validationServer04">
+										<select class="custom-select is-invalid" v-model="exp.Duration" id="validationServer04">
 											<option>...</option>
 											<option>1 mois</option>
+											<option>2 mois</option>
 											<option>3 mois</option>
 											<option>4 mois</option>
 											<option>5 mois</option>
 											<option>6 mois</option>
+											<option>+</option>
 										</select>
 									</div>
-
-									
 								</div>
 
 								<!-- Entreprise content -->
@@ -152,15 +143,15 @@
 								<div class="row mb-3">
 									
 									<div class="col-md-6 widget">
-										<input type="text" class="form-control" placeholder="Nom">
+										<input type="text" v-model="exp.contact.Nom" class="form-control" placeholder="Nom">
 										<br>
-										<input type="text" class="form-control" placeholder="Email">
+										<input type="text" v-model="exp.contact.Email" class="form-control" placeholder="Email">
 									</div>
 									<!-- Addresse content -->
 									<div class="form col-md-6 widget">
-										<input type="text" class="form-control" placeholder="Prénom">
+										<input type="text" v-model="exp.contact.Prenom" class="form-control" placeholder="Prénom">
 										<br>
-										<input type="text" class="form-control" placeholder="Téléphone">
+										<input type="text" v-model="exp.contact.Telephone" class="form-control" placeholder="Téléphone">
 									</div>
 								
 							</form>
@@ -168,7 +159,8 @@
 					</div>
 					<!-- Bouton content -->
 					<br>
-					<button class="btn btn-primary center-block" type="submit">Rechercher</button>
+					<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon expérience</button>
+					<br>
 				</div>
 			</div>
 
@@ -240,7 +232,7 @@
 		
 
 
-
+	<script type="text/javascript" src="{{url_for('static', filename='js/addexp.js')}}"></script>
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

@@ -7,17 +7,17 @@ app = Flask(__name__)
 
 
 def connexion():
-    # con = psycopg2.connect(database='WAE_Local',
-    #                        user='postgres',
-    #                        host='localhost',
-    #                        password='basket',
-    #                        port='5432')
-                           
-    con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
-                           user='u4kq3mqz3af6qaixesbk',
-                           host='bn1io6th4a3umkgpylvg-postgresql.services.clever-cloud.com',
-                           password='YzBpVyVITZ2BIxd91LWR',
+    con = psycopg2.connect(database='PostgreSQL 12',
+                           user='postgres',
+                           host='localhost',
+                           password='luciemenard',
                            port='5432')
+                           
+    # con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
+    #                        user='u4kq3mqz3af6qaixesbk',
+    #                        host='bn1io6th4a3umkgpylvg-postgresql.services.clever-cloud.com',
+    #                        password='YzBpVyVITZ2BIxd91LWR',
+    #                        port='5432')
     return con
 
 #----- Route URL -----#
@@ -72,7 +72,6 @@ def getUser():
 
 @app.route('/saveUser', methods=['POST'])
 # Sauvegarde un utilisateur et renvoie son ID récemment crée.
-# A penser : Gérer le fait qu'un email peut être enregistré une seule fois
 def saveUser():
     user = json.loads(request.form['newUser'])
     con = connexion()
@@ -90,6 +89,37 @@ def saveUser():
         cur.execute("""INSERT INTO "Utilisateur"("fam_name", "first_name", "surname", "diploma", "mail", "mdp", "date_diplo", "phone_number") VALUES (%s, %s, %s, %s, %s, %s, %s, %s); """,
                     (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['DateDiplome'], user['Telephone']))
 
+    con.commit()
+    cur.execute(""" SELECT "ident" FROM "Utilisateur" WHERE "mail"=%s """, (user['Email'], ))
+    id = cur.fetchall()
+    for i in id:
+        x = {
+            'id': i[0]
+        }
+    return x
+
+@app.route('/getExp', methods=['POST'])
+# Récupère un utilisateur à partir de son ID
+def getExp():
+    con = connexion()
+    cur = con.cursor()
+    id = request.form['id']
+    cur.execute(""" SELECT * FROM "Experience" WHERE "Experience".ident = %s""", (id,))
+    data = fetchToJson(cur.fetchall())
+    return Response(json.dumps(data[0]))
+
+
+@app.route('/saveExp', methods=['POST'])
+# Sauvegarde un utilisateur et renvoie son ID récemment crée.
+def saveExp():
+    user = json.loads(request.form['newExp'])
+    con = connexion()
+    cur = con.cursor()
+    
+    cur.execute("""INSERT INTO "Experience"("type", "domain", "start_date", "end_date", "money", "feel_grade", "duration", "contact", "company", "description") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """,
+                (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['Telephone']))           
+    cur.execute("""INSERT INTO "Experience"("type", "domain", "start_date", "end_date", "money", "feel_grade", "duration", "contact", "company", "description") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """,
+                (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['Telephone']))
     con.commit()
     cur.execute(""" SELECT "ident" FROM "Utilisateur" WHERE "mail"=%s """, (user['Email'], ))
     id = cur.fetchall()
