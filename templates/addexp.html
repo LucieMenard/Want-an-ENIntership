@@ -39,8 +39,7 @@
 					<li><a href="/">Accueil</a></li>
 					<!-- Il faut créer le fichier html derrière -->
 					<li><a href="recherche">Recherche</a></li>
-					<li class="active"><a href="addexp">Ajouter une expérience</a></li>
-					<li><a href="contact">Contact</a></li>
+					<li><a href="addexp">Ajouter une expérience</a></li>
 					<li><a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
@@ -57,7 +56,7 @@
 			<li><a href="/">Home</a></li>
 			<li class="active">Ajouter une expérience</li>
 		</ol>
-
+		
 		<!-- Article main content -->
 		<article class="col-xs-12 maincontent">
 			<header class="page-header">
@@ -71,12 +70,13 @@
 							<h3 class="thin text-center">Ajouter mon expérience :</h3>
 							<hr>
 							<!-- Formulaire content -->
-							<form>
+							<form class="needs-validation" novalidate>
 
 								<!-- Entreprise content -->
 								<div class="row mb-3">
 									<div class="col-md-3 widget">
-										<input type="text" class="form-control" placeholder="Entreprise">	
+										<label for="validationServer04">Entreprise<span class="text-danger"> *</span></label>
+										<input type="text" v-model="exp.Company" class="form-control" id="expCompany" required>	
 									</div>
 									<!-- Bouton content -->
 									<button class="btn-secondary center-block" type="submit">+</button>
@@ -86,8 +86,8 @@
 								<div class="row mb-3">
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer04">Type</label>
-										<select class="custom-select is-invalid" id="validationServer04" required>
+										<label for="validationServer04">Type<span class="text-danger"> *</span></label>
+										<select class="custom-select is-invalid" v-model="exp.Type" id="expType" required>
 											<option>...</option>
 											<option>CDI</option>
 											<option>CDD</option>
@@ -98,53 +98,44 @@
 
 									<!-- Radio content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer01">Domaine</label>
-										<div class="form-check">
+										<label for="validationServer01">Domaine<span class="text-danger"> *</span></label>
+										<div class="form-check" id="expDomain" required>
 											<input class="form-check-input" type="radio" name="radios"
 												id="radios1" value="Informatique">
-											<label class="form-check-label" for="radios1">Informatique</label>
+											<label class="form-check-label" v-model="exp.Domain" for="radios1">Informatique</label>
 										</div>
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="radios"
 												id="radios2" value="Electronique">
-											<label class="form-check-label" for="radios2">Electronique</label>
+											<label class="form-check-label" v-model="exp.Domain" for="radios2">Electronique</label>
 										</div>
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="radios"
 												id="radios2" value="Mécatronique">
-											<label class="form-check-label" for="radios2">Mécatronique</label>
+											<label class="form-check-label" v-model="exp.Domain" for="radios2">Mécatronique</label>
 										</div>
 									</div>
 
-									<!-- Radio content -->
+									<!-- checkbox content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer01">Rémunéré</label>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios1" value="Informatique">
-											<label class="form-check-label" for="radios1">Oui</label>
-										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios2" value="Electronique">
-											<label class="form-check-label" for="radios2">Non</label>
-										</div>
+										<label class="checkbox">
+										<input type="checkbox" v-model="exp.Money" id="expMoney">Rémunéré ?</label>
 									</div>
 
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer04">Durée</label>
-										<select class="custom-select is-invalid" id="validationServer04">
+										<label for="validationServer04">Durée<span class="text-danger"> *</span></label>
+										<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration" required>
 											<option>...</option>
 											<option>1 mois</option>
+											<option>2 mois</option>
 											<option>3 mois</option>
 											<option>4 mois</option>
 											<option>5 mois</option>
 											<option>6 mois</option>
+											<option>+</option>
 										</select>
 									</div>
-
-									
 								</div>
 
 								<!-- Entreprise content -->
@@ -152,15 +143,20 @@
 								<div class="row mb-3">
 									
 									<div class="col-md-6 widget">
-										<input type="text" class="form-control" placeholder="Nom">
+										<input type="text" v-model="exp.contact.Nom" class="form-control" placeholder="Nom" id="expContactName">
 										<br>
-										<input type="text" class="form-control" placeholder="Email">
+										<input type="text" v-model="exp.contact.Email" class="form-control" placeholder="Email" id="expContactEmail">
 									</div>
 									<!-- Addresse content -->
 									<div class="form col-md-6 widget">
-										<input type="text" class="form-control" placeholder="Prénom">
+										<input type="text" v-model="exp.contact.Prenom" class="form-control" placeholder="Prénom" id="expContactSurname">
 										<br>
-										<input type="text" class="form-control" placeholder="Téléphone">
+										<input type="text" v-model="exp.contact.Telephone" class="form-control" placeholder="Téléphone" id="expContactPhone">
+									</div>
+									<!-- checkbox content -->
+									<div class="col-md-3 widget">
+										<label class="checkbox">
+										<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
 									</div>
 								
 							</form>
@@ -168,7 +164,8 @@
 					</div>
 					<!-- Bouton content -->
 					<br>
-					<button class="btn btn-primary center-block" type="submit">Rechercher</button>
+					<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon expérience</button>
+					<br>
 				</div>
 			</div>
 
@@ -197,10 +194,9 @@
 					</div>
 
 					<div class="col-md-6 widget">
-						<h3 class="widget-title">Text widget</h3>
+						<h3 class="widget-title">Presentation</h3>
 						<div class="widget-body">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, dolores, quibusdam architecto voluptatem amet fugiat nesciunt placeat provident cumque accusamus itaque voluptate modi quidem dolore optio velit hic iusto vero praesentium repellat commodi ad id expedita cupiditate repellendus possimus unde?</p>
-							<p>Eius consequatur nihil quibusdam! Laborum, rerum, quis, inventore ipsa autem repellat provident assumenda labore soluta minima alias temporibus facere distinctio quas adipisci nam sunt explicabo officia tenetur at ea quos doloribus dolorum voluptate reprehenderit architecto sint libero illo et hic.</p>
+							<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That could be useful to find a stage or an experience. We are three to work on it : Antoine Marter, Thomas Mazéas and Lucie Ménard. Enjoy your project !</p>
 						</div>
 					</div>
 
@@ -217,7 +213,6 @@
 							<p class="simplenav">
 								<a href="/">Accueil</a> | 
 								<a href="recherche">Recherche</a> |
-								<a href="contact">Contact</a> |
 								<a href="signin">Se connecter</a> |
 								<a href="signup">S'inscrire</a>
 							</p>
@@ -237,10 +232,8 @@
 		</div>
 
 	</footer>	
-		
 
-
-
+	<script type="text/javascript" src="{{url_for('static', filename='js/addexp.js')}}"></script>
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
