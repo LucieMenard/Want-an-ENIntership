@@ -7,17 +7,10 @@ app = Flask(__name__)
 
 
 def connexion():
-<<<<<<< HEAD
     con = psycopg2.connect(database='WAE_Local',
                            user='postgres',
                            host='localhost',
                            password='basket',
-=======
-    con = psycopg2.connect(database='PostgreSQL 12',
-                           user='postgres',
-                           host='localhost',
-                           password='luciemenard',
->>>>>>> production
                            port='5432')
                            
     # con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
