@@ -7,17 +7,17 @@ app = Flask(__name__)
 
 
 def connexion():
-    # con = psycopg2.connect(database='WAE_Local',
-    #                        user='postgres',
-    #                        host='localhost',
-    #                        password='basket',
-    #                        port='5432')
-                           
-    con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
-                           user='u4kq3mqz3af6qaixesbk',
-                           host='bn1io6th4a3umkgpylvg-postgresql.services.clever-cloud.com',
-                           password='YzBpVyVITZ2BIxd91LWR',
+    con = psycopg2.connect(database='WAE_Local',
+                           user='postgres',
+                           host='localhost',
+                           password='basket',
                            port='5432')
+                           
+    # con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
+    #                        user='u4kq3mqz3af6qaixesbk',
+    #                        host='bn1io6th4a3umkgpylvg-postgresql.services.clever-cloud.com',
+    #                        password='YzBpVyVITZ2BIxd91LWR',
+    #                        port='5432')
     return con
 
 #----- Route URL -----#
@@ -72,7 +72,6 @@ def getUser():
 
 @app.route('/saveUser', methods=['POST'])
 # Sauvegarde un utilisateur et renvoie son ID récemment crée.
-# A penser : Gérer le fait qu'un email peut être enregistré une seule fois
 def saveUser():
     user = json.loads(request.form['newUser'])
     con = connexion()
@@ -84,19 +83,17 @@ def saveUser():
             return 'False'
 
     if (user['DateDiplome'] == ''):
-        cur.execute("""INSERT INTO "Utilisateur"("fam_name", "first_name", "surname", "diploma", "mail", "mdp", "date_diplo", "phone_number") VALUES (%s, %s, %s, %s, %s, %s, NULL, %s); """,
+        cur.execute("""INSERT INTO "Utilisateur"("fam_name", "first_name", "surname", "diploma", "mail", "mdp", "date_diplo", "phone_number") VALUES (%s, %s, %s, %s, %s, %s, NULL, %s) RETURNING "ident"; """,
                 (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['Telephone']))
     else:
-        cur.execute("""INSERT INTO "Utilisateur"("fam_name", "first_name", "surname", "diploma", "mail", "mdp", "date_diplo", "phone_number") VALUES (%s, %s, %s, %s, %s, %s, %s, %s); """,
+        cur.execute("""INSERT INTO "Utilisateur"("fam_name", "first_name", "surname", "diploma", "mail", "mdp", "date_diplo", "phone_number") VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING "ident"; """,
                     (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['DateDiplome'], user['Telephone']))
 
+    a = cur.fetchone()[0]
     con.commit()
-    cur.execute(""" SELECT "ident" FROM "Utilisateur" WHERE "mail"=%s """, (user['Email'], ))
-    id = cur.fetchall()
-    for i in id:
-        x = {
-            'id': i[0]
-        }
+    x = {
+        'id': a
+    }
     return x
 
 
