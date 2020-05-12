@@ -71,12 +71,13 @@
 							<h3 class="thin text-center">Ajouter mon expérience :</h3>
 							<hr>
 							<!-- Formulaire content -->
-							<form>
+							<form class="needs-validation" novalidate>
 
 								<!-- Entreprise content -->
 								<div class="row mb-3">
 									<div class="col-md-3 widget">
-										<input type="text" v-model="exp.Company" class="form-control" placeholder="Entreprise">	
+										<label for="validationServer04">Entreprise<span class="text-danger"> *</span></label>
+										<input type="text" v-model="exp.Company" class="form-control" id="expCompany" required>	
 									</div>
 									<!-- Bouton content -->
 									<button class="btn-secondary center-block" type="submit">+</button>
@@ -86,8 +87,8 @@
 								<div class="row mb-3">
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer04">Type</label>
-										<select class="custom-select is-invalid" v-model="exp.Type" id="validationServer04" required>
+										<label for="validationServer04">Type<span class="text-danger"> *</span></label>
+										<select class="custom-select is-invalid" v-model="exp.Type" id="expType" required>
 											<option>...</option>
 											<option>CDI</option>
 											<option>CDD</option>
@@ -98,8 +99,8 @@
 
 									<!-- Radio content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer01">Domaine</label>
-										<div class="form-check">
+										<label for="validationServer01">Domaine<span class="text-danger"> *</span></label>
+										<div class="form-check" id="expDomain" required>
 											<input class="form-check-input" type="radio" name="radios"
 												id="radios1" value="Informatique">
 											<label class="form-check-label" v-model="exp.Domain" for="radios1">Informatique</label>
@@ -116,16 +117,16 @@
 										</div>
 									</div>
 
-									<!-- Radio content -->
+									<!-- checkbox content -->
 									<div class="col-md-3 widget">
 										<label class="checkbox">
-										<input type="checkbox" v-model="exp.Money">Rémunéré ?</label>
+										<input type="checkbox" v-model="exp.Money" id="expMoney">Rémunéré ?</label>
 									</div>
 
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer04">Durée</label>
-										<select class="custom-select is-invalid" v-model="exp.Duration" id="validationServer04">
+										<label for="validationServer04">Durée<span class="text-danger"> *</span></label>
+										<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration" required>
 											<option>...</option>
 											<option>1 mois</option>
 											<option>2 mois</option>
@@ -143,15 +144,20 @@
 								<div class="row mb-3">
 									
 									<div class="col-md-6 widget">
-										<input type="text" v-model="exp.contact.Nom" class="form-control" placeholder="Nom">
+										<input type="text" v-model="exp.contact.Nom" class="form-control" placeholder="Nom" id="expContactName">
 										<br>
-										<input type="text" v-model="exp.contact.Email" class="form-control" placeholder="Email">
+										<input type="text" v-model="exp.contact.Email" class="form-control" placeholder="Email" id="expContactEmail">
 									</div>
 									<!-- Addresse content -->
 									<div class="form col-md-6 widget">
-										<input type="text" v-model="exp.contact.Prenom" class="form-control" placeholder="Prénom">
+										<input type="text" v-model="exp.contact.Prenom" class="form-control" placeholder="Prénom" id="expContactSurname">
 										<br>
-										<input type="text" v-model="exp.contact.Telephone" class="form-control" placeholder="Téléphone">
+										<input type="text" v-model="exp.contact.Telephone" class="form-control" placeholder="Téléphone" id="expContactPhone">
+									</div>
+									<!-- checkbox content -->
+									<div class="col-md-3 widget">
+										<label class="checkbox">
+										<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
 									</div>
 								
 							</form>

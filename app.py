@@ -58,6 +58,7 @@ def profil(id):
 
 
 #----- Requêtes HTTP -----#
+#-- Sign in --#
 @app.route('/getUser', methods=['POST'])
 # Récupère un utilisateur à partir de son ID
 def getUser():
@@ -98,8 +99,9 @@ def saveUser():
         }
     return x
 
+#-- Add Exp --#
 @app.route('/getExp', methods=['POST'])
-# Récupère un utilisateur à partir de son ID
+# Récupère une expérience à partir de son ID
 def getExp():
     con = connexion()
     cur = con.cursor()
@@ -110,25 +112,38 @@ def getExp():
 
 
 @app.route('/saveExp', methods=['POST'])
-# Sauvegarde un utilisateur et renvoie son ID récemment crée.
+# Sauvegarde une expérience et renvoie son ID récemment crée.
+# ! Faire le renvoie id
 def saveExp():
-    user = json.loads(request.form['newExp'])
+    exp = json.loads(request.form['newExp'])
     con = connexion()
     cur = con.cursor()
-    
+    idContact = getContact()
     cur.execute("""INSERT INTO "Experience"("type", "domain", "start_date", "end_date", "money", "feel_grade", "duration", "contact", "company", "description") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """,
-                (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['Telephone']))           
-    cur.execute("""INSERT INTO "Experience"("type", "domain", "start_date", "end_date", "money", "feel_grade", "duration", "contact", "company", "description") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """,
-                (user['Nom'], user['Prenom'], user['Surnom'], user['Diplome'], user['Email'], user['Mdp'], user['Telephone']))
+                (exp['Type'], exp['Domain'], exp['StartDate'], exp['EndDate'], exp['Money'], exp['FeelGrade'], exp['Duration'], idContact, exp['Company'], exp['Description']))
     con.commit()
-    cur.execute(""" SELECT "ident" FROM "Utilisateur" WHERE "mail"=%s """, (user['Email'], ))
-    id = cur.fetchall()
-    for i in id:
-        x = {
-            'id': i[0]
-        }
-    return x
 
+#-- Contact --#
+@app.route('/getContact', methods=['POST'])
+# Récupère un contact à partir de son ID
+def getContact():
+    con = connexion()
+    cur = con.cursor()
+    id = request.form['id']
+    cur.execute(""" SELECT * FROM "Contact" WHERE "Contact".ident = %s""", (id,))
+    data = fetchToJson(cur.fetchall())
+    return Response(json.dumps(data[0]))
+
+
+@app.route('/saveContact', methods=['POST'])
+# Sauvegarde un contact
+# ! Faire le renvoie id pour le réutiliser avec l'expérience
+def saveContact():
+    contact = json.loads(request.form['newContact'])
+    con = connexion()
+    cur = con.cursor()
+    cur.execute("""INSERT INTO "Contact"("last_Name", "first_Name", "phone_number", "mail_Contact", "enibien") VALUES (%s, %s, %s, %s, %s); """, (contact['Nom'], contact['Prenom'], contact['Telephone'], contact['Email'], contact['Enibien']))
+    con.commit()
 
 #----- Modèles -----#
 def fetchToJson(users):
