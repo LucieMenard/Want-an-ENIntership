@@ -6,11 +6,15 @@ function Exp(){
     this.Duration = ""
     this.StartDate = ""
     this.EndDate = ""
+    this.FeelGrade = 0
+    this.Description = ""
+    this.EndDate = ""
     this.Contact = function Contact(){
                     this.Nom = ""
                     this.Prenom = ""
                     this.Email = ""
                     this.Telephone = ""
+                    this.Enibien = False
     }
 }
 
@@ -55,23 +59,11 @@ var vm = new Vue({
             //Regular expression of an email
             let regMail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
             let regMdp = /^[\W\w]{6,}$/
-            if (!this.user.Email || !this.user.Nom || !this.user.Prenom || !this.user.Mdp){
+            if (!this.exp.Company || !this.exp.Type || !this.exp.Domain || !this.exp.Duration){
                 this.err.push('Les champs marqués avec une * sont obligatoires')
             } 
-            if (!this.user.Email.match(regMail)){
+            if (!this.exp.contact.Email.match(regMail)){
                 this.err.push("L'email n'est pas valide")
-            }
-
-            if (this.user.Mdp != this.confirmPassword){
-                this.err.push("Les mots de passes sont différents")
-            }
-
-            if (this.user.Diplome && !this.user.DateDiplome){
-                this.err.push("La date du diplôme doit-être spécifiée")
-            }
-
-            if (!this.user.Mdp.match(regMdp)){
-                this.err.push("Le mot de passe doit contenir au moins 6 caractères")
             }
         },
 
@@ -81,19 +73,11 @@ var vm = new Vue({
             this.validate()
             if (this.err.length == 0){
                 $.ajax({
-                    url: '/saveUser',
+                    url: '/saveExp',
                     data: {
-                        'newUser' : JSON.stringify(vue.user) 
+                        'newExp' : JSON.stringify(vue.exp) 
                     },
                     type: 'POST',
-                    success: function(a){
-                        if (a=='False'){
-                            vue.err.push("L'adresse mail existe déjà dans la base de donnée")
-                        } else {
-                            console.log(a)
-                            document.location.href = '/profil/'+a['id']
-                        }                    
-                    },
                     error: function (a, status, error) {
                         console.log('Erreur : ' + error + '\nStatus : ' + status)
                     }

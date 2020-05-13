@@ -54,9 +54,6 @@
 					<li>
 						<a href="addexp">Ajouter une expérience</a>
 					</li>
-					<li class="active">
-						<a href="contact">Contact</a>
-					</li>
 					<li>
 						<a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a>
 					</li>
@@ -80,31 +77,41 @@
 				<li class="active">Ajouter une expérience</li>
 			</ol>
 
-			<!-- Article main content -->
-			<article class="col-xs-12 maincontent">
-				<header class="page-header">
-					<h1 class="page-title">Ajouter mon expérience</h1>
-				</header>
+			<div class="container">
+				<div class="col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h3 class="thin text-center">Ajouter mon expérience :</h3>
+							<hr>
+							<!-- Formulaire content -->
+							<form class="needs-validation" novalidate>
 
+								<!-- Entreprise content -->
+								<div class="row mb-3">
+									<div class="col-md-3 widget">
+										<label for="validationServer04">Entreprise
+											<span class="text-danger"> *</span>
+										</label>
+										<input type="text" v-model="exp.Company" class="form-control" id="expCompany" required>
+									</div>
+									<!-- Bouton content -->
+									<button class="btn-secondary center-block" type="submit">+</button>
+								</div>
+								<br>
 
-				<div class="container">
-					<div class="col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-2">
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<h3 class="thin text-center">Ajouter mon expérience :</h3>
-								<hr>
-								<!-- Formulaire content -->
-								<form>
-
-									<!-- Entreprise content -->
-									<div class="row mb-3">
-										<div class="col-md-3 widget">
-											<input type="text" v-model="exp.Company" class="form-control" placeholder="Entreprise">
-										</div>
-										<!-- Bouton content -->
-										<button class="btn btn-primary btn-sm" v-on:click="openModalEntreprise" type="button">
-											<i class="far fa-plus-square"></i>
-											Ajouter une entreprise</button>
+								<div class="row mb-3">
+									<!-- Form control content -->
+									<div class="col-md-3 widget">
+										<label for="validationServer04">Type
+											<span class="text-danger"> *</span>
+										</label>
+										<select class="custom-select is-invalid" v-model="exp.Type" id="expType" required>
+											<option>...</option>
+											<option>CDI</option>
+											<option>CDD</option>
+											<option>Stage</option>
+											<option>Alternance</option>
+										</select>
 									</div>
 									<br>
 
@@ -123,31 +130,48 @@
 
 										<!-- Radio content -->
 										<div class="col-md-3 widget">
-											<label for="validationServer01">Domaine</label>
-											<div class="form-check">
+											<label for="validationServer01">Domaine
+												<span class="text-danger"> *</span>
+											</label>
+											<div class="form-check" id="expDomain" required>
 												<input class="form-check-input" type="radio" name="radios" id="radios1" value="Informatique">
 												<label class="form-check-label" v-model="exp.Domain" for="radios1">Informatique</label>
 											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radios" id="radios2" value="Electronique">
-												<label class="form-check-label" v-model="exp.Domain" for="radios2">Electronique</label>
+
+											<!-- Radio content -->
+											<div class="col-md-3 widget">
+												<label class="checkbox">
+													<input type="checkbox" v-model="exp.Money">Rémunéré ?</label>
 											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radios" id="radios2" value="Mécatronique">
-												<label class="form-check-label" v-model="exp.Domain" for="radios2">Mécatronique</label>
+
+											<!-- Form control content -->
+											<div class="col-md-3 widget">
+												<label for="validationServer04">Durée</label>
+												<select class="custom-select is-invalid" v-model="exp.Duration" id="validationServer04">
+													<option>...</option>
+													<option>1 mois</option>
+													<option>2 mois</option>
+													<option>3 mois</option>
+													<option>4 mois</option>
+													<option>5 mois</option>
+													<option>6 mois</option>
+													<option>+</option>
+												</select>
 											</div>
 										</div>
 
-										<!-- Radio content -->
+										<!-- checkbox content -->
 										<div class="col-md-3 widget">
 											<label class="checkbox">
-												<input type="checkbox" v-model="exp.Money">Rémunéré ?</label>
+												<input type="checkbox" v-model="exp.Money" id="expMoney">Rémunéré ?</label>
 										</div>
 
 										<!-- Form control content -->
 										<div class="col-md-3 widget">
-											<label for="validationServer04">Durée</label>
-											<select class="custom-select is-invalid" v-model="exp.Duration" id="validationServer04">
+											<label for="validationServer04">Durée
+												<span class="text-danger"> *</span>
+											</label>
+											<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration" required>
 												<option>...</option>
 												<option>1 mois</option>
 												<option>2 mois</option>
@@ -158,216 +182,176 @@
 												<option>+</option>
 											</select>
 										</div>
-									</div>
+										<!-- Entreprise content -->
+										<label for="validationServer04">Contact</label>
+										<div class="row mb-3">
 
-									<!-- Entreprise content -->
-									<label for="validationServer04">Contact</label>
-									<div class="row mb-3">
-
-										<div class="col-md-6 widget">
-											<input type="text" v-model="exp.contact.Nom" class="form-control" placeholder="Nom">
-											<br>
-											<input type="text" v-model="exp.contact.Email" class="form-control" placeholder="Email">
+											<div class="col-md-6 widget">
+												<input type="text" v-model="exp.contact.Nom" class="form-control" placeholder="Nom" id="expContactName">
+												<br>
+												<input type="text" v-model="exp.contact.Email" class="form-control" placeholder="Email" id="expContactEmail">
+											</div>
+											<!-- Addresse content -->
+											<div class="form col-md-6 widget">
+												<input type="text" v-model="exp.contact.Prenom" class="form-control" placeholder="Prénom" id="expContactSurname">
+												<br>
+												<input type="text" v-model="exp.contact.Telephone" class="form-control" placeholder="Téléphone" id="expContactPhone">
+											</div>
+											<!-- checkbox content -->
+											<div class="col-md-3 widget">
+												<label class="checkbox">
+													<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
+											</div>
 										</div>
-										<!-- Addresse content -->
-										<div class="form col-md-6 widget">
-											<input type="text" v-model="exp.contact.Prenom" class="form-control" placeholder="Prénom">
-											<br>
-											<input type="text" v-model="exp.contact.Telephone" class="form-control" placeholder="Téléphone">
-										</div>
-									</div>
-								</form>
+							</form>
 
 							</div>
 							<!-- Bouton content -->
 							<br>
 							<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon expérience</button>
 							<br>
+							</div>
 						</div>
 					</div>
+					</article>
+					<!-- /Article -->
 				</div>
-			</article>
-			<!-- /Article -->
-		</div>
-		<!-- /container -->
+				<!-- /container -->
 
-		<!-- Modal -->
-		<div class="modal fade" id="modifModalEntreprise" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3 class="modal-title" id="exampleModalLabel">Ajouter une entreprise</h3>
-					</div>
+				<!-- Modal -->
+				<div class="modal fade" id="modifModalEntreprise" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h3 class="modal-title" id="exampleModalLabel">Ajouter une entreprise</h3>
+							</div>
 
 
-					<div class="modal-body">
-						<form>
-							<div class="row">
-								<div class="col-xs-6">
-									<label>Nom de l'entreprise
-										<span class="text-danger"> *</span>
-									</label>
-									<input type="text" v-model="tempoUser.Nom" class="form-control" disabled>
+							<div class="modal-body">
+								<form>
+									<div class="row">
+										<div class="col-xs-6">
+											<label>Nom de l'entreprise
+												<span class="text-danger"> *</span>
+											</label>
+											<input type="text" v-model="tempoUser.Nom" class="form-control" disabled>
+										</div>
+										<div class="col-xs-6">
+											<label>Adresse
+												<span class="text-danger"> *</span>
+											</label>
+											<input type="text" v-model="tempoUser.Prenom" class="form-control" disabled>
+										</div>
+									</div>
+									<br />
+									<div class="row">
+										<div class="col-xs-7">
+											<label>Surnom</label>
+											<input type="text" v-model="tempoUser.Surnom" class="form-control">
+										</div>
+										<div class="col-xs-5">
+											<label>Date de Naissance</label>
+											<input type="date" v-model="tempoUser.Naissance" class="form-control">
+										</div>
+									</div>
+									<br />
+									<div class="row">
+										<div class="col-sm-8">
+											<label>Email
+												<span class="text-danger"> *</span>
+											</label>
+											<input type="email" v-model="tempoUser.Email" class="form-control" disabled>
+										</div>
+									</div>
+
+								</form>
 								</div>
-								<div class="col-xs-6">
-									<label>Prénom
-										<span class="text-danger"> *</span>
-									</label>
-									<input type="text" v-model="tempoUser.Prenom" class="form-control" disabled>
+								<button type="button" class="btn btn-secondary" v-on:click="closeModalEntreprise">Close</button>
+								<button type="button" v-on:click="save" class="btn btn-primary">Save changes</button>
 								</div>
 							</div>
-							<br />
-							<div class="row">
-								<div class="col-xs-7">
-									<label>Surnom</label>
-									<input type="text" v-model="tempoUser.Surnom" class="form-control">
-								</div>
-								<div class="col-xs-5">
-									<label>Date de Naissance</label>
-									<input type="date" v-model="tempoUser.Naissance" class="form-control">
-								</div>
-							</div>
-							<br />
-							<div class="row">
-								<div class="col-sm-8">
-									<label>Email
-										<span class="text-danger"> *</span>
-									</label>
-									<input type="email" v-model="tempoUser.Email" class="form-control" disabled>
-								</div>
-
-								<div class="col-sm-4">
-									<label>Téléphone</label>
-									<input type="tel" v-model="tempoUser.Telephone" class="form-control">
-								</div>
-							</div>
-							<br />
-							<div class="row">
-								<div class="col-xs-6">
-									<label>Mot de passe
-										<span class="text-danger"> *</span>
-									</label>
-									<input type="password" v-model="tempoUser.Mdp" class="form-control" required>
-								</div>
-
-								<div class="col-xs-6">
-									<label>Confirmation mot de passe
-										<span class="text-danger"> *</span>
-									</label>
-									<input type="password" v-model="confirmMdp" class="form-control" required>
-								</div>
-							</div>
-							<br />
-							<div class="row">
-								<div class="col-md-5">
-									<label class="checkbox">
-										<input v-model="tempoUser.Diplome" type="checkbox">
-										<span class="text-danger">* </span>Diplomé ? Si oui, date :
-									</label>
-								</div>
-								<div class="col-md-7">
-									<input type="date" v-model="tempoUser.DateDiplome" class="form-control">
-								</div>
-							</div>
-						</form>
-					</div>
-
-
-					<div class="modal-footer">
-						<div v-if="err" class="col-md-5 text-left">
-							<p v-for="e in err" class="text-danger">[[ e ]]</p>
 						</div>
-						<button type="button" class="btn btn-secondary" v-on:click="closeModalEntreprise">Close</button>
-						<button type="button" v-on:click="save" class="btn btn-primary">Save changes</button>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 
-	<footer id="footer" class="top-space">
+			<footer id="footer" class="top-space">
 
-		<div class="footer1">
-			<div class="container">
-				<div class="row">
+				<div class="footer1">
+					<div class="container">
+						<div class="row">
 
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Contact</h3>
-						<div class="widget-body">
-							Participants au projet :
-							<br>
-							<br> Antoine Martet a6martet@enib.fr
-							<br> Thomas Mazéas t7mazeas@enib.fr
-							<br> Lucie Ménard l7menard@enib.fr
-							<br>
-							<br> Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
-							</p>
+							<div class="col-md-6 widget">
+								<h3 class="widget-title">Contact</h3>
+								<div class="widget-body">
+									Participants au projet :
+									<br>
+									<br> Antoine Martet a6martet@enib.fr
+									<br> Thomas Mazéas t7mazeas@enib.fr
+									<br> Lucie Ménard l7menard@enib.fr
+									<br>
+									<br> Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
+									</p>
+								</div>
+							</div>
+
+							<div class="col-md-6 widget">
+								<h3 class="widget-title">Presentation</h3>
+								<div class="widget-body">
+									<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That could be useful to find
+										a stage or an experience. We are three to work on it : Antoine Marter, Thomas Mazéas and Lucie Ménard. Enjoy your
+										project !</p>
+								</div>
+							</div>
+
 						</div>
+						<!-- /row of widgets -->
 					</div>
-
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Text widget</h3>
-						<div class="widget-body">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, dolores, quibusdam architecto voluptatem amet
-								fugiat nesciunt placeat provident cumque accusamus itaque voluptate modi quidem dolore optio velit hic iusto vero
-								praesentium repellat commodi ad id expedita cupiditate repellendus possimus unde?</p>
-							<p>Eius consequatur nihil quibusdam! Laborum, rerum, quis, inventore ipsa autem repellat provident assumenda labore soluta
-								minima alias temporibus facere distinctio quas adipisci nam sunt explicabo officia tenetur at ea quos doloribus dolorum
-								voluptate reprehenderit architecto sint libero illo et hic.</p>
-						</div>
-					</div>
-
 				</div>
-				<!-- /row of widgets -->
-			</div>
-		</div>
 
-		<div class="footer2">
-			<div class="container">
-				<div class="row">
+				<div class="footer2">
+					<div class="container">
+						<div class="row">
 
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="simplenav">
-								<a href="/">Accueil</a> |
-								<a href="recherche">Recherche</a> |
-								<a href="contact">Contact</a> |
-								<a href="signin">Se connecter</a> |
-								<a href="signup">S'inscrire</a>
-							</p>
+							<div class="col-md-6 widget">
+								<div class="widget-body">
+									<p class="simplenav">
+										<a href="/">Accueil</a> |
+										<a href="recherche">Recherche</a> |
+										<a href="signin">Se connecter</a> |
+										<a href="signup">S'inscrire</a>
+									</p>
+								</div>
+							</div>
+
+							<div class="col-md-6 widget">
+								<div class="widget-body">
+									<p class="text-right">
+										Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by
+										<a href="http://gettemplate.com/" rel="designer">gettemplate</a>
+									</p>
+								</div>
+							</div>
+
 						</div>
+						<!-- /row of widgets -->
 					</div>
-
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="text-right">
-								Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by
-								<a href="http://gettemplate.com/" rel="designer">gettemplate</a>
-							</p>
-						</div>
-					</div>
-
 				</div>
-				<!-- /row of widgets -->
-			</div>
-		</div>
 
-	</footer>
+			</footer>
 
+			<script type="text/javascript" src="{{url_for('static', filename='js/addexp.js')}}"></script>
 
+			<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+			<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+			<script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
+			<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
+			<script src=" {{url_for('static', filename='js/template.js')}} "></script>
 
-	<script type="text/javascript" src="{{url_for('static', filename='js/addexp.js')}}"></script>
-
-	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-	<script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
-	<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
-	<script src=" {{url_for('static', filename='js/template.js')}} "></script>
-
-	<!-- Google Maps -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script>
-	<script src="{{url_for('static', filename='js/google-map.js')}}"></script>
+			<!-- Google Maps -->
+			<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script>
+			<script src="{{url_for('static', filename='js/google-map.js')}}"></script>
 
 
 </body>
