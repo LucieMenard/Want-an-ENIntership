@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
-	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
-	
+	<meta name="author" content="Sergey Pozhilov (GetTemplate.com)">
+
 	<title>Want an ENIntership ?</title>
 
 	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png')}}">
-	
+
 	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"> 
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 
 	<!-- Custom styles for our template -->
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen" >
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -27,12 +28,14 @@
 
 <body>
 	<!-- Fixed navigation bar  = navbar-->
-	<div class="navbar navbar-inverse navbar-fixed-top headroom" >
+	<div class="navbar navbar-inverse navbar-fixed-top headroom">
 		<div class="container">
 			<div class="navbar-header">
 				<!-- Button for smallest screens -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='images/logo.png')}}" alt="Progressus HTML5 template"></a>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+				<a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='images/logo.png')}}"
+						alt="Progressus HTML5 template"></a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
@@ -42,9 +45,10 @@
 					<li><a href="addexp">Ajouter une expérience</a></li>
 					<li><a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a></li>
 				</ul>
-			</div><!--/.nav-collapse -->
+			</div>
+			<!--/.nav-collapse -->
 		</div>
-	</div> 
+	</div>
 	<!-- /.navbar -->
 
 	<header id="head" class="secondary"></header>
@@ -56,7 +60,7 @@
 			<li><a href="/">Home</a></li>
 			<li class="active">Ajouter une expérience</li>
 		</ol>
-		
+
 		<!-- Article main content -->
 		<article class="col-xs-12 maincontent">
 			<header class="page-header">
@@ -75,8 +79,10 @@
 								<!-- Entreprise content -->
 								<div class="row mb-3">
 									<div class="col-md-3 widget">
-										<label for="validationServer04">Entreprise<span class="text-danger"> *</span></label>
-										<input type="text" v-model="exp.Company" class="form-control" id="expCompany" required>	
+										<label for="validationServer04">Entreprise<span class="text-danger">
+												*</span></label>
+										<input type="text" v-model="exp.Company" class="form-control" id="expCompany"
+											required>
 									</div>
 									<!-- Bouton content -->
 									<button class="btn-secondary center-block" type="submit">+</button>
@@ -87,7 +93,8 @@
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
 										<label for="validationServer04">Type<span class="text-danger"> *</span></label>
-										<select class="custom-select is-invalid" v-model="exp.Type" id="expType" required>
+										<select class="custom-select is-invalid" v-model="exp.Type" id="expType"
+											required>
 											<option>...</option>
 											<option>CDI</option>
 											<option>CDD</option>
@@ -98,34 +105,39 @@
 
 									<!-- Radio content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer01">Domaine<span class="text-danger"> *</span></label>
+										<label for="validationServer01">Domaine<span class="text-danger">
+												*</span></label>
 										<div class="form-check" id="expDomain" required>
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios1" value="Informatique">
-											<label class="form-check-label" v-model="exp.Domain" for="radios1">Informatique</label>
+											<input class="form-check-input" type="radio" name="radios" id="radios1"
+												value="Informatique">
+											<label class="form-check-label" v-model="exp.Domain"
+												for="radios1">Informatique</label>
 										</div>
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios2" value="Electronique">
-											<label class="form-check-label" v-model="exp.Domain" for="radios2">Electronique</label>
+											<input class="form-check-input" type="radio" name="radios" id="radios2"
+												value="Electronique">
+											<label class="form-check-label" v-model="exp.Domain"
+												for="radios2">Electronique</label>
 										</div>
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios"
-												id="radios2" value="Mécatronique">
-											<label class="form-check-label" v-model="exp.Domain" for="radios2">Mécatronique</label>
+											<input class="form-check-input" type="radio" name="radios" id="radios2"
+												value="Mécatronique">
+											<label class="form-check-label" v-model="exp.Domain"
+												for="radios2">Mécatronique</label>
 										</div>
 									</div>
 
 									<!-- checkbox content -->
 									<div class="col-md-3 widget">
 										<label class="checkbox">
-										<input type="checkbox" v-model="exp.Money" id="expMoney">Rémunéré ?</label>
+											<input type="checkbox" v-model="exp.Money" id="expMoney">Rémunéré ?</label>
 									</div>
 
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
 										<label for="validationServer04">Durée<span class="text-danger"> *</span></label>
-										<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration" required>
+										<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration"
+											required>
 											<option>...</option>
 											<option>1 mois</option>
 											<option>2 mois</option>
@@ -141,44 +153,49 @@
 								<!-- Entreprise content -->
 								<label for="validationServer04">Contact</label>
 								<div class="row mb-3">
-									
+
 									<div class="col-md-6 widget">
-										<input type="text" v-model="exp.contact.Nom" class="form-control" placeholder="Nom" id="expContactName">
+										<input type="text" v-model="exp.contact.Nom" class="form-control"
+											placeholder="Nom" id="expContactName">
 										<br>
-										<input type="text" v-model="exp.contact.Email" class="form-control" placeholder="Email" id="expContactEmail">
+										<input type="text" v-model="exp.contact.Email" class="form-control"
+											placeholder="Email" id="expContactEmail">
 									</div>
 									<!-- Addresse content -->
 									<div class="form col-md-6 widget">
-										<input type="text" v-model="exp.contact.Prenom" class="form-control" placeholder="Prénom" id="expContactSurname">
+										<input type="text" v-model="exp.contact.Prenom" class="form-control"
+											placeholder="Prénom" id="expContactSurname">
 										<br>
-										<input type="text" v-model="exp.contact.Telephone" class="form-control" placeholder="Téléphone" id="expContactPhone">
+										<input type="text" v-model="exp.contact.Telephone" class="form-control"
+											placeholder="Téléphone" id="expContactPhone">
 									</div>
 									<!-- checkbox content -->
 									<div class="col-md-3 widget">
 										<label class="checkbox">
-										<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
+											<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
 									</div>
-								
+								</div>
 							</form>
 						</div>
 					</div>
 					<!-- Bouton content -->
 					<br>
-					<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon expérience</button>
+					<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon
+						expérience</button>
 					<br>
 				</div>
 			</div>
 
 		</article>
 		<!-- /Article -->
-	</div>	<!-- /container -->
+	</div> <!-- /container -->
 
 	<footer id="footer" class="top-space">
 
 		<div class="footer1">
 			<div class="container">
 				<div class="row">
-					
+
 					<div class="col-md-6 widget">
 						<h3 class="widget-title">Contact</h3>
 						<div class="widget-body">
@@ -189,14 +206,16 @@
 							Lucie Ménard l7menard@enib.fr<br>
 							<br>
 							Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
-							</p>	
+							</p>
 						</div>
 					</div>
 
 					<div class="col-md-6 widget">
 						<h3 class="widget-title">Presentation</h3>
 						<div class="widget-body">
-							<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That could be useful to find a stage or an experience. We are three to work on it : Antoine Marter, Thomas Mazéas and Lucie Ménard. Enjoy your project !</p>
+							<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That
+								could be useful to find a stage or an experience. We are three to work on it : Antoine
+								Marter, Thomas Mazéas and Lucie Ménard. Enjoy your project !</p>
 						</div>
 					</div>
 
@@ -207,11 +226,11 @@
 		<div class="footer2">
 			<div class="container">
 				<div class="row">
-					
+
 					<div class="col-md-6 widget">
 						<div class="widget-body">
 							<p class="simplenav">
-								<a href="/">Accueil</a> | 
+								<a href="/">Accueil</a> |
 								<a href="recherche">Recherche</a> |
 								<a href="signin">Se connecter</a> |
 								<a href="signup">S'inscrire</a>
@@ -222,7 +241,8 @@
 					<div class="col-md-6 widget">
 						<div class="widget-body">
 							<p class="text-right">
-								Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by <a href="http://gettemplate.com/" rel="designer">gettemplate</a> 
+								Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by <a
+									href="http://gettemplate.com/" rel="designer">gettemplate</a>
 							</p>
 						</div>
 					</div>
@@ -231,7 +251,7 @@
 			</div>
 		</div>
 
-	</footer>	
+	</footer>
 
 	<script type="text/javascript" src="{{url_for('static', filename='js/addexp.js')}}"></script>
 
@@ -243,9 +263,10 @@
 	<script src=" {{url_for('static', filename='js/template.js')}} "></script>
 
 	<!-- Google Maps -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script> 
+	<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script>
 	<script src="{{url_for('static', filename='js/google-map.js')}}"></script>
-	
+
 
 </body>
+
 </html>
