@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
+        integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
     <script>moment().format();</script>
     <script src="https://kit.fontawesome.com/8846054c71.js" crossorigin="anonymous"></script>
     <!-- Custom styles for our template -->
@@ -49,9 +50,9 @@
                     <li><a href="/">Accueil</a></li>
                     <!-- Il faut créer le fichier html derrière -->
                     <li><a href="/recherche">Recherche</a></li>
-					<li><a href="/addexp">Ajouter une expérience</a></li>
-                    <li><a class="btn" href="/testConn"> <i class="fas fa-users"></i> Profil
-                    </a></li>
+                    <li><a href="/addexp">Ajouter une expérience</a></li>
+                    <li class="active"><a class="btn" href="/testConn"> <i class="fas fa-users"></i> Profil
+                        </a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
@@ -74,9 +75,14 @@
                             <i class="fas fa-user fa-7x"></i>
                         </div>
                         <article>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <div class="row">
-                                    <p class="text-center" style="font-size: 35px;">[[user.Prenom]] [[user.Nom]]</p>
+                                    <div class="col-md-10">
+                                        <p class="text-center" style="font-size: 35px;">[[user.Prenom]] [[user.Nom]]</p>
+                                    </div>
+                                    <div class="col-md-2 text-right ">
+                                        <a class="btn btn-danger" href="/logout" v-on:click="logout" style="padding-right: 20px; padding-left: 20px;"><i class="fas fa-power-off"></i></a>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <p class="text-center" style="font-size: 25px;">[[user.Surnom]]</p>
@@ -105,7 +111,7 @@
                                         <p id="naissance"> [[afficheDateNaissance]] </p>
                                     </div>
                                     <div class="col-xs-6">
-                                        <div v-if="user.Diplome" >
+                                        <div v-if="user.Diplome">
                                             <label for="dip">Diplomé</label>
                                             <p id="dip">Oui, le [[afficheDateDiplome]]</p>
                                         </div>
@@ -183,7 +189,7 @@
 
                                 <div class="col-sm-4">
                                     <label>Téléphone</label>
-                                    <input type="tel" v-model="tempoUser.Telephone"class="form-control">
+                                    <input type="tel" v-model="tempoUser.Telephone" class="form-control">
                                 </div>
                             </div>
                             <br />
@@ -213,7 +219,7 @@
                         </form>
                     </div>
 
-                    
+
                     <div class="modal-footer">
                         <div v-if="err" class="col-md-5 text-left">
                             <p v-for="e in err" class="text-danger">[[ e ]]</p>
@@ -233,63 +239,66 @@
 
     <footer id="footer" class="top-space">
 
-		<div class="footer1">
-			<div class="container">
-				<div class="row">
-					
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Contact</h3>
-						<div class="widget-body">
-							Participants au projet :<br>
-							<br>
-							Antoine Martet a6martet@enib.fr<br>
-							Thomas Mazéas t7mazeas@enib.fr<br>
-							Lucie Ménard l7menard@enib.fr<br>
-							<br>
-							Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
-							</p>	
-						</div>
-					</div>
+        <div class="footer1">
+            <div class="container">
+                <div class="row">
 
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Presentation</h3>
-						<div class="widget-body">
-							<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That could be useful to find a stage or an experience. We are three to work on it : Antoine Marter, Thomas Mazéas and Lucie Ménard. Enjoy your project !</p>
-						</div>
-					</div>
+                    <div class="col-md-6 widget">
+                        <h3 class="widget-title">Contact</h3>
+                        <div class="widget-body">
+                            Participants au projet :<br>
+                            <br>
+                            Antoine Martet a6martet@enib.fr<br>
+                            Thomas Mazéas t7mazeas@enib.fr<br>
+                            Lucie Ménard l7menard@enib.fr<br>
+                            <br>
+                            Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
+                            </p>
+                        </div>
+                    </div>
 
-				</div> <!-- /row of widgets -->
-			</div>
-		</div>
+                    <div class="col-md-6 widget">
+                        <h3 class="widget-title">Presentation</h3>
+                        <div class="widget-body">
+                            <p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That
+                                could be useful to find a stage or an experience. We are three to work on it : Antoine
+                                Marter, Thomas Mazéas and Lucie Ménard. Enjoy your project !</p>
+                        </div>
+                    </div>
 
-		<div class="footer2">
-			<div class="container">
-				<div class="row">
-					
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="simplenav">
-								<a href="/">Accueil</a> | 
-								<a href="recherche">Recherche</a> |
-								<a href="signin">Se connecter</a> |
-								<a href="signup">S'inscrire</a>
-							</p>
-						</div>
-					</div>
+                </div> <!-- /row of widgets -->
+            </div>
+        </div>
 
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="text-right">
-								Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by <a href="http://gettemplate.com/" rel="designer">gettemplate</a> 
-							</p>
-						</div>
-					</div>
+        <div class="footer2">
+            <div class="container">
+                <div class="row">
 
-				</div> <!-- /row of widgets -->
-			</div>
-		</div>
+                    <div class="col-md-6 widget">
+                        <div class="widget-body">
+                            <p class="simplenav">
+                                <a href="/">Accueil</a> |
+                                <a href="recherche">Recherche</a> |
+                                <a href="signin">Se connecter</a> |
+                                <a href="signup">S'inscrire</a>
+                            </p>
+                        </div>
+                    </div>
 
-	</footer>	
+                    <div class="col-md-6 widget">
+                        <div class="widget-body">
+                            <p class="text-right">
+                                Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by <a
+                                    href="http://gettemplate.com/" rel="designer">gettemplate</a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div> <!-- /row of widgets -->
+            </div>
+        </div>
+
+    </footer>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{url_for('static', filename='js/profil.js')}}"></script>

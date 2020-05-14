@@ -44,6 +44,17 @@ var vm = new Vue({
             $('#modifModal').modal('hide')
         },
 
+        logout: function(){
+            $.ajax({
+                url: '/logout',
+                type: 'GET',
+                success: function(a){
+                    console.log(a)
+                    document.location.href = '/'
+                }
+            })
+        },
+
         save: function () {
             this.err = []
             this.validate()

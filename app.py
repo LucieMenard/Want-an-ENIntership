@@ -7,20 +7,22 @@ app = Flask(__name__)
 app.secret_key='enib'
 
 def connexionDB():
-    con = psycopg2.connect(database='WAE_Local',
-                           user='postgres',
-                           host='localhost',
-                           password='basket',
-                           port='5432')
-                           
-    # con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
-    #                        user='u4kq3mqz3af6qaixesbk',
-    #                        host='bn1io6th4a3umkgpylvg-postgresql.services.clever-cloud.com',
-    #                        password='YzBpVyVITZ2BIxd91LWR',
+    # con = psycopg2.connect(database='WAE_Local',
+    #                        user='postgres',
+    #                        host='localhost',
+    #                        password='basket',
     #                        port='5432')
+                           
+    con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
+                           user='u4kq3mqz3af6qaixesbk',
+                           host='bn1io6th4a3umkgpylvg-postgresql.services.clever-cloud.com',
+                           password='YzBpVyVITZ2BIxd91LWR',
+                           port='5432')
     return con
 
-#----- Route URL -----#
+########################
+#      Routes URL      #
+########################
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -53,8 +55,14 @@ def signup():
 
 @app.route('/profil/<int:id>')
 def profil(id):
-    print(id)
-    return render_template('profil.html')
+    if 'user' in session:
+        if session['user']==id:
+            print(id)
+            return render_template('profil.html')
+        else:
+            return redirect(url_for('profil', id=session['user']))
+    else:
+        return redirect(url_for('signin'))
 
 @app.route('/testConn')
 def testConn():
@@ -65,8 +73,13 @@ def testConn():
 
 
 
-#----- Requêtes HTTP -----#
-#-- Sign in --#
+########################
+#    Requêtes HTTP     #
+########################
+
+
+#----- Utilisateur -----#
+
 @app.route('/getUser', methods=['POST'])
 # Récupère un utilisateur à partir de son ID
 def getUser():
@@ -103,9 +116,12 @@ def saveUser():
     x = {
         'id': a
     }
+    session['user']=x['id']
     return x
 
-#-- Add Exp --#
+
+
+#----- Add Exp -----#
 @app.route('/getExp', methods=['POST'])
 # Récupère une expérience à partir de son ID
 def getExp():
@@ -116,6 +132,8 @@ def getExp():
     data = fetchToJson(cur.fetchall())
     return Response(json.dumps(data[0]))
 
+
+#----- Experiences -----#
 
 @app.route('/saveExp', methods=['POST'])
 # Sauvegarde une expérience et renvoie son ID récemment crée.
@@ -129,7 +147,10 @@ def saveExp():
                 (exp['Type'], exp['Domain'], exp['StartDate'], exp['EndDate'], exp['Money'], exp['FeelGrade'], exp['Duration'], idContact, exp['Company'], exp['Description']))
     con.commit()
 
-#-- Contact --#
+
+
+#----- Contact -----#
+
 @app.route('/getContact', methods=['POST'])
 # Récupère un contact à partir de son ID
 def getContact():
@@ -151,6 +172,9 @@ def getContact():
 #     cur.execute("""INSERT INTO "Contact"("last_Name", "first_Name", "phone_number", "mail_Contact", "enibien") VALUES (%s, %s, %s, %s, %s); """, (contact['Nom'], contact['Prenom'], contact['Telephone'], contact['Email'], contact['Enibien']))
 #     con.commit()
 
+
+#----- Connexion -----#
+
 @app.route('/connexion', methods=['POST'])
 def connexion():
     email = request.form['email']
@@ -162,7 +186,20 @@ def connexion():
     else :
         print('no')
 
-#----- Modèles -----#
+#----- Deconnexion -----#
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('index'))
+
+
+
+
+########################
+#      DB Request      #
+########################
+
 def fetchToJson(users):
     liste = []
     for user in users:
@@ -181,7 +218,11 @@ def fetchToJson(users):
         liste.append(x)
     return liste
 
-#----- DB Request -----#
+
+########################
+#      DB Request      #
+########################
+
 def connexionSQL(mail):
     con = connexionDB()
     cur = con.cursor()

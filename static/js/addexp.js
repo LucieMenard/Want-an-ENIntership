@@ -23,11 +23,8 @@ var vm = new Vue({
     el: "#app", 
     delimiters: ['[[', ']]'],
     data: {
-        user: new Exp(),
-<<<<<<< HEAD
-=======
+        exp: new Exp(),
         tempoUser: new Object(),
->>>>>>> 6e3c2855acb7d305f9cdaa2f7822aeccbe03cdda
         confirmPassword: "",
         err: []
     }, 
