@@ -14,9 +14,11 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"> 
 
+	<script src="https://kit.fontawesome.com/8846054c71.js" crossorigin="anonymous"></script>
 	<!-- Custom styles for our template -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen" >
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -40,7 +42,7 @@
 					<!-- Il faut créer le fichier html derrière -->
 					<li><a href="recherche">Recherche</a></li>
 					<li><a href="addexp">Ajouter une expérience</a></li>
-					<li class="active"><a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a></li>
+					<li class="active"><a  class="btn" href="/testConn"><i class="fas fa-users"></i> Profil</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
@@ -50,7 +52,7 @@
 	<header id="head" class="secondary">Bonjour</header>
 
 	<!-- container -->
-	<div class="container">
+	<div class="container" id="app">
 
 		<ol class="breadcrumb">
 			<li><a href="index.html">Home</a></li>
@@ -62,37 +64,33 @@
 			<!-- Article main content -->
 			<article class="col-xs-12 maincontent">
 				<header class="page-header">
-					<h1 class="page-title">Sign in</h1>
+					<h1 class="page-title text-center">Connexion</h1>
 				</header>
 				
-				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+				<div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-2">
 					<div class="panel panel-default">
-						<div class="panel-body">
-							<h3 class="thin text-center">Sign in to your account</h3>
-							<p class="text-center text-muted">Lorem ipsum dolor sit amet, <a href="signup">Register</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>
-							<hr>
-							
-							<form>
+						<div class="panel-body">						
+							<div class="form-group">
 								<div class="top-margin">
-									<label>Username/Email <span class="text-danger">*</span></label>
-									<input type="text" class="form-control">
+									<label>Email<span class="text-danger">*</span></label>
+									<input type="text" v-model="email" class="form-control">
 								</div>
 								<div class="top-margin">
-									<label>Password <span class="text-danger">*</span></label>
-									<input type="password" class="form-control">
+									<label>Mot de passe <span class="text-danger">*</span></label>
+									<input type="password" v-model="mdp" class="form-control">
 								</div>
 
 								<hr>
 
 								<div class="row">
-									<div class="col-lg-8">
-										<b><a href="">Forgot password?</a></b>
+									<div class="col-xs-5">
+										<a role="button" class="btn btn-info" href="/signup">Inscription</a>
 									</div>
-									<div class="col-lg-4 text-right">
-										<button class="btn btn-action" type="submit">Sign in</button>
+									<div class="col-xs-7 text-right">
+										<button class="btn btn-action" v-on:click="submit">Se connecter</button>
 									</div>
 								</div>
-							</form>
+							</div>
 						</div>
 					</div>
 
@@ -171,6 +169,7 @@
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/signin.js') }}"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 	<script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
 	<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>

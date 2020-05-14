@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{url_for('static', filename='css/font-awesome.min.css')}}">
 
+	<script src="https://kit.fontawesome.com/8846054c71.js" crossorigin="anonymous"></script>
 	<!-- Custom styles for our template -->
 	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-theme.css')}}" media="screen">
 	<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
@@ -43,7 +44,8 @@
 					<!-- Il faut créer le fichier html derrière -->
 					<li class="active"><a href="recherche">Recherche</a></li>
 					<li><a href="addexp">Ajouter une expérience</a></li>
-					<li><a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a></li>
+					<li><a class="btn" href="/testConn"> <i class="fas fa-users"></i> Profil
+					</a></li>				
 				</ul>
 			</div>
 			<!--/.nav-collapse -->

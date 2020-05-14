@@ -1,12 +1,12 @@
 import psycopg2
 import json
 import datetime
-from flask import Flask, jsonify, render_template, request, Response, redirect, url_for
+from flask import Flask, jsonify, render_template, request, Response, redirect, url_for, session
 
 app = Flask(__name__)
+app.secret_key='enib'
 
-
-def connexion():
+def connexionDB():
     con = psycopg2.connect(database='WAE_Local',
                            user='postgres',
                            host='localhost',
@@ -56,13 +56,21 @@ def profil(id):
     print(id)
     return render_template('profil.html')
 
+@app.route('/testConn')
+def testConn():
+    if 'user' in session:
+        return redirect(url_for('profil', id=session['user']))
+    else:
+        return redirect(url_for('signin'))
+
+
 
 #----- Requêtes HTTP -----#
 #-- Sign in --#
 @app.route('/getUser', methods=['POST'])
 # Récupère un utilisateur à partir de son ID
 def getUser():
-    con = connexion()
+    con = connexionDB()
     cur = con.cursor()
     id = request.form['id']
     cur.execute(
@@ -75,7 +83,7 @@ def getUser():
 # Sauvegarde un utilisateur et renvoie son ID récemment crée.
 def saveUser():
     user = json.loads(request.form['newUser'])
-    con = connexion()
+    con = connexionDB()
     cur = con.cursor()
     cur.execute(""" SELECT "mail" FROM "Utilisateur" """, ())
     mails = cur.fetchall()
@@ -101,7 +109,7 @@ def saveUser():
 @app.route('/getExp', methods=['POST'])
 # Récupère une expérience à partir de son ID
 def getExp():
-    con = connexion()
+    con = connexionDB()
     cur = con.cursor()
     id = request.form['id']
     cur.execute(""" SELECT * FROM "Experience" WHERE "Experience".ident = %s""", (id,))
@@ -114,7 +122,7 @@ def getExp():
 # ! Faire le renvoie id
 def saveExp():
     exp = json.loads(request.form['newExp'])
-    con = connexion()
+    con = connexionDB()
     cur = con.cursor()
     idContact = getContact()
     cur.execute("""INSERT INTO "Experience"("type", "domain", "start_date", "end_date", "money", "feel_grade", "duration", "contact", "company", "description") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """,
@@ -125,7 +133,7 @@ def saveExp():
 @app.route('/getContact', methods=['POST'])
 # Récupère un contact à partir de son ID
 def getContact():
-    con = connexion()
+    con = connexionDB()
     cur = con.cursor()
     id = request.form['id']
     cur.execute(""" SELECT * FROM "Contact" WHERE "Contact".ident = %s""", (id,))
@@ -133,15 +141,26 @@ def getContact():
     return Response(json.dumps(data[0]))
 
 
-@app.route('/saveContact', methods=['POST'])
-# Sauvegarde un contact
-# ! Faire le renvoie id pour le réutiliser avec l'expérience
-def saveContact():
-    contact = json.loads(request.form['newContact'])
-    con = connexion()
-    cur = con.cursor()
-    cur.execute("""INSERT INTO "Contact"("last_Name", "first_Name", "phone_number", "mail_Contact", "enibien") VALUES (%s, %s, %s, %s, %s); """, (contact['Nom'], contact['Prenom'], contact['Telephone'], contact['Email'], contact['Enibien']))
-    con.commit()
+# @app.route('/saveContact', methods=['POST'])
+# # Sauvegarde un contact
+# # ! Faire le renvoie id pour le réutiliser avec l'expérience
+# def saveContact():
+#     contact = json.loads(request.form['newContact'])
+#     con = connexionDB()
+#     cur = con.cursor()
+#     cur.execute("""INSERT INTO "Contact"("last_Name", "first_Name", "phone_number", "mail_Contact", "enibien") VALUES (%s, %s, %s, %s, %s); """, (contact['Nom'], contact['Prenom'], contact['Telephone'], contact['Email'], contact['Enibien']))
+#     con.commit()
+
+@app.route('/connexion', methods=['POST'])
+def connexion():
+    email = request.form['email']
+    mdp = request.form['mdp']
+    recup = connexionSQL(email)
+    if mdp==recup['mdp']:
+        session['user'] = recup['id']
+        return recup
+    else :
+        print('no')
 
 #----- Modèles -----#
 def fetchToJson(users):
@@ -161,6 +180,19 @@ def fetchToJson(users):
             x['DateDiplome'] = user[7].isoformat()
         liste.append(x)
     return liste
+
+#----- DB Request -----#
+def connexionSQL(mail):
+    con = connexionDB()
+    cur = con.cursor()
+    cur.execute(""" SELECT "ident", "mail", "mdp" FROM "Utilisateur" WHERE "mail"=%s """, (mail,))
+    a = cur.fetchone()
+    x = {
+        'id': a[0],
+        'mail': a[1],
+        'mdp': a[2]
+    }
+    return x
 
 if __name__ == "__main__":
     app.run(debug=True)
