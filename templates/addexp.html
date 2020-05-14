@@ -18,7 +18,8 @@
 	<!-- Custom styles for our template -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
-
+	<script src="https://kit.fontawesome.com/8846054c71.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 	<script src="assets/js/html5shiv.js"></script>
@@ -32,18 +33,30 @@
 		<div class="container">
 			<div class="navbar-header">
 				<!-- Button for smallest screens -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='images/logo.png')}}"
-						alt="Progressus HTML5 template"></a>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">
+					<img src="{{ url_for('static', filename='images/logo.png')}}" alt="Progressus HTML5 template">
+				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
-					<li><a href="/">Accueil</a></li>
+					<li>
+						<a href="/">Accueil</a>
+					</li>
 					<!-- Il faut créer le fichier html derrière -->
-					<li><a href="recherche">Recherche</a></li>
-					<li><a href="addexp">Ajouter une expérience</a></li>
-					<li><a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a></li>
+					<li>
+						<a href="recherche">Recherche</a>
+					</li>
+					<li>
+						<a href="addexp">Ajouter une expérience</a>
+					</li>
+					<li>
+						<a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a>
+					</li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -53,19 +66,16 @@
 
 	<header id="head" class="secondary"></header>
 
-	<!-- container -->
-	<div class="container">
+	<div id="app">
+		<!-- container -->
+		<div class="container">
 
-		<ol class="breadcrumb">
-			<li><a href="/">Home</a></li>
-			<li class="active">Ajouter une expérience</li>
-		</ol>
-
-		<!-- Article main content -->
-		<article class="col-xs-12 maincontent">
-			<header class="page-header">
-				<h1 class="page-title">Ajouter mon expérience</h1>
-			</header>
+			<ol class="breadcrumb">
+				<li>
+					<a href="/">Home</a>
+				</li>
+				<li class="active">Ajouter une expérience</li>
+			</ol>
 
 			<div class="container">
 				<div class="col-md-10 col-md-offset-1 col-sm-8 col-sm-offset-2">
@@ -79,10 +89,10 @@
 								<!-- Entreprise content -->
 								<div class="row mb-3">
 									<div class="col-md-3 widget">
-										<label for="validationServer04">Entreprise<span class="text-danger">
-												*</span></label>
-										<input type="text" v-model="exp.Company" class="form-control" id="expCompany"
-											required>
+										<label for="validationServer04">Entreprise
+											<span class="text-danger"> *</span>
+										</label>
+										<input type="text" v-model="exp.Company" class="form-control" id="expCompany" required>
 									</div>
 									<!-- Bouton content -->
 									<button class="btn-secondary center-block" type="submit">+</button>
@@ -102,169 +112,245 @@
 											<option>Alternance</option>
 										</select>
 									</div>
+									<br>
 
-									<!-- Radio content -->
-									<div class="col-md-3 widget">
-										<label for="validationServer01">Domaine<span class="text-danger">
-												*</span></label>
-										<div class="form-check" id="expDomain" required>
-											<input class="form-check-input" type="radio" name="radios" id="radios1"
-												value="Informatique">
-											<label class="form-check-label" v-model="exp.Domain"
-												for="radios1">Informatique</label>
+									<div class="row mb-3">
+										<!-- Form control content -->
+										<div class="col-md-3 widget">
+											<label for="validationServer04">Type</label>
+											<select class="custom-select is-invalid" v-model="exp.Type" id="validationServer04" required>
+												<option>...</option>
+												<option>CDI</option>
+												<option>CDD</option>
+												<option>Stage</option>
+												<option>Alternance</option>
+											</select>
 										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios" id="radios2"
-												value="Electronique">
-											<label class="form-check-label" v-model="exp.Domain"
-												for="radios2">Electronique</label>
+
+										<!-- Radio content -->
+										<div class="col-md-3 widget">
+											<label for="validationServer01">Domaine
+												<span class="text-danger"> *</span>
+											</label>
+											<div class="form-check" id="expDomain" required>
+												<input class="form-check-input" type="radio" name="radios" id="radios1" value="Informatique">
+												<label class="form-check-label" v-model="exp.Domain" for="radios1">Informatique</label>
+											</div>
+
+											<!-- Radio content -->
+											<div class="col-md-3 widget">
+												<label class="checkbox">
+													<input type="checkbox" v-model="exp.Money">Rémunéré ?</label>
+											</div>
+
+											<!-- Form control content -->
+											<div class="col-md-3 widget">
+												<label for="validationServer04">Durée</label>
+												<select class="custom-select is-invalid" v-model="exp.Duration" id="validationServer04">
+													<option>...</option>
+													<option>1 mois</option>
+													<option>2 mois</option>
+													<option>3 mois</option>
+													<option>4 mois</option>
+													<option>5 mois</option>
+													<option>6 mois</option>
+													<option>+</option>
+												</select>
+											</div>
 										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios" id="radios2"
-												value="Mécatronique">
-											<label class="form-check-label" v-model="exp.Domain"
-												for="radios2">Mécatronique</label>
+
+										<!-- checkbox content -->
+										<div class="col-md-3 widget">
+											<label class="checkbox">
+												<input type="checkbox" v-model="exp.Money" id="expMoney">Rémunéré ?</label>
 										</div>
-									</div>
 
-									<!-- checkbox content -->
-									<div class="col-md-3 widget">
-										<label class="checkbox">
-											<input type="checkbox" v-model="exp.Money" id="expMoney">Rémunéré ?</label>
-									</div>
+										<!-- Form control content -->
+										<div class="col-md-3 widget">
+											<label for="validationServer04">Durée
+												<span class="text-danger"> *</span>
+											</label>
+											<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration" required>
+												<option>...</option>
+												<option>1 mois</option>
+												<option>2 mois</option>
+												<option>3 mois</option>
+												<option>4 mois</option>
+												<option>5 mois</option>
+												<option>6 mois</option>
+												<option>+</option>
+											</select>
+										</div>
+										<!-- Entreprise content -->
+										<label for="validationServer04">Contact</label>
+										<div class="row mb-3">
 
-									<!-- Form control content -->
-									<div class="col-md-3 widget">
-										<label for="validationServer04">Durée<span class="text-danger"> *</span></label>
-										<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration"
-											required>
-											<option>...</option>
-											<option>1 mois</option>
-											<option>2 mois</option>
-											<option>3 mois</option>
-											<option>4 mois</option>
-											<option>5 mois</option>
-											<option>6 mois</option>
-											<option>+</option>
-										</select>
-									</div>
-								</div>
-
-								<!-- Entreprise content -->
-								<label for="validationServer04">Contact</label>
-								<div class="row mb-3">
-
-									<div class="col-md-6 widget">
-										<input type="text" v-model="exp.contact.Nom" class="form-control"
-											placeholder="Nom" id="expContactName">
-										<br>
-										<input type="text" v-model="exp.contact.Email" class="form-control"
-											placeholder="Email" id="expContactEmail">
-									</div>
-									<!-- Addresse content -->
-									<div class="form col-md-6 widget">
-										<input type="text" v-model="exp.contact.Prenom" class="form-control"
-											placeholder="Prénom" id="expContactSurname">
-										<br>
-										<input type="text" v-model="exp.contact.Telephone" class="form-control"
-											placeholder="Téléphone" id="expContactPhone">
-									</div>
-									<!-- checkbox content -->
-									<div class="col-md-3 widget">
-										<label class="checkbox">
-											<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
-									</div>
-								</div>
+											<div class="col-md-6 widget">
+												<input type="text" v-model="exp.contact.Nom" class="form-control" placeholder="Nom" id="expContactName">
+												<br>
+												<input type="text" v-model="exp.contact.Email" class="form-control" placeholder="Email" id="expContactEmail">
+											</div>
+											<!-- Addresse content -->
+											<div class="form col-md-6 widget">
+												<input type="text" v-model="exp.contact.Prenom" class="form-control" placeholder="Prénom" id="expContactSurname">
+												<br>
+												<input type="text" v-model="exp.contact.Telephone" class="form-control" placeholder="Téléphone" id="expContactPhone">
+											</div>
+											<!-- checkbox content -->
+											<div class="col-md-3 widget">
+												<label class="checkbox">
+													<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
+											</div>
+										</div>
 							</form>
+
+							</div>
+							<!-- Bouton content -->
+							<br>
+							<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon expérience</button>
+							<br>
+							</div>
 						</div>
 					</div>
-					<!-- Bouton content -->
-					<br>
-					<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon
-						expérience</button>
-					<br>
+					</article>
+					<!-- /Article -->
+				</div>
+				<!-- /container -->
+
+				<!-- Modal -->
+				<div class="modal fade" id="modifModalEntreprise" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h3 class="modal-title" id="exampleModalLabel">Ajouter une entreprise</h3>
+							</div>
+
+
+							<div class="modal-body">
+								<form>
+									<div class="row">
+										<div class="col-xs-6">
+											<label>Nom de l'entreprise
+												<span class="text-danger"> *</span>
+											</label>
+											<input type="text" v-model="tempoUser.Nom" class="form-control" disabled>
+										</div>
+										<div class="col-xs-6">
+											<label>Adresse
+												<span class="text-danger"> *</span>
+											</label>
+											<input type="text" v-model="tempoUser.Prenom" class="form-control" disabled>
+										</div>
+									</div>
+									<br />
+									<div class="row">
+										<div class="col-xs-7">
+											<label>Surnom</label>
+											<input type="text" v-model="tempoUser.Surnom" class="form-control">
+										</div>
+										<div class="col-xs-5">
+											<label>Date de Naissance</label>
+											<input type="date" v-model="tempoUser.Naissance" class="form-control">
+										</div>
+									</div>
+									<br />
+									<div class="row">
+										<div class="col-sm-8">
+											<label>Email
+												<span class="text-danger"> *</span>
+											</label>
+											<input type="email" v-model="tempoUser.Email" class="form-control" disabled>
+										</div>
+									</div>
+
+								</form>
+								</div>
+								<button type="button" class="btn btn-secondary" v-on:click="closeModalEntreprise">Close</button>
+								<button type="button" v-on:click="save" class="btn btn-primary">Save changes</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 
-		</article>
-		<!-- /Article -->
-	</div> <!-- /container -->
+			<footer id="footer" class="top-space">
 
-	<footer id="footer" class="top-space">
+				<div class="footer1">
+					<div class="container">
+						<div class="row">
 
-		<div class="footer1">
-			<div class="container">
-				<div class="row">
+							<div class="col-md-6 widget">
+								<h3 class="widget-title">Contact</h3>
+								<div class="widget-body">
+									Participants au projet :
+									<br>
+									<br> Antoine Martet a6martet@enib.fr
+									<br> Thomas Mazéas t7mazeas@enib.fr
+									<br> Lucie Ménard l7menard@enib.fr
+									<br>
+									<br> Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
+									</p>
+								</div>
+							</div>
 
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Contact</h3>
-						<div class="widget-body">
-							Participants au projet :<br>
-							<br>
-							Antoine Martet a6martet@enib.fr<br>
-							Thomas Mazéas t7mazeas@enib.fr<br>
-							Lucie Ménard l7menard@enib.fr<br>
-							<br>
-							Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
-							</p>
+							<div class="col-md-6 widget">
+								<h3 class="widget-title">Presentation</h3>
+								<div class="widget-body">
+									<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That could be useful to find
+										a stage or an experience. We are three to work on it : Antoine Marter, Thomas Mazéas and Lucie Ménard. Enjoy your
+										project !</p>
+								</div>
+							</div>
+
 						</div>
+						<!-- /row of widgets -->
 					</div>
+				</div>
 
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Presentation</h3>
-						<div class="widget-body">
-							<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That
-								could be useful to find a stage or an experience. We are three to work on it : Antoine
-								Marter, Thomas Mazéas and Lucie Ménard. Enjoy your project !</p>
+				<div class="footer2">
+					<div class="container">
+						<div class="row">
+
+							<div class="col-md-6 widget">
+								<div class="widget-body">
+									<p class="simplenav">
+										<a href="/">Accueil</a> |
+										<a href="recherche">Recherche</a> |
+										<a href="signin">Se connecter</a> |
+										<a href="signup">S'inscrire</a>
+									</p>
+								</div>
+							</div>
+
+							<div class="col-md-6 widget">
+								<div class="widget-body">
+									<p class="text-right">
+										Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by
+										<a href="http://gettemplate.com/" rel="designer">gettemplate</a>
+									</p>
+								</div>
+							</div>
+
 						</div>
+						<!-- /row of widgets -->
 					</div>
+				</div>
 
-				</div> <!-- /row of widgets -->
-			</div>
-		</div>
+			</footer>
 
-		<div class="footer2">
-			<div class="container">
-				<div class="row">
+			<script type="text/javascript" src="{{url_for('static', filename='js/addexp.js')}}"></script>
 
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="simplenav">
-								<a href="/">Accueil</a> |
-								<a href="recherche">Recherche</a> |
-								<a href="signin">Se connecter</a> |
-								<a href="signup">S'inscrire</a>
-							</p>
-						</div>
-					</div>
+			<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+			<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+			<script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
+			<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
+			<script src=" {{url_for('static', filename='js/template.js')}} "></script>
 
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="text-right">
-								Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by <a
-									href="http://gettemplate.com/" rel="designer">gettemplate</a>
-							</p>
-						</div>
-					</div>
-
-				</div> <!-- /row of widgets -->
-			</div>
-		</div>
-
-	</footer>
-
-	<script type="text/javascript" src="{{url_for('static', filename='js/addexp.js')}}"></script>
-
-	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-	<script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
-	<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
-	<script src=" {{url_for('static', filename='js/template.js')}} "></script>
-
-	<!-- Google Maps -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script>
-	<script src="{{url_for('static', filename='js/google-map.js')}}"></script>
+			<!-- Google Maps -->
+			<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script>
+			<script src="{{url_for('static', filename='js/google-map.js')}}"></script>
 
 
 </body>
