@@ -89,6 +89,7 @@ def getUser():
     cur.execute(
         """ SELECT * FROM "Utilisateur" WHERE "Utilisateur".ident = %s""", (id,))
     data = fetchToJson(cur.fetchall())
+    con.close()
     return Response(json.dumps(data[0]))
 
 
@@ -117,8 +118,35 @@ def saveUser():
         'id': a
     }
     session['user']=x['id']
+    con.close()
     return x
 
+@app.route('/modifUser', methods=['POST'])
+def modifUser():
+    con = connexionDB()
+    cur = con.cursor()
+    user = json.loads(request.form['newUser'])
+    print(user)
+    if user['Diplome']:
+        cur.execute("""UPDATE "Utilisateur" SET "surname"=%s, "diploma"=%s, "mdp"=%s, "date_diplo"=%s, "phone_number"=%s WHERE "ident" = %s""", (user['Surnom'], user['Diplome'], user['Mdp'], user['DateDiplome'], user['Telephone'], session['user']))
+    else:
+        cur.execute("""UPDATE "Utilisateur" SET "surname"=%s, "diploma"=%s, "mdp"=%s, "date_diplo"=NULL, "phone_number"=%s WHERE "ident" = %s""", (user['Surnom'], user['Diplome'], user['Mdp'], user['Telephone'], session['user']))
+    con.commit()
+    return 'True'
+
+
+@app.route('/tryPassword', methods=['POST'])
+def tryPassword():
+    con = connexionDB()
+    cur = con.cursor()
+    cur.execute("""SELECT "mdp" FROM "Utilisateur" WHERE "ident"=%s """, (session['user'],))
+    userPassword = cur.fetchone()[0]
+    receivedPassword = request.form['mdp']
+    if (receivedPassword==userPassword):
+        return 'True'
+    else:
+        return 'False'
+    
 
 
 #----- Add Exp -----#
@@ -159,6 +187,7 @@ def getContact():
     id = request.form['id']
     cur.execute(""" SELECT * FROM "Contact" WHERE "Contact".ident = %s""", (id,))
     data = fetchToJson(cur.fetchall())
+    con.close()
     return Response(json.dumps(data[0]))
 
 

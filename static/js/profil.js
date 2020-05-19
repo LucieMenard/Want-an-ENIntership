@@ -21,18 +21,21 @@ var vm = new Vue({
         id: 0,
         user: new Object(),
         tempoUser: new Object(),
-        confirmMdp: "",
+        confirmNewMdp: "",
         afficheDateNaissance: new Object(),
         afficheDateDiplome: new Object(),
-        err: []
+        confirmMdp: '',
+        err: [],
+        badPassword: false
     },
     methods: {
         openModal: function () {
             this.err = []
-            this.tempoUser = this.user
+            u = this.user
+            this.tempoUser = new User(this.user.Id, this.user.Nom, this.user.Prenom, this.user.Surnom, this.user.Naissance, this.user.Email, this.user.Telephone, '', this.user.Diplome, this.user.DateDiplome)
             if (this.user.DateDiplome)
                 this.afficheDate = new Date(this.user.DateDiplome)
-                this.afficheDate = moment(this.afficheDate).format('DD/MM/YYYY')
+            this.afficheDate = moment(this.afficheDate).format('DD/MM/YYYY')
             $('#modifModal').modal({
                 show: true,
                 backdrop: false,
@@ -40,54 +43,108 @@ var vm = new Vue({
         },
         closeModal: function () {
             this.err = []
-            this.confirmMdp = ""
+            this.confirmNewMdp = ""
             $('#modifModal').modal('hide')
         },
 
-        logout: function(){
+        openModalConfirm: function () {
+            $('#confirmModal').modal({
+                show: true,
+                backdrop: false
+            })
+        },
+
+        closeModalConfirm: function () {
+            $('#confirmModal').modal('hide')
+        },
+
+        logout: function () {
             $.ajax({
                 url: '/logout',
                 type: 'GET',
-                success: function(a){
-                    console.log(a)
+                success: function (a) {
                     document.location.href = '/'
+                },
+                error: function (a, status, error) {
+                    console.log('Erreur : ' + error + '\nStatus : ' + status)
                 }
             })
         },
 
+        //Quand on sauvegarde les modifs. Ouvre la modal pour confirmation de mdp
         save: function () {
             this.err = []
             this.validate()
-            if (this.err.length == 0){
-                this.user = this.tempoUser
-                console.log("Perf")
-                this.closeModal()
-            } else {
-                console.log("Problem")
-            }
+            if (this.err.length == 0) {
+                this.confirmMdp = ''
+                this.openModalConfirm()
+            } 
         },
 
-        getUser: function(){
+        tryPassword: function () {
+            let vue = this
+            $.ajax({
+                url: '/tryPassword',
+                type: 'POST',
+                async: false,
+                data: {
+                    'mdp': vue.confirmMdp
+                },
+                success: function (a) {
+                    if (a == 'True') {
+                        vue.submit()
+                    } else {
+                        vue.badPassword = true
+                    }
+                },
+                error: function (a, status, error) {
+                    console.log('Erreur : ' + error + '\nStatus : ' + status)
+                }
+            })
+        },
+
+        //sauvegarde les modifs
+        submit: function () {
+            //Save new user
+            let vue = this
+            this.closeModalConfirm()
+            if (!this.tempoUser.Mdp){
+                this.tempoUser.Mdp = this.user.Mdp
+            } 
+            $.ajax({
+                url: '/modifUser',
+                data: {
+                    'newUser': JSON.stringify(vue.tempoUser)
+                },
+                type: 'POST',
+                success: function(){
+                    vue.closeModal()
+                    vue.getUser()
+                },
+                error: function (a, status, error) {
+                    console.log('Erreur : ' + error + '\nStatus : ' + status)
+                }
+            })
+        },
+
+        getUser: function () {
             let vue = this
             $.ajax({
                 url: '/getUser',
                 data: {
                     'id': this.id
-                }, 
+                },
                 type: 'POST',
-                success: function(user){
-                    console.log(user)
+                success: function (user) {
                     user = JSON.parse(user)
-                    u = new User(user['Id'], user['Nom'], user['Prenom'], user['Surnom'], '1998-02-01', user['Email'], user['Telephone'], user['Mdp'], user['Diplome'], user['DateDiplome'])
-                    console.log(u)
-                    vue.user = u
-                    if (vue.user.Naissance){
+                    vue.user = new User(user['Id'], user['Nom'], user['Prenom'], user['Surnom'], '1998-02-01', user['Email'], user['Telephone'], user['Mdp'], user['Diplome'], user['DateDiplome'])
+                    if (vue.user.Naissance) {
                         vue.afficheDateNaissance = vue.convAffichage(vue.user.Naissance)
                     }
-                    if (vue.user.DateDiplome){
+                    if (vue.user.DateDiplome) {
                         vue.afficheDateDiplome = vue.convAffichage(vue.user.DateDiplome)
                     }
-                }, 
+                },
                 error: function (a, status, error) {
                     console.log('Erreur : ' + error + '\nStatus : ' + status)
                 }
@@ -95,32 +152,26 @@ var vm = new Vue({
         },
 
         validate: function () {
-            let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
-            if ((this.tempoUser.Mdp && !this.confirmMdp) || (!this.tempoUser.Mdp && !this.confirmMdp)) {
-                this.err.push('Confirmez votre mot de passe ou modifiez-le')
-            } else {
-                if (this.tempoUser.Mdp != this.confirmMdp) {
-                    this.err.push('Les mots de passes sont différents')
-                }
+            if ((this.tempoUser.Mdp != this.confirmNewMdp)) {
+                this.err.push('Les mots de passes sont différents')
             }
-            
 
             if (this.tempoUser.Diplome && !this.tempoUser.DateDiplome) {
                 this.err.push("La date du diplôme doit-être spécifiée")
             }
         },
 
-        convAffichage : function(date){
+        convAffichage: function (date) {
             return moment(date).format('DD/MM/YYYY')
         }
-    }, 
+    },
 
     mounted() {
         var link = document.location.href.split('/');
-        this.id = link[link.length-1]
+        this.id = link[link.length - 1]
         this.getUser()
-        
+
     }
 })
 
