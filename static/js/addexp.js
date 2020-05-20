@@ -17,17 +17,24 @@ function Exp(){
                     this.Enibien = False
     }
 }
+function Entreprise(){
+    this.Name=""
+    this.idEntreprise= 0
+    this.Address = ""
+    this.Postal_Code = 0
+    this.City= ""
+    this.Country = ""
+    this.Grade = 0
+}
 
 
 var vm = new Vue({
     el: "#app", 
     delimiters: ['[[', ']]'],
     data: {
-        user: new Exp(),
-<<<<<<< HEAD
-=======
-        tempoUser: new Object(),
->>>>>>> 6e3c2855acb7d305f9cdaa2f7822aeccbe03cdda
+        exp: new Exp(),
+        entreprise: new Entreprise(),
+        tempoExp: new Object(),
         confirmPassword: "",
         err: []
     }, 
@@ -35,7 +42,7 @@ var vm = new Vue({
     methods : {
         openModalEntreprise: function () {
             this.err = []
-            this.tempoUser = this.exp
+            this.entreprise= new Entreprise()
             $('#modifModalEntreprise').modal({
                 show: true,
                 backdrop: false,
@@ -51,9 +58,8 @@ var vm = new Vue({
             this.err = []
             this.validate()
             if (this.err.length == 0){
-                this.exp = this.tempoUser
                 console.log("Perf")
-                this.closeModal()
+                this.closeModalEntreprise()
             } else {
                 console.log("Problem")
             }
@@ -67,6 +73,12 @@ var vm = new Vue({
             } 
             if (!this.exp.contact.Email.match(regMail)){
                 this.err.push("L'email n'est pas valide")
+            }
+            
+        },
+        validateEntreprise: function(){
+            if (!this.entreprise.Name || !this.entreprise.Address || !this.entreprise.Postal_Code || !this.entreprise.City || !this.entreprise.Country){
+                this.err.push('Tous les champs sont obligatoires')
             }
         },
 
@@ -86,6 +98,27 @@ var vm = new Vue({
                     }
                 })
             }
+        },
+        submitEntreprise : function(){
+            let vue = this
+            this.err = []
+            this.validateEntreprise()
+            if (this.err.length == 0){
+                $.ajax({
+                    url: '/saveEntreprise',
+                    data: {
+                        'newEntreprise' : JSON.stringify(vue.entreprise) 
+                    },
+                    type: 'POST',
+                    //success: function(a){
+                    //    vue.closeModalEntreprise()                    
+                    //},
+                    error: function (a, status, error) {
+                        console.log('Erreur : ' + error + '\nStatus : ' + status)
+                    }
+                })
+            }
+
         }
     }
 })

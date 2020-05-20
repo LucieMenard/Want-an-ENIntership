@@ -49,10 +49,17 @@
 						<a href="/">Accueil</a>
 					</li>
 					<!-- Il faut créer le fichier html derrière -->
-					<li><a href="recherche">Recherche</a></li>
-					<li class="active"><a href="addexp">Ajouter une expérience</a></li>
-					<li><a class="btn" href="/testConn"> <i class="fas fa-users"></i> Profil
-					</a></li>				
+					<li>
+						<a href="recherche">Recherche</a>
+					</li>
+					<li class="active">
+						<a href="addexp">Ajouter une expérience</a>
+					</li>
+					<li>
+						<a class="btn" href="/testConn">
+							<i class="fas fa-users"></i> Profil
+						</a>
+					</li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -83,24 +90,30 @@
 							<form class="needs-validation" novalidate>
 
 								<!-- Entreprise content -->
-								<div class="row mb-3">
-									<div class="col-md-3 widget">
+								<div class="row">
+									<div class="col-md-3">
 										<label for="validationServer04">Entreprise
 											<span class="text-danger"> *</span>
+
 										</label>
 										<input type="text" v-model="exp.Company" class="form-control" id="expCompany" required>
 									</div>
-									<!-- Bouton content -->
-									<button class="btn-secondary center-block" type="submit">+</button>
+									<div class="col-md-3" style="margin-top: 23px">
+										<!-- Bouton content -->
+										<button class="btn btn-primary btn-sm" v-on:click="openModalEntreprise" type="button">
+											<i class="fas fa-pen"></i>
+											Ajouter une entreprise</button>
+									</div>
 								</div>
 								<br>
 
 								<div class="row mb-3">
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer04">Type<span class="text-danger"> *</span></label>
-										<select class="custom-select is-invalid" v-model="exp.Type" id="expType"
-											required>
+										<label for="validationServer04">Type
+											<span class="text-danger"> *</span>
+										</label>
+										<select class="custom-select is-invalid" v-model="exp.Type" id="expType" required>
 											<option>...</option>
 											<option>CDI</option>
 											<option>CDD</option>
@@ -108,169 +121,150 @@
 											<option>Alternance</option>
 										</select>
 									</div>
-									<br>
 
-									<div class="row mb-3">
-										<!-- Form control content -->
-										<div class="col-md-3 widget">
-											<label for="validationServer04">Type</label>
-											<select class="custom-select is-invalid" v-model="exp.Type" id="validationServer04" required>
-												<option>...</option>
-												<option>CDI</option>
-												<option>CDD</option>
-												<option>Stage</option>
-												<option>Alternance</option>
-											</select>
+
+
+
+									<!-- Radio content -->
+									<div class="col-md-3 widget">
+										<label for="validationServer01">Domaine
+											<span class="text-danger"> *</span>
+										</label>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="radios" id="radios1" value="Informatique" v-model="exp.Domain">
+											<label class="form-check-label" for="radios1">Informatique</label>
+										</div>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="radios" id="radios2" value="Mécatronique" v-model="exp.Domain">
+											<label class="form-check-label" for="radios2">Mécatronique</label>
+										</div>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="radios" id="radios3" value="Electronique" v-model="exp.Domain">
+											<label class="form-check-label" for="radios3">Electronique</label>
 										</div>
 
-										<!-- Radio content -->
-										<div class="col-md-3 widget">
-											<label for="validationServer01">Domaine
-												<span class="text-danger"> *</span>
-											</label>
-											<div class="form-check" id="expDomain" required>
-												<input class="form-check-input" type="radio" name="radios" id="radios1" value="Informatique">
-												<label class="form-check-label" v-model="exp.Domain" for="radios1">Informatique</label>
-											</div>
 
-											<!-- Radio content -->
-											<div class="col-md-3 widget">
-												<label class="checkbox">
-													<input type="checkbox" v-model="exp.Money">Rémunéré ?</label>
-											</div>
 
-											<!-- Form control content -->
-											<div class="col-md-3 widget">
-												<label for="validationServer04">Durée</label>
-												<select class="custom-select is-invalid" v-model="exp.Duration" id="validationServer04">
-													<option>...</option>
-													<option>1 mois</option>
-													<option>2 mois</option>
-													<option>3 mois</option>
-													<option>4 mois</option>
-													<option>5 mois</option>
-													<option>6 mois</option>
-													<option>+</option>
-												</select>
-											</div>
-										</div>
-
-										<!-- checkbox content -->
-										<div class="col-md-3 widget">
-											<label class="checkbox">
-												<input type="checkbox" v-model="exp.Money" id="expMoney">Rémunéré ?</label>
-										</div>
-
-										<!-- Form control content -->
-										<div class="col-md-3 widget">
-											<label for="validationServer04">Durée
-												<span class="text-danger"> *</span>
-											</label>
-											<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration" required>
-												<option>...</option>
-												<option>1 mois</option>
-												<option>2 mois</option>
-												<option>3 mois</option>
-												<option>4 mois</option>
-												<option>5 mois</option>
-												<option>6 mois</option>
-												<option>+</option>
-											</select>
-										</div>
 
 									</div>
-									<!-- Entreprise content -->
-									<label for="validationServer04">Contact</label>
-									<div class="row mb-3">
 
-										<div class="col-md-6 widget">
-											<input type="text" v-model="exp.contact.Nom" class="form-control" placeholder="Nom" id="expContactName">
-											<br>
-											<input type="text" v-model="exp.contact.Email" class="form-control" placeholder="Email" id="expContactEmail">
-										</div>
-										<!-- Addresse content -->
-										<div class="form col-md-6 widget">
-											<input type="text" v-model="exp.contact.Prenom" class="form-control" placeholder="Prénom" id="expContactSurname">
-											<br>
-											<input type="text" v-model="exp.contact.Telephone" class="form-control" placeholder="Téléphone" id="expContactPhone">
-										</div>
-										<!-- checkbox content -->
-										<div class="col-md-3 widget">
-											<label class="checkbox">
-												<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
-										</div>
+									<!-- checkbox content -->
+									<div class="col-md-3 widget" style="margin-top: -8px">
+										<label class="checkbox">
+											<input type="checkbox" v-model="exp.Money" id="expMoney">Rémunéré ?</label>
 									</div>
+
+									<!-- Form control content -->
+									<div class="col-md-3 widget">
+										<label for="validationServer04">Durée
+											<span class="text-danger"> *</span>
+										</label>
+										<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration" required>
+											<option>...</option>
+											<option>1 mois</option>
+											<option>2 mois</option>
+											<option>3 mois</option>
+											<option>4 mois</option>
+											<option>5 mois</option>
+											<option>6 mois</option>
+											<option>+</option>
+										</select>
+									</div>
+								</div>
+
+								<!-- Entreprise content -->
+								<label for="validationServer04">Contact</label>
+								<div class="row mb-3">
+									<div class="form col-md-6 widget">
+										<input type="text" v-model="exp.Contact.Nom" class="form-control" placeholder="Nom" id="expContactName">
+										<br>
+										<input type="text" v-model="exp.Contact.Email" class="form-control" placeholder="Email" id="expContactEmail">
+									</div>
+									<!-- Addresse content -->
+									<div class="form col-md-6 widget">
+										<input type="text" v-model="exp.Contact.Prenom" class="form-control" placeholder="Prénom" id="expContactSurname">
+										<br>
+										<input type="text" v-model="exp.Contact.Telephone" class="form-control" placeholder="Téléphone" id="expContactPhone">
+									</div>
+									<!-- checkbox content -->
+									<div class="col-md-3 widget">
+										<label class="checkbox">
+											<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
+									</div>
+								</div>
+
 							</form>
 
-							</div>
-							<!-- Bouton content -->
-							<br>
-							<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon expérience</button>
-							<br>
-							</div>
 						</div>
+						<!-- Bouton content -->
+						<br>
+						<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon expérience</button>
+						<br>
 					</div>
 				</div>
-				</article>
-				<!-- /Article -->
 			</div>
-			<!-- /container -->
+		</div>
+		</article>
+		<!-- /Article -->
+		<!-- Modal -->
+		<div class="modal fade" id="modifModalEntreprise" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="exampleModalLabel">Ajouter une entreprise</h3>
+					</div>
 
-			<!-- Modal -->
-			<div class="modal fade" id="modifModalEntreprise" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h3 class="modal-title" id="exampleModalLabel">Ajouter une entreprise</h3>
+
+					<div class="modal-body">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-12">
+									<label>Nom de l'entreprise
+										<span class="text-danger"> *</span>
+									</label>
+									<input type="text" v-model="entreprise.Name" class="form-control">
+								</div>
+							</div>
+							<br/>
+							<div class="row">
+								<div class="col-xs-12">
+									<label>Adresse
+										<span class="text-danger"> *</span>
+									</label>
+									<input type="text" v-model="entreprise.Address" class="form-control">
+								</div>
+							</div>
+							<br />
+							<div class="row">
+								<div class="col-xs-4">
+									<label>Code postal</label>
+									<input type="text" v-model="entreprise.Postal_Code" class="form-control">
+								</div>
+								<div class="col-xs-4">
+									<label>Ville</label>
+									<input type="text" v-model="entreprise.City" class="form-control">
+								</div>
+								<div class="col-xs-4">
+									<label>Pays</label>
+									<input type="text" v-model="entreprise.Country" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" v-on:click="closeModalEntreprise">Close</button>
+							<button type="button" v-on:click="submitEntreprise" class="btn btn-primary">Save changes</button>
 						</div>
 
-
-						<div class="modal-body">
-							<form>
-								<div class="row">
-									<div class="col-xs-6">
-										<label>Nom de l'entreprise
-											<span class="text-danger"> *</span>
-										</label>
-										<input type="text" v-model="tempoUser.Nom" class="form-control" disabled>
-									</div>
-									<div class="col-xs-6">
-										<label>Prénom
-											<span class="text-danger"> *</span>
-										</label>
-										<input type="text" v-model="tempoUser.Prenom" class="form-control" disabled>
-									</div>
-								</div>
-								<br />
-								<div class="row">
-									<div class="col-xs-7">
-										<label>Surnom</label>
-										<input type="text" v-model="tempoUser.Surnom" class="form-control">
-									</div>
-									<div class="col-xs-5">
-										<label>Date de Naissance</label>
-										<input type="date" v-model="tempoUser.Naissance" class="form-control">
-									</div>
-								</div>
-								<br />
-								<div class="row">
-									<div class="col-sm-8">
-										<label>Email
-											<span class="text-danger"> *</span>
-										</label>
-										<input type="email" v-model="tempoUser.Email" class="form-control" disabled>
-									</div>
-
-								</div>
-							</form>
-						</div>
-						<button type="button" class="btn btn-secondary" v-on:click="closeModalEntreprise">Close</button>
-						<button type="button" v-on:click="save" class="btn btn-primary">Save changes</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<!-- /container -->
+
+
+
 
 	<footer id="footer" class="top-space">
 

@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key='enib'
 
 def connexionDB():
-    con = psycopg2.connect(database='WAE_Local',
+    con = psycopg2.connect(database='WAE',
                            user='postgres',
                            host='localhost',
                            password='basket',
@@ -128,6 +128,21 @@ def saveExp():
     cur.execute("""INSERT INTO "Experience"("type", "domain", "start_date", "end_date", "money", "feel_grade", "duration", "contact", "company", "description") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """,
                 (exp['Type'], exp['Domain'], exp['StartDate'], exp['EndDate'], exp['Money'], exp['FeelGrade'], exp['Duration'], idContact, exp['Company'], exp['Description']))
     con.commit()
+
+@app.route('/saveEntreprise', methods=['POST'])
+def saveEntreprise():
+    entreprise = json.loads(request.form['newEntreprise'])
+    con = connexionDB()
+    cur = con.cursor()
+    cur.execute("""INSERT INTO "Entreprise"("name", "address", "postal_code", "city", "country", "grade") VALUES (%s,%s,%s,%s,%s,%s) RETURNING "id_entreprise";""",
+                (entreprise['Name'],entreprise['Address'],entreprise['Postal_Code'],entreprise['City'],entreprise['Country'],0))
+    #a = cur.fetchone()[0]
+    con.commit()
+    #x = {
+    #    'id': a
+    #}
+    #return x
+    
 
 #-- Contact --#
 @app.route('/getContact', methods=['POST'])
