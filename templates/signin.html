@@ -79,6 +79,12 @@
 									<label>Mot de passe <span class="text-danger">*</span></label>
 									<input type="password" v-model="mdp" class="form-control">
 								</div>
+								<div v-if="errMail">
+									<p class="text-danger"> L'email n'existe pas dans la base de donnés</p>
+								</div>
+								<div v-if="errPass">
+									<p class="text-danger">Le mot de passe ne correspond pas à l'email</p>
+								</div>
 
 								<hr>
 

@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key='enib'
 
 def connexionDB():
-    con = psycopg2.connect(database='WAE',
+    con = psycopg2.connect(database='WAE_Local',
                            user='postgres',
                            host='localhost',
                            password='basket',
@@ -37,7 +37,10 @@ def recherche():
 
 @app.route('/addexp')
 def addexp():
-    return render_template('addexp.html')
+    if 'user' in session : 
+        return render_template('addexp.html')
+    else :
+        return redirect(url_for('signin'))
 
 
 @app.route('/contact')
@@ -101,11 +104,10 @@ def saveUser():
     user = json.loads(request.form['newUser'])
     con = connexionDB()
     cur = con.cursor()
-    cur.execute(""" SELECT "mail" FROM "Utilisateur" """, ())
-    mails = cur.fetchall()
-    for i in mails:
-        if (i[0]==user['Email']):
-            return 'False'
+    cur.execute(""" SELECT COUNT(*) FROM "Utilisateur" WHERE "mail"=%s """, (user['Email'], ))
+    test = cur.fetchone()[0]
+    if (test>0):
+        return 'False'
 
     if (user['DateDiplome'] == ''):
         cur.execute("""INSERT INTO "Utilisateur"("fam_name", "first_name", "surname", "diploma", "mail", "mdp", "date_diplo", "phone_number") VALUES (%s, %s, %s, %s, %s, %s, NULL, %s) RETURNING "ident"; """,
@@ -128,7 +130,6 @@ def modifUser():
     con = connexionDB()
     cur = con.cursor()
     user = json.loads(request.form['newUser'])
-    print(user)
     if user['Diplome']:
         cur.execute("""UPDATE "Utilisateur" SET "surname"=%s, "diploma"=%s, "mdp"=%s, "date_diplo"=%s, "phone_number"=%s WHERE "ident" = %s""", (user['Surnom'], user['Diplome'], user['Mdp'], user['DateDiplome'], user['Telephone'], session['user']))
     else:
@@ -182,14 +183,18 @@ def saveEntreprise():
     entreprise = json.loads(request.form['newEntreprise'])
     con = connexionDB()
     cur = con.cursor()
+    cur.execute("""SELECT COUNT(*) FROM "Entreprise" WHERE "name"=%s""", (entreprise['Name'],))
+    test = cur.fetchone()[0]
+    if (test>0):
+        return 'False'
     cur.execute("""INSERT INTO "Entreprise"("name", "address", "postal_code", "city", "country", "grade") VALUES (%s,%s,%s,%s,%s,%s) RETURNING "id_entreprise";""",
                 (entreprise['Name'],entreprise['Address'],entreprise['Postal_Code'],entreprise['City'],entreprise['Country'],0))
-    #a = cur.fetchone()[0]
+    a = cur.fetchone()[0]
     con.commit()
-    #x = {
-    #    'id': a
-    #}
-    #return x
+    x = {
+       'id': a
+    }
+    return x
     
 
 #-- Contact --#
@@ -223,11 +228,14 @@ def connexion():
     email = request.form['email']
     mdp = request.form['mdp']
     recup = connexionSQL(email)
-    if mdp==recup['mdp']:
-        session['user'] = recup['id']
-        return recup
+    if recup==False :
+        return 'Email'
     else :
-        print('no')
+        if mdp==recup['mdp']:
+            session['user'] = recup['id']
+            return recup
+        else :
+            return 'Mdp'
 
 #----- Deconnexion -----#
 
@@ -271,12 +279,15 @@ def connexionSQL(mail):
     cur = con.cursor()
     cur.execute(""" SELECT "ident", "mail", "mdp" FROM "Utilisateur" WHERE "mail"=%s """, (mail,))
     a = cur.fetchone()
-    x = {
-        'id': a[0],
-        'mail': a[1],
-        'mdp': a[2]
-    }
-    return x
+    if (a):
+        x = {
+            'id': a[0],
+            'mail': a[1],
+            'mdp': a[2]
+        }
+        return x
+    else :
+        return False
 
 if __name__ == "__main__":
     app.run(debug=True)

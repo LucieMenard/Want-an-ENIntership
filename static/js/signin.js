@@ -1,12 +1,16 @@
 var vm = new Vue({
     el: '#app',
-    delimiters: ['[[',']]'],
+    delimiters: ['[[', ']]'],
     data: {
         email: '',
-        mdp: ''
+        mdp: '',
+        errMail: false,
+        errPass: false
     },
     methods: {
-        submit: function(){
+        submit: function () {
+            this.errPass=false
+            this.errMail= false
             var vue = this
             console.log('Ok')
             $.ajax({
@@ -16,9 +20,18 @@ var vm = new Vue({
                     'mdp': vue.mdp
                 },
                 type: 'POST',
-                success: function(a){
+                success: function (a) {
                     console.log(a)
-                    document.location.href = '/profil/'+a['id']
+                    if (a == 'Email') {
+                        vue.errMail = true
+                    } else {
+                        if (a=='Mdp') {
+                            vue.errPass = true
+                        } else {
+                            console.log(a)
+                            document.location.href = '/profil/' + a['id']
+                        }
+                    }
                 },
                 error: function (a, status, error) {
                     console.log('Erreur : ' + error + '\nStatus : ' + status)

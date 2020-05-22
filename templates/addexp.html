@@ -96,11 +96,13 @@
 											<span class="text-danger"> *</span>
 
 										</label>
-										<input type="text" v-model="exp.Company" class="form-control" id="expCompany" required>
+										<input type="text" v-model="exp.Company" class="form-control" id="expCompany"
+											required>
 									</div>
 									<div class="col-md-3" style="margin-top: 23px">
 										<!-- Bouton content -->
-										<button class="btn btn-primary btn-sm" v-on:click="openModalEntreprise" type="button">
+										<button class="btn btn-primary btn-sm" v-on:click="openModalEntreprise"
+											type="button">
 											<i class="fas fa-pen"></i>
 											Ajouter une entreprise</button>
 									</div>
@@ -113,7 +115,8 @@
 										<label for="validationServer04">Type
 											<span class="text-danger"> *</span>
 										</label>
-										<select class="custom-select is-invalid" v-model="exp.Type" id="expType" required>
+										<select class="custom-select is-invalid" v-model="exp.Type" id="expType"
+											required>
 											<option>...</option>
 											<option>CDI</option>
 											<option>CDD</option>
@@ -131,15 +134,18 @@
 											<span class="text-danger"> *</span>
 										</label>
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios" id="radios1" value="Informatique" v-model="exp.Domain">
+											<input class="form-check-input" type="radio" name="radios" id="radios1"
+												value="Informatique" v-model="exp.Domain">
 											<label class="form-check-label" for="radios1">Informatique</label>
 										</div>
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios" id="radios2" value="Mécatronique" v-model="exp.Domain">
+											<input class="form-check-input" type="radio" name="radios" id="radios2"
+												value="Mécatronique" v-model="exp.Domain">
 											<label class="form-check-label" for="radios2">Mécatronique</label>
 										</div>
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios" id="radios3" value="Electronique" v-model="exp.Domain">
+											<input class="form-check-input" type="radio" name="radios" id="radios3"
+												value="Electronique" v-model="exp.Domain">
 											<label class="form-check-label" for="radios3">Electronique</label>
 										</div>
 
@@ -159,7 +165,8 @@
 										<label for="validationServer04">Durée
 											<span class="text-danger"> *</span>
 										</label>
-										<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration" required>
+										<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration"
+											required>
 											<option>...</option>
 											<option>1 mois</option>
 											<option>2 mois</option>
@@ -176,15 +183,19 @@
 								<label for="validationServer04">Contact</label>
 								<div class="row mb-3">
 									<div class="form col-md-6 widget">
-										<input type="text" v-model="exp.Contact.Nom" class="form-control" placeholder="Nom" id="expContactName">
+										<input type="text" v-model="exp.Contact.Nom" class="form-control"
+											placeholder="Nom" id="expContactName">
 										<br>
-										<input type="text" v-model="exp.Contact.Email" class="form-control" placeholder="Email" id="expContactEmail">
+										<input type="text" v-model="exp.Contact.Email" class="form-control"
+											placeholder="Email" id="expContactEmail">
 									</div>
 									<!-- Addresse content -->
 									<div class="form col-md-6 widget">
-										<input type="text" v-model="exp.Contact.Prenom" class="form-control" placeholder="Prénom" id="expContactSurname">
+										<input type="text" v-model="exp.Contact.Prenom" class="form-control"
+											placeholder="Prénom" id="expContactSurname">
 										<br>
-										<input type="text" v-model="exp.Contact.Telephone" class="form-control" placeholder="Téléphone" id="expContactPhone">
+										<input type="text" v-model="exp.Contact.Telephone" class="form-control"
+											placeholder="Téléphone" id="expContactPhone">
 									</div>
 									<!-- checkbox content -->
 									<div class="col-md-3 widget">
@@ -198,7 +209,8 @@
 						</div>
 						<!-- Bouton content -->
 						<br>
-						<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon expérience</button>
+						<button class="btn btn-primary center-block" v-on:click="submit" type="submit">Ajouter mon
+							expérience</button>
 						<br>
 					</div>
 				</div>
@@ -207,7 +219,8 @@
 		</article>
 		<!-- /Article -->
 		<!-- Modal -->
-		<div class="modal fade" id="modifModalEntreprise" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="modifModalEntreprise" role="dialog" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -225,7 +238,7 @@
 									<input type="text" v-model="entreprise.Name" class="form-control">
 								</div>
 							</div>
-							<br/>
+							<br />
 							<div class="row">
 								<div class="col-xs-12">
 									<label>Adresse
@@ -250,11 +263,17 @@
 								</div>
 							</div>
 						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" v-on:click="closeModalEntreprise">Close</button>
-							<button type="button" v-on:click="submitEntreprise" class="btn btn-primary">Save changes</button>
-						</div>
+					</div>
 
+					<div class="modal-footer">
+						<div v-if="err" class="col-sm-4 text-left" style="padding-right: 0mm;">
+							<p v-for="e in err" class="text-danger">[[ e ]]</p>
+						</div>
+						<div class="col-md-8 ">
+							<button type="button" class="btn btn-secondary"
+								v-on:click="closeModalEntreprise">Annuler</button>
+							<button type="button" v-on:click="submitEntreprise" class="btn btn-primary">Sauvegarder</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -289,8 +308,10 @@
 					<div class="col-md-6 widget">
 						<h3 class="widget-title">Presentation</h3>
 						<div class="widget-body">
-							<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That could be useful to find
-								a stage or an experience. We are three to work on it : Antoine Marter, Thomas Mazéas and Lucie Ménard. Enjoy your
+							<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That
+								could be useful to find
+								a stage or an experience. We are three to work on it : Antoine Marter, Thomas Mazéas and
+								Lucie Ménard. Enjoy your
 								project !</p>
 						</div>
 					</div>
