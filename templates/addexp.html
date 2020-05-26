@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 
-	<script src="https://kit.fontawesome.com/8846054c71.js" crossorigin="anonymous"></script>
+	<!-- <script src="https://kit.fontawesome.com/8846054c71.js" crossorigin="anonymous"></script> -->
 	<!-- Custom styles for our template -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
@@ -26,6 +26,7 @@
 	<script src="assets/js/html5shiv.js"></script>
 	<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
+    
 </head>
 
 <body>
@@ -85,73 +86,71 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<h3 class="thin text-center">Ajouter mon expérience :</h3>
+
 							<hr>
 							<!-- Formulaire content -->
 							<form class="needs-validation" novalidate>
+                                <!-- DM -->
+                                  <p v-if="err.length">
+                                    <b>Please correct the following error(s):</b>
+                                    <ul style="color: #fff; background-color: #e00">
+                                      <li v-for="e in err"><pre>[[e]]</pre></li>
+                                    </ul>
+                                  </p>
 
 								<!-- Entreprise content -->
 								<div class="row">
-									<div class="col-md-3">
-										<label for="validationServer04">Entreprise
-											<span class="text-danger"> *</span>
-
-										</label>
-										<input type="text" v-model="exp.Company" class="form-control" id="expCompany"
-											required>
-									</div>
-									<div class="col-md-3" style="margin-top: 23px">
+									<div class="col-md-12">
+                                        <label>
+                                            Entreprise <span class="text-danger"> *</span>
+                                            <select id="companies" class="form-control custom-select is-invalid" v-model="exp.Company" required>
+                                                <option>...</option>
+                                                {% for company in companies %}
+                                                  <option value="{{ company[0] }}">{{ company[1] }} ({{ company[2] }})</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                        
 										<!-- Bouton content -->
-										<button class="btn btn-primary btn-sm" v-on:click="openModalEntreprise"
+										<button class="btn btn-secondary btn-sm" v-on:click="openModalEntreprise"
 											type="button">
 											<i class="fas fa-pen"></i>
-											Ajouter une entreprise</button>
+											Ajouter une entreprise
+                                        </button>
 									</div>
 								</div>
 								<br>
 
 								<div class="row mb-3">
-									<!-- Form control content -->
+                                
+                                    <!-- Liste des types d'expériences -->
 									<div class="col-md-3 widget">
-										<label for="validationServer04">Type
-											<span class="text-danger"> *</span>
+										<label>
+                                            Type <span class="text-danger"> *</span>
+    										<select class="form-control custom-select is-invalid" v-model="exp.Type"
+    											required>
+    											<option>...</option>
+                                                {% for value,label in types.items() %}
+                                                  <option value="{{ value }}">{{ label }}</option>
+                                                {% endfor %}
+    										</select>
 										</label>
-										<select class="custom-select is-invalid" v-model="exp.Type" id="expType"
-											required>
-											<option>...</option>
-											<option>CDI</option>
-											<option>CDD</option>
-											<option>Stage</option>
-											<option>Alternance</option>
-										</select>
 									</div>
 
-
-
-
-									<!-- Radio content -->
+									<!-- Liste des domaines -->
 									<div class="col-md-3 widget">
 										<label for="validationServer01">Domaine
 											<span class="text-danger"> *</span>
 										</label>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios" id="radios1"
-												value="Informatique" v-model="exp.Domain">
-											<label class="form-check-label" for="radios1">Informatique</label>
-										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios" id="radios2"
-												value="Mécatronique" v-model="exp.Domain">
-											<label class="form-check-label" for="radios2">Mécatronique</label>
-										</div>
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="radios" id="radios3"
-												value="Electronique" v-model="exp.Domain">
-											<label class="form-check-label" for="radios3">Electronique</label>
-										</div>
 
-
-
-
+                                        {% for domain in domains %}
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="radio" value="{{ domain.value}}" v-model="exp.Domain">
+                                                    {{ domain.label}}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
 									</div>
 
 									<!-- checkbox content -->
@@ -162,20 +161,16 @@
 
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
-										<label for="validationServer04">Durée
-											<span class="text-danger"> *</span>
+
+										<label>
+                                            Durée <span class="text-danger"> *</span>
+    										<select class="form-control custom-select is-invalid" v-model="exp.Duration" required>
+    											<option>...</option>
+                                                {% for value,label in durations.items() %}
+                                                  <option value="{{ value }}">{{ label }}</option>
+                                                {% endfor %}
+    										</select>
 										</label>
-										<select class="custom-select is-invalid" v-model="exp.Duration" id="expDuration"
-											required>
-											<option>...</option>
-											<option>1 mois</option>
-											<option>2 mois</option>
-											<option>3 mois</option>
-											<option>4 mois</option>
-											<option>5 mois</option>
-											<option>6 mois</option>
-											<option>+</option>
-										</select>
 									</div>
 								</div>
 
@@ -183,24 +178,24 @@
 								<label for="validationServer04">Contact</label>
 								<div class="row mb-3">
 									<div class="form col-md-6 widget">
-										<input type="text" v-model="exp.Contact.Nom" class="form-control"
+										<input type="text" v-model="contact.Nom" class="form-control"
 											placeholder="Nom" id="expContactName">
 										<br>
-										<input type="text" v-model="exp.Contact.Email" class="form-control"
+										<input type="text" v-model="contact.Email" class="form-control"
 											placeholder="Email" id="expContactEmail">
 									</div>
 									<!-- Addresse content -->
 									<div class="form col-md-6 widget">
-										<input type="text" v-model="exp.Contact.Prenom" class="form-control"
+										<input type="text" v-model="contact.Prenom" class="form-control"
 											placeholder="Prénom" id="expContactSurname">
 										<br>
-										<input type="text" v-model="exp.Contact.Telephone" class="form-control"
+										<input type="text" v-model="contact.Telephone" class="form-control"
 											placeholder="Téléphone" id="expContactPhone">
 									</div>
 									<!-- checkbox content -->
 									<div class="col-md-3 widget">
 										<label class="checkbox">
-											<input type="checkbox" v-model="exp.Enibien">Enibien ?</label>
+											<input type="checkbox" v-model="contact.Enibien">Enibien ?</label>
 									</div>
 								</div>
 
@@ -352,7 +347,6 @@
 
 	</footer>
 
-	<script type="text/javascript" src="{{url_for('static', filename='js/addexp.js')}}"></script>
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -364,6 +358,8 @@
 	<!-- Google Maps -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script>
 	<script src="{{url_for('static', filename='js/google-map.js')}}"></script>
+
+    <script type="text/javascript" src="{{url_for('static', filename='js/addexp.js')}}"></script>
 
 
 </body>
