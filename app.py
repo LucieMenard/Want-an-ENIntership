@@ -219,15 +219,16 @@ def tryPassword():
 
 #----- Experiences -----#
 #----- Add Exp -----#
-@app.route('/getExp', methods=['POST'])
+@app.route('/getExp/<id>', methods=['GET'])
 # Récupère une expérience à partir de son ID
-def getExp():
-    con = connexionDB()
-    cur = con.cursor()
-    id = request.form['id']
-    cur.execute(""" SELECT * FROM "Experience" WHERE "Experience".ident = %s""", (id,))
-    data = fetchToJson(cur.fetchall())
-    return Response(json.dumps(data[0]))
+def getExp(id):
+    return "Affichage exp " + id
+    # con = connexionDB()
+    # cur = con.cursor()
+    # id = request.form['id']
+    # cur.execute(""" SELECT * FROM "Experience" WHERE "Experience".ident = %s""", (id,))
+    # data = fetchToJson(cur.fetchall())
+    # return Response(json.dumps(data[0]))
 
 @app.route('/saveExp', methods=['POST'])
 # Sauvegarde une expérience et renvoie son ID récemment crée.
@@ -285,7 +286,7 @@ def saveExp():
     id = cur.fetchone()[0]
 
     #Retourne une réponse JSON 200 (=OK) contenant l'ID
-    return {'id':id}
+    return {'id':id, 'url':url_for('getExp', id=id)}
 
 #-- Contact --#
 @app.route('/getContact', methods=['POST'])
