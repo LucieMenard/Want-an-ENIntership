@@ -129,8 +129,8 @@ def signup():
 def profil(id):
     if 'user' in session:
         if session['user']==id:
-            print(id)
-            return render_template('profil.html')
+            #print(id)
+            return render_template('profil.html',id=session['user'])
         else:
             return redirect(url_for('profil', id=session['user']))
     else:
@@ -139,9 +139,9 @@ def profil(id):
 @app.route('/testConn')
 def testConn():
     if 'user' in session:
-        return redirect(url_for('profil', id=session['user']))
+        return render_template('profil.html', id=session['user'])
     else:
-        return redirect(url_for('signin'))
+        return render_template('signin.html')
 
 
 
@@ -222,11 +222,23 @@ def tryPassword():
 @app.route('/getExp/<id>', methods=['GET'])
 # Récupère une expérience à partir de son ID
 def getExp(id):
+    # Connexion à la base de données
+    try :
+        con = connexionDB()
+    except Exception as e :
+        # Renvoie d'une erreur 503 si la tentative de connexion
+        return "Impossible de se connecter à la BDD", 503 # HTTP status 503 = "Service unavailable"
+
+    # Récupère l'expérience depuis la BDD 
+    try :
+        cur = con.cursor()
+        cur.execute(""" SELECT * FROM "Experience" WHERE ident_exp = %s""", (id,))
+    except Exception as e :
+        return "Experience non trouvé : \n" + str(e), 503 # TODO : trouver le code erreur HTTP qui convient à la place du 503
+    
+    exp = cur.fetchone()
+    pprint(exp)
     return "Affichage exp " + id
-    # con = connexionDB()
-    # cur = con.cursor()
-    # id = request.form['id']
-    # cur.execute(""" SELECT * FROM "Experience" WHERE "Experience".ident = %s""", (id,))
     # data = fetchToJson(cur.fetchall())
     # return Response(json.dumps(data[0]))
 

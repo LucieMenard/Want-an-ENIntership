@@ -45,7 +45,22 @@
 					<!-- Il faut créer le fichier html derrière -->
 					<li><a href="recherche">Recherche</a></li>
 					<li><a href="addexp">Ajouter une expérience</a></li>
-					<li><a class="btn" href="/testConn"> <i class="fas fa-users"></i> Profil
+					<li>
+						<ul id="navigation">
+							{% for item in navigation %}
+								<li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+							{% endfor %}
+						</ul>
+
+						<a class="btn" href="/testConn"></a>
+						{% if id==0 %}
+						<i class="fas fa-users"></i> Profil
+						{% else %}
+						<a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a>
+						{% endif %}
+						</a>
+					</li>
+					<!-- <li><a class="btn" href="/testConn"> <i class="fas fa-users"></i> Profil -->
 					</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
