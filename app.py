@@ -114,6 +114,13 @@ def addexp():
 def contact():
     return render_template('contact.html')
 
+@app.route('/company/<int:id>')
+def company(id):
+    if 'user' in session: 
+        connect = True
+    else:
+        connect = False
+    return render_template('company.html',id = id, connected=connect)
 
 @app.route('/signin')
 def signin():
@@ -139,9 +146,9 @@ def profil(id):
 @app.route('/testConn')
 def testConn():
     if 'user' in session:
-        return render_template('profil.html', id=session['user'])
+        return redirect(url_for('profil', id=session['user']))
     else:
-        return render_template('signin.html')
+        return redirect(url_for('signin'))
 
 
 
@@ -300,6 +307,28 @@ def saveExp():
     #Retourne une réponse JSON 200 (=OK) contenant l'ID
     return {'id':id, 'url':url_for('getExp', id=id)}
 
+@app.route('/getAllExpesFromComp/<id>', methods=['GET'])
+def getAllExpesFromComp(id):
+    try :
+        con = connexionDB()
+    except Exception as e:
+        return "Impossible de se connecter à la BDD", 503 # HTTP status 503 = "Service unavailable"
+
+    try:
+        cur = con.cursor()
+        cur.execute(""" SELECT * FROM "Experience" WHERE "company"=%s """, (id, ))
+    except Exception as e:
+        return "Experience non trouvé : \n" + str(e), 503 # TODO : trouver le code erreur HTTP qui convient à la place du 503
+
+    expes = cur.fetchall()
+    expesConv = []
+    for e in expes:
+        a = convertJsonExpe(e)
+        expesConv.append(a)
+
+    return Response(json.dumps(expesConv))
+
+
 #-- Contact --#
 @app.route('/getContact', methods=['POST'])
 # Récupère un contact à partir de son ID
@@ -312,12 +341,38 @@ def getContact():
     con.close()
     return Response(json.dumps(data[0]))
 
+@app.route('/getContactFromComp/<id>', methods=['GET'])
+def getContactFromComp(id):
+    try :
+        con = connexionDB()
+    except Exception as e:
+        return "Impossible de se connecter à la BDD", 503 # HTTP status 503 = "Service unavailable"
+
+    try: 
+        cur = con.cursor()
+        cur.execute(""" SELECT DISTINCT "contact" FROM "Experience" WHERE "company"=%s """, (id,))
+        ids = cur.fetchall()
+    except Exception as e: 
+        return "Problème lors de la récupération :" + str(e), 503
+
+    contacts= []
+
+    for id in ids:
+        try:
+            cur.execute(""" SELECT * FROM "Contact" WHERE "id_contact"=%s""", (id,))
+            contact = convertJsonContact(cur.fetchone())
+        except Exception as e :
+            return "Problème lors de la réccupération : "+str(e), 503
+
+        contacts.append(contact)
+
+    return Response(json.dumps(contacts))
 
 @app.route('/saveContact', methods=['POST'])
 # Sauvegarde un contact
 def saveContact():
     contact = json.loads(request.form['newContact'])
-    pprint(contact)
+    print(contact)
     con = connexionDB()
     cur = con.cursor()
     cur.execute("""INSERT INTO "Contact"("last_Name", "first_Name", "phone_number", "mail_Contact", "enibien") VALUES (%s, %s, %s, %s, %s) RETURNING "ident"; """,
@@ -349,6 +404,36 @@ def saveEntreprise():
        'country': entreprise['Country']
     }
     
+@app.route('/getCompany', methods=['POST'])
+def getCompany():
+    try : 
+        con = connexionDB()
+    except Exception as e:
+        return 'Impossible de se connecter à la BDD \n'+str(e), 503
+
+    id = request.form['id']
+    
+    try :
+        cur = con.cursor()
+        cur.execute(""" SELECT * FROM "Entreprise" WHERE "id_entreprise"=%s """, (id,))
+        comp = cur.fetchone()
+        con.close()
+    except Exception as e:
+        return 'Impossible de fécupérer les données:  \n'+str(e), 503
+    
+    convertComp = {
+        'nom': comp[0],
+        'id':comp[1],
+        'adresse': comp[2],
+        'cp': comp[3],
+        'ville': comp[4],
+        'pays': comp[5],
+        'note': comp[6]
+    }
+    return convertComp
+
+
+
 
 #----- Connexion -----#
 
@@ -398,6 +483,36 @@ def fetchToJson(users):
         liste.append(x)
     return liste
 
+def convertJsonExpe(expe):
+    convertExpe = {
+        'id': expe[0],
+        'idUser': expe[1],
+        'debut':expe[2],
+        'fin':expe[3],
+        'duree':expe[4],
+        'payee': expe[5],
+        'domaine':expe[6],
+        'type': expe[7],
+        'idContact': expe[8],
+        'idEntreprise': expe[9],
+        'note': expe[10],
+        'description': expe[11],
+        'noteDD': expe[12]
+    }
+    convertExpe['debut']=convertExpe['debut'].isoformat()
+    convertExpe['fin']=convertExpe['fin'].isoformat()
+    return convertExpe
+
+def convertJsonContact(c):
+    convertContact = {
+        'nom': c[0],
+        'prenom': c[1],
+        'id':c[2],
+        'phone': c[3],
+        'mail':c[4],
+        'enibien': c[5]
+    }
+    return convertContact
 
 ########################
 #      DB Request      #
