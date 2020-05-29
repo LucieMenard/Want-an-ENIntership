@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Sergey Pozhilov (GetTemplate.com)">
+
+    <title>Want an ENIntership ?</title>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png')}}">
+
+    <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
+        integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+    <script>moment().format();</script>
+    <script src="https://kit.fontawesome.com/8846054c71.js" crossorigin="anonymous"></script>
+    <!-- Custom styles for our template -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.css')}}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+                <script src="assets/js/html5shiv.js"></script>
+                <script src="assets/js/respond.min.js"></script>
+                <![endif]-->
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <header id="head" class="secondary"></header>
+
+    <div id="app">
+        <div class="container">
+            <!-- Page principale-->
+            <br />
+            <div class="row">
+
+                <!-- Article main content -->
+                <article class="col-xs-12 maincontent">
+                    <div class="container">
+                        <div class="col-md-12 col-md-offset-0 col-sm-10 col-sm-offset-1">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <h3 class="thin text-center">Rechercher une entreprise :</h3>
+                                    <hr>
+                                    <!-- Formulaire content -->
+                                    <form>
+                                        <!-- Entreprise content -->
+                                        <div class="row mb-3">
+                                            <div class="col-md-6 widget">
+                                                <input id="filterName" type="text" class="form-control"
+                                                    placeholder="Entreprise">
+                                            </div>
+                                            <!-- Addresse content -->
+                                            <div class="col-md-3 widget">
+                                                <input id="filterCity" type="text" class="form-control"
+                                                    placeholder="Ville">
+                                            </div>
+                                            <div class="col-md-3 widget">
+                                                <input id="filterCountry" type="text" class="form-control"
+                                                    placeholder="Pays">
+                                            </div>
+                                        </div>
+                                </div>
+                                </form>
+                                <!-- Bouton content -->
+                                <button class="btn btn-primary btn-lg center-block" href="searchEntreprise"
+                                    type="submit">Rechercher</button>
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            </article>
+            <!-- /Article -->
+            <article class="col-xs-12 maincontent">
+                <header class="page-header">
+                    <h1 class="page-title">Liste d'entreprises</h1>
+                </header>
+
+
+                <article>
+                    {% for infoCompany in infoCompanies %}
+                    <ul class="list-group" id="nameList+cityList+countryList">
+                        <li>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <!-- <select id="companies" class="form-control custom-select is-invalid" v-model="exp.Company" required> -->
+                                    <!-- <ul class="list-group" id="nameList"> -->
+                                    <h4 value="{{ infoCompany[0] }}">{{ infoCompany[1] }}</h4>
+                                    <!-- </ul> -->
+                                    <!-- </select> -->
+                                </div>
+                                <div class="col-xs-4">
+                                    <!-- <select id="companies" class="form-control custom-select is-invalid" v-model="exp.Company" required> -->
+                                    <!-- <ul class="list-group" id="cityList"> -->
+                                    <!-- <li> -->
+                                    <h4 value="{{ infoCompany[0] }}">{{ infoCompany[2] }}</h4>
+                                    <!-- </li> -->
+                                    <!-- </ul> -->
+                                    <!-- </select> -->
+                                </div>
+                                <div class="col-xs-4">
+                                    <!-- <select id="companies" class="form-control custom-select is-invalid" v-model="exp.Company" required> -->
+                                    <!-- <ul class="list-group" id="countryList"> -->
+                                    <h4 value="{{ infoCompany[0] }}">{{ infoCompany[3] }}</h4>
+                                    <!-- </ul> -->
+                                    <!-- </select> -->
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    {% endfor %}
+
+                </article>
+        </div>
+        <br />
+    </div>
+    </article>
+    </div>
+    </div>
+
+    <footer id="footer" class="top-space">
+        {% include 'footer.html' %}
+    </footer>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/searchEntreprise.js')}}"></script>
+    <!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
+    <script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
+    <script src=" {{url_for('static', filename='js/template.js')}} "></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#filterName").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#nameList li").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+
+                });
+            });
+            $("#filterCity").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#cityList li").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+
+                });
+            });
+            $("#filterCountry").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#countryList li").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+
+
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

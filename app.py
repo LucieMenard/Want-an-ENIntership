@@ -13,6 +13,23 @@ app.secret_key='enib'
 # Par la suite, ces données pourraient être stockées dans la base de données,
 # Pour le moment on simplifie en les mettant içi
 ##############################################################################
+def getGrade():
+    return {
+        "1": "★",
+        "2": "★★",
+        "3": "★★★",
+        "4": "★★★★",
+        "5": "★★★★★"
+    }
+    
+def getQuestions():
+    return {
+        "q1": "Question 1",
+        "q2": "Question 2",
+        "q3": "Question 3",
+        "q4": "Question 4",
+        "q5": "Question 5"
+    }
 
 def getExperienceTypes():
     return {
@@ -63,16 +80,33 @@ def getAllCompanies():
     data = cur.fetchall()
     
     return data
+def getInfosCompanies():
+    try:
+        con = connexionDB()
+    except Exception :
+        return "Impossible de se connecter à la base de données", 503 # http status 503 = "Service unavailable"
+    
+    cur = con.cursor()
+    cur.execute(""" SELECT id_entreprise,name,city,country FROM "Entreprise" """)
+    data = cur.fetchall()
+    
+    return data
+
 
 
 def connexionDB():
-
-    ## BDD de test 
-    con = psycopg2.connect(database='bjiw069frhijwtxapwih',
-                           user='uo3wdoc8qcwuds1kkfoq',
-                           host='bjiw069frhijwtxapwih-postgresql.services.clever-cloud.com',
-                           password='SvJ4jdq7w3n7dMHiO2t6',
+    #BDD test Lucie local
+    con = psycopg2.connect(database='WAE test local',
+                           user='postgres',
+                           host='localhost',
+                           password='luciemenard',
                            port='5432')
+    ## BDD de test 
+    # con = psycopg2.connect(database='bjiw069frhijwtxapwih',
+    #                        user='uo3wdoc8qcwuds1kkfoq',
+    #                        host='bjiw069frhijwtxapwih-postgresql.services.clever-cloud.com',
+    #                        password='SvJ4jdq7w3n7dMHiO2t6',
+    #                        port='5432')
 
     ## BDD WAE        
     # con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
@@ -84,18 +118,34 @@ def connexionDB():
     
     return con
 
+def getCurrentUser():
+    #Renvoie l'id de l'user s'il y a un user dans la session sinon renvoie 0
+    return session['user'] if 'user' in session else 0
+
 ########################
 #      Routes URL      #
 ########################
 @app.route('/')
 def index():
-    return render_template('index.html')
-
+    return render_template(
+        'index.html',
+        id = getCurrentUser()
+    )
 
 @app.route('/recherche')
 def recherche():
-    return render_template('recherche.html')
+    return render_template(
+        'recherche.html',
+        id = getCurrentUser()
+    )
 
+@app.route('/searchEntreprise')
+def searchEntreprise():
+    return render_template(
+        'searchEntreprise.html',
+        infoCompanies=getInfosCompanies(),
+        id = getCurrentUser()
+    )
 
 @app.route('/addexp')
 def addexp():
@@ -107,7 +157,10 @@ def addexp():
         types=getExperienceTypes(),
         domains=getExperienceDomains(),
         durations=getExperienceDurations(),
-        companies=getAllCompanies()
+        companies=getAllCompanies(),
+        grades=getGrade(),
+        questions=getQuestions(),
+        id = getCurrentUser()
     )
 
 @app.route('/contact')
@@ -124,33 +177,25 @@ def company(id):
 
 @app.route('/signin')
 def signin():
-    return render_template('signin.html')
-
+    return render_template(
+        'signin.html',
+        id=getCurrentUser()
+    )
 
 @app.route('/signup')
 def signup():
-    return render_template('signup.html')
-
+    return render_template(
+        'signup.html',
+        id=getCurrentUser()
+    )
 
 @app.route('/profil/<int:id>')
 def profil(id):
-    if 'user' in session:
-        if session['user']==id:
-            #print(id)
-            return render_template('profil.html',id=session['user'])
-        else:
-            return redirect(url_for('profil', id=session['user']))
+    if session['user']==id:
+        #print(id)
+        return render_template('profil.html',id=getCurrentUser())
     else:
-        return redirect(url_for('signin'))
-
-@app.route('/testConn')
-def testConn():
-    if 'user' in session:
-        return redirect(url_for('profil', id=session['user']))
-    else:
-        return redirect(url_for('signin'))
-
-
+        return redirect(url_for('profil', id=getCurrentUser()))
 
 ########################
 #    Requêtes HTTP     #
@@ -229,6 +274,7 @@ def tryPassword():
 @app.route('/getExp/<id>', methods=['GET'])
 # Récupère une expérience à partir de son ID
 def getExp(id):
+    # TODO généraliser les tests aux autres fonctions
     # Connexion à la base de données
     try :
         con = connexionDB()
@@ -236,7 +282,7 @@ def getExp(id):
         # Renvoie d'une erreur 503 si la tentative de connexion
         return "Impossible de se connecter à la BDD", 503 # HTTP status 503 = "Service unavailable"
 
-    # Récupère l'expérience depuis la BDD 
+    # Récupère l'expérience depuis la BDD
     try :
         cur = con.cursor()
         cur.execute(""" SELECT * FROM "Experience" WHERE ident_exp = %s""", (id,))
@@ -306,6 +352,17 @@ def saveExp():
 
     #Retourne une réponse JSON 200 (=OK) contenant l'ID
     return {'id':id, 'url':url_for('getExp', id=id)}
+#-- Entreprise --#
+
+@app.route('/getEntreprise', methods=['POST'])
+def getEntreprise():
+    con = connexionDB()
+    cur = con.cursor()
+    id = request.form['id']
+    cur.execute(""" SELECT * FROM "Entreprise" WHERE "Entreprise".name = %s""", (name,))
+    data = fetchToJson(cur.fetchall())
+    con.close()
+    return Response(json.dumps(data[0]))
 
 @app.route('/getAllExpesFromComp/<id>', methods=['GET'])
 def getAllExpesFromComp(id):
