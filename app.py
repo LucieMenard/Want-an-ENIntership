@@ -320,15 +320,6 @@ def saveExp():
     return {'id':id, 'url':url_for('getExp', id=id)}
 #-- Entreprise --#
 
-@app.route('/getEntreprise', methods=['POST'])
-def getEntreprise():
-    con = connexionDB()
-    cur = con.cursor()
-    id = request.form['id']
-    cur.execute(""" SELECT * FROM "Entreprise" WHERE "Entreprise".name = %s""", (name,))
-    data = fetchToJson(cur.fetchall())
-    con.close()
-    return Response(json.dumps(data[0]))
 
 #-- Contact --#
 @app.route('/getContact', methods=['POST'])

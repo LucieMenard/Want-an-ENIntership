@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
                 <script src="assets/js/html5shiv.js"></script>
@@ -102,14 +103,14 @@
                                         <!-- Entreprise content -->
                                         <div class="row mb-3">
                                             <div class="col-md-6 widget">
-                                                <input id="filterName" type="text" class="form-control" placeholder="Entreprise">
+                                                <input id="filterName" onkeyup="myFunction()" type="text" class="form-control" placeholder="Entreprise">
                                             </div>
                                             <!-- Addresse content -->
                                             <div class="col-md-3 widget">
-                                                <input id="filterCity" type="text" class="form-control" placeholder="Ville">
+                                                <input id="filterCity" onkeyup="myFunction()" type="text" class="form-control" placeholder="Ville">
                                             </div>
                                             <div class="col-md-3 widget">
-                                                <input id="filterCountry" type="text" class="form-control" placeholder="Pays">
+                                                <input id="filterCountry" onkeyup="myFunction()" type="text" class="form-control" placeholder="Pays">
                                             </div>
                                         </div>
                                 </div>
@@ -131,37 +132,38 @@
 
 
                 <article>
-                    {% for infoCompany in infoCompanies %}
-                    <ul class="list-group" id="nameList+cityList+countryList">                
-                        <li>
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <!-- <select id="companies" class="form-control custom-select is-invalid" v-model="exp.Company" required> -->
-                                    <!-- <ul class="list-group" id="nameList"> -->
-                                    <h4 value="{{ infoCompany[0] }}">{{ infoCompany[1] }}</h4>
-                                    <!-- </ul> -->
-                                    <!-- </select> -->
-                                </div>
-                                <div class="col-xs-4">
-                                    <!-- <select id="companies" class="form-control custom-select is-invalid" v-model="exp.Company" required> -->
-                                    <!-- <ul class="list-group" id="cityList"> -->
-                                        <!-- <li> -->
-                                    <h4 value="{{ infoCompany[0] }}">{{ infoCompany[2] }}</h4>
-                                        <!-- </li> -->
-                                    <!-- </ul> -->
-                                    <!-- </select> -->
-                                </div>
-                                <div class="col-xs-4">
-                                    <!-- <select id="companies" class="form-control custom-select is-invalid" v-model="exp.Company" required> -->
-                                    <!-- <ul class="list-group" id="countryList"> -->
-                                    <h4 value="{{ infoCompany[0] }}">{{ infoCompany[3] }}</h4>
-                                    <!-- </ul> -->
-                                    <!-- </select> -->
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    {% endfor %}
+                    
+                    <table id="infoCompanies" class="table">
+                        <tr class="header">
+                            <th scope="col">
+                                <h3>Entreprise</h3>
+                            </th>
+                            <th scope="col">
+                                <h3>Ville</h3>
+                            </th>
+                            <th scope="col">
+                                <h3>Pays</h3>
+                            </th>
+                        </tr>
+                        
+                        {% for infoCompany in infoCompanies %}
+                        
+                        <tr >
+                            <td>
+                                <h4>{{infoCompany[1]}}</h4>
+                            </td>
+                            <td>
+                                <h4>{{infoCompany[2]}}</h4>
+                            </td>
+                            <td>
+                                <h4>{{infoCompany[3]}}</h4>
+                            </td>
+                        </tr>
+                        
+                        {% endfor %}
+                        
+
+                    </table>
 
                 </article>
         </div>
@@ -248,34 +250,9 @@
     <script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
     <script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
     <script src=" {{url_for('static', filename='js/template.js')}} "></script>
-    <script>
-        
-        $(document).ready(function () {
-            $("#filterName").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#nameList li").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        
-                });
-            });
-            $("#filterCity").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#cityList li").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        
-                });
-            });
-            $("#filterCountry").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#countryList li").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    
-        
-                });
-            });
-        });
-        
-    </script>
+    
+    
+
 </body>
 
 </html>
