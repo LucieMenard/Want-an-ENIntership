@@ -134,15 +134,18 @@ def index():
 
 @app.route('/recherche')
 def recherche():
-    return render_template('recherche.html')
+    return render_template(
+        'recherche.html',
+        id = getCurrentUser()
+    )
 
 @app.route('/searchEntreprise')
 def searchEntreprise():
     return render_template(
         'searchEntreprise.html',
-        infoCompanies=getInfosCompanies()
+        infoCompanies=getInfosCompanies(),
+        id = getCurrentUser()
     )
-
 
 @app.route('/addexp')
 def addexp():
@@ -156,7 +159,8 @@ def addexp():
         durations=getExperienceDurations(),
         companies=getAllCompanies(),
         grades=getGrade(),
-        questions=getQuestions()
+        questions=getQuestions(),
+        id = getCurrentUser()
     )
 
 @app.route('/contact')
@@ -166,31 +170,25 @@ def contact():
 
 @app.route('/signin')
 def signin():
-    return render_template('signin.html')
+    return render_template(
+        'signin.html',
+        id=getCurrentUser()
+    )
 
 @app.route('/signup')
 def signup():
-    return render_template('signup.html')
+    return render_template(
+        'signup.html',
+        id=getCurrentUser()
+    )
 
 @app.route('/profil/<int:id>')
 def profil(id):
-    if 'user' in session:
-        if session['user']==id:
-            #print(id)
-            return render_template('profil.html',id=session['user'])
-        else:
-            return redirect(url_for('profil', id=session['user']))
+    if session['user']==id:
+        #print(id)
+        return render_template('profil.html',id=getCurrentUser())
     else:
-        return redirect(url_for('signin'))
-
-@app.route('/testConn')
-def testConn():
-    if 'user' in session:
-        return redirect(url_for('profil', id=session['user']))
-    else:
-        return redirect(url_for('signin'))
-
-
+        return redirect(url_for('profil', id=getCurrentUser()))
 
 ########################
 #    Requêtes HTTP     #

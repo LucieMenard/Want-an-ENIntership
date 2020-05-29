@@ -8,20 +8,18 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav pull-right">
-                <li class="active"><a href="/">NAVBAR OK / id = {{ id }}</a></li>
-                <li class="active"><a href="/">Accueil</a></li>
-                <!-- TODO faire l'heritage de page HTML -->
-                <li><a href="recherche">Recherche</a></li>
-                <li><a href="addexp">Ajouter une expérience</a></li>
-                <li>
-                    <!-- WHAT IS THAT ?  -->
-                    <ul id="navigation">
-                        {% for item in navigation %}
-                            <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
-                        {% endfor %}
+                <li><a href="/">Accueil</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">Rechercher
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="recherche">Expérience</a></li>
+                        <li><a href="searchEntreprise">Entreprise</a></li>
                     </ul>
-
-                    <!-- <a class="btn" href="/testConn"></a> -->
+                </li>
+                <li><a href="/addexp">Ajouter une expérience</a></li>
+                <li>
                     {% if id %}
                         <a class="btn" href="profil/{{ id }}">
                             <i class="fas fa-users"></i> Profil
