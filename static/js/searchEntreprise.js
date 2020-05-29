@@ -19,7 +19,9 @@ function myFunction() {
             txtValueName = tdName.textContent || tdName.innerText;
             txtValueCity = tdCity.textContent || tdCity.innerText;
             txtValueCountry = tdCountry.textContent || tdCountry.innerText;
-            if (txtValueName.toUpperCase().indexOf(filterName) > -1 && txtValueCity.toUpperCase().indexOf(filterCity) > -1 && txtValueCountry.toUpperCase().indexOf(filterCountry) > -1) {
+            if (txtValueName.toUpperCase().indexOf(filterName) > -1 
+            && txtValueCity.toUpperCase().indexOf(filterCity) > -1 
+            && txtValueCountry.toUpperCase().indexOf(filterCountry) > -1) {
                 tr[i].style.display = "";
             } else {
                 tr[i].style.display = "none";

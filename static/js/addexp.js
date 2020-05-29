@@ -39,6 +39,7 @@ var vm = new Vue({
     },
 
     methods: {
+        // Entreprise
         openModalEntreprise: function () {
             this.err = [];
             this.entreprise = new Entreprise();
@@ -63,6 +64,22 @@ var vm = new Vue({
                 console.log("Problem");
             }
         },
+        // Formulaire
+        openModalFormulaire: function () {
+            this.err = [];
+            this.entreprise = new Entreprise();
+            $('#modifModalFormulaire').modal({
+                show: true,
+                backdrop: false,
+            });
+            console.log('Test');
+
+        },
+        closeModalFormulaire: function () {
+            this.err = [];
+            $('#modifModalFormulaire').modal('hide');
+        },
+        
         validate: function () {
             //Regular expression of an email
             let regMail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -130,6 +147,10 @@ var vm = new Vue({
                 })
             }
 
+        },
+        submitFormulaire: function() {
+            // TODO Faire l'enregistrement et la note 
+            this.closeModalFormulaire();
         }
     }
 })

@@ -28,36 +28,7 @@
 </head>
 
 <body>
-	<!-- Fixed navbar -->
-	<div class="navbar navbar-inverse navbar-fixed-top headroom">
-		<div class="container">
-			<div class="navbar-header">
-				<!-- Button for smallest screens -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<a class="navbar-brand" href="/"><img src="{{url_for('static', filename='images/logo.png')}}"
-						alt="Progressus HTML5 template"></a>
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav pull-right">
-					<li><a href="/">Accueil</a></li>
-					<!-- Il faut créer le fichier html derrière -->
-					<li class="dropdown">
-						<a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">Rechercher <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="recherche">Expérience</a></li>
-							<li><a href="searchEntreprise">Entreprise</a></li>
-						</ul>
-					</li>
-					<li><a href="addexp">Ajouter une expérience</a></li>
-					<li><a class="btn" href="/testConn"> <i class="fas fa-users"></i> Profil
-					</a></li>				
-				</ul>
-			</div>
-			<!--/.nav-collapse -->
-		</div>
-	</div>
-	<!-- /.navbar -->
+	{% include 'navbar.html' %}
 
 	<header id="head" class="secondary"></header>
 
@@ -102,20 +73,20 @@
 										<!-- Radio content -->
 										<div class="col-md-3 widget">
 											<label for="validationServer01">Domaine</label>
-											<div class="form-check">
+											<div class="form-check" >
 												<input class="form-check-input" type="radio" name="radios"
-													id="radioDomaine" value="Informatique">
-												<label class="form-check-label" for="radioDomaine">Informatique</label>
+													id="filterDomain" onkeyup="myFunction()" value="Informatique">
+												<label class="form-check-label" for="filterDomain">Informatique</label>
 											</div>
 											<div class="form-check">
 												<input class="form-check-input" type="radio" name="radios"
-													id="radioDomaine" value="Electronique">
-												<label class="form-check-label" for="radioDomaine">Electronique</label>
+													id="filterDomain" onkeyup="myFunction()" value="Electronique">
+												<label class="form-check-label" for="filterDomain">Electronique</label>
 											</div>
 											<div class="form-check">
 												<input class="form-check-input" type="radio" name="radios"
-													id="radioDomaine" value="Mécatronique">
-												<label class="form-check-label" for="radioDomaine">Mécatronique</label>
+													id="filterDomain" onkeyup="myFunction()" value="Mécatronique">
+												<label class="form-check-label" for="filterDomain">Mécatronique</label>
 											</div>
 										</div>
 
@@ -170,73 +141,60 @@
 					</div>
 				</div>
 			</article><!-- /Article -->
+			<article class="col-xs-12 maincontent">
+					<header class="page-header">
+						<h1 class="page-title">Liste des expériences</h1>
+					</header>
+	
+	
+					<article>
+						
+						<table id="infoExp" class="table">
+							<tr class="header">
+								<th scope="col">
+									<h3>Type</h3>
+								</th>
+								<th scope="col">
+									<h3>Domaine</h3>
+								</th>
+								<th scope="col">
+									<h3>Rémunéré ?</h3>
+								</th>
+								<th scope="col">
+									<h3>Durée</h3>
+								</th>
+							</tr>
+							
+							{% for infoExperiences in infoExp %}
+							
+							<tr >
+								<td>
+									<h4>{{infoExperiences[1]}}</h4>
+								</td>
+								<td>
+									<h4>{{infoExperiences[2]}}</h4>
+								</td>
+								<td>
+									<h4>{{infoExperiences[3]}}</h4>
+								</td>
+								<td>
+									<h4>{{infoExperiences[4]}}</h4>
+								</td>
+							</tr>
+							
+							{% endfor %}
+							
+	
+						</table>
+
+			</article>
 	</div> <!-- /container -->
 
 
 	<footer id="footer" class="top-space">
-
-		<div class="footer1">
-			<div class="container">
-				<div class="row">
-					
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Contact</h3>
-						<div class="widget-body">
-							Participants au projet :<br>
-							<br>
-							Antoine Martet a6martet@enib.fr<br>
-							Thomas Mazéas t7mazeas@enib.fr<br>
-							Lucie Ménard l7menard@enib.fr<br>
-							<br>
-							Projet réalisé dans le cadre du cours de conduite de projet en S6 à l'ENIB.
-							</p>	
-						</div>
-					</div>
-
-					<div class="col-md-6 widget">
-						<h3 class="widget-title">Presentation</h3>
-						<div class="widget-body">
-							<p>Want An ENIntership is a school project to make a visualisation to the Enib contact. That could be useful to find a stage or an experience. We are three to work on it : Antoine Marter, Thomas Mazéas and Lucie Ménard. Enjoy your project !</p>
-						</div>
-					</div>
-
-				</div> <!-- /row of widgets -->
-			</div>
-		</div>
-
-		<div class="footer2">
-			<div class="container">
-				<div class="row">
-					
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="simplenav">
-								<a href="/">Accueil</a> | 
-								<a href="recherche">Recherche</a> |
-								<a href="signin">Se connecter</a> |
-								<a href="signup">S'inscrire</a>
-							</p>
-						</div>
-					</div>
-
-					<div class="col-md-6 widget">
-						<div class="widget-body">
-							<p class="text-right">
-								Copyright &copy; 2014, Antoine Martet, Thomas Mazéas et Lucie Ménard. Designed by <a href="http://gettemplate.com/" rel="designer">gettemplate</a> 
-							</p>
-						</div>
-					</div>
-
-				</div> <!-- /row of widgets -->
-			</div>
-		</div>
-
+		{% include 'footer.html' %}
 	</footer>	
-
-
-
-
-
+	<script type="text/javascript" src="{{url_for('static', filename='js/recherche.js')}}"></script>
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
