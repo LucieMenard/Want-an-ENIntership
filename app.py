@@ -63,6 +63,18 @@ def getAllCompanies():
     data = cur.fetchall()
     
     return data
+def getInfosCompanies():
+    try:
+        con = connexionDB()
+    except Exception :
+        return "Impossible de se connecter à la base de données", 503 # http status 503 = "Service unavailable"
+    
+    cur = con.cursor()
+    cur.execute(""" SELECT id_entreprise,name,city,country FROM "Entreprise" """)
+    data = cur.fetchall()
+    
+    return data
+
 
 
 def connexionDB():
@@ -95,6 +107,13 @@ def index():
 @app.route('/recherche')
 def recherche():
     return render_template('recherche.html')
+
+@app.route('/searchEntreprise')
+def searchEntreprise():
+    return render_template(
+        'searchEntreprise.html',
+        infoCompanies=getInfosCompanies()
+    )
 
 
 @app.route('/addexp')
@@ -299,6 +318,17 @@ def saveExp():
 
     #Retourne une réponse JSON 200 (=OK) contenant l'ID
     return {'id':id, 'url':url_for('getExp', id=id)}
+#-- Entreprise --#
+
+@app.route('/getEntreprise', methods=['POST'])
+def getEntreprise():
+    con = connexionDB()
+    cur = con.cursor()
+    id = request.form['id']
+    cur.execute(""" SELECT * FROM "Entreprise" WHERE "Entreprise".name = %s""", (name,))
+    data = fetchToJson(cur.fetchall())
+    con.close()
+    return Response(json.dumps(data[0]))
 
 #-- Contact --#
 @app.route('/getContact', methods=['POST'])
