@@ -13,6 +13,23 @@ app.secret_key='enib'
 # Par la suite, ces données pourraient être stockées dans la base de données,
 # Pour le moment on simplifie en les mettant içi
 ##############################################################################
+def getGrade():
+    return {
+        "1": "★",
+        "2": "★★",
+        "3": "★★★",
+        "4": "★★★★",
+        "5": "★★★★★"
+    }
+    
+def getQuestions():
+    return {
+        "q1": "Question 1",
+        "q2": "Question 2",
+        "q3": "Question 3",
+        "q4": "Question 4",
+        "q5": "Question 5"
+    }
 
 def getExperienceTypes():
     return {
@@ -66,13 +83,18 @@ def getAllCompanies():
 
 
 def connexionDB():
-
-    ## BDD de test 
-    con = psycopg2.connect(database='bjiw069frhijwtxapwih',
-                           user='uo3wdoc8qcwuds1kkfoq',
-                           host='bjiw069frhijwtxapwih-postgresql.services.clever-cloud.com',
-                           password='SvJ4jdq7w3n7dMHiO2t6',
+    #BDD test Lucie local
+    con = psycopg2.connect(database='WAE test local',
+                           user='postgres',
+                           host='localhost',
+                           password='luciemenard',
                            port='5432')
+    ## BDD de test 
+    # con = psycopg2.connect(database='bjiw069frhijwtxapwih',
+    #                        user='uo3wdoc8qcwuds1kkfoq',
+    #                        host='bjiw069frhijwtxapwih-postgresql.services.clever-cloud.com',
+    #                        password='SvJ4jdq7w3n7dMHiO2t6',
+    #                        port='5432')
 
     ## BDD WAE        
     # con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
@@ -84,13 +106,19 @@ def connexionDB():
     
     return con
 
+def getCurrentUser():
+    #Renvoie l'id de l'user s'il y a un user dans la session sinon renvoie 0
+    return session['user'] if 'user' in session else 0
+
 ########################
 #      Routes URL      #
 ########################
 @app.route('/')
 def index():
-    return render_template('index.html')
-
+    return render_template(
+        'index.html',
+        id = getCurrentUser()
+    )
 
 @app.route('/recherche')
 def recherche():
@@ -107,7 +135,9 @@ def addexp():
         types=getExperienceTypes(),
         domains=getExperienceDomains(),
         durations=getExperienceDurations(),
-        companies=getAllCompanies()
+        companies=getAllCompanies(),
+        grades=getGrade(),
+        questions=getQuestions()
     )
 
 @app.route('/contact')
@@ -119,11 +149,9 @@ def contact():
 def signin():
     return render_template('signin.html')
 
-
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
-
 
 @app.route('/profil/<int:id>')
 def profil(id):
@@ -139,9 +167,9 @@ def profil(id):
 @app.route('/testConn')
 def testConn():
     if 'user' in session:
-        return render_template('profil.html', id=session['user'])
+        return redirect(url_for('profil', id=session['user']))
     else:
-        return render_template('signin.html')
+        return redirect(url_for('signin'))
 
 
 
@@ -222,6 +250,7 @@ def tryPassword():
 @app.route('/getExp/<id>', methods=['GET'])
 # Récupère une expérience à partir de son ID
 def getExp(id):
+    # TODO généraliser les tests aux autres fonctions
     # Connexion à la base de données
     try :
         con = connexionDB()
@@ -229,7 +258,7 @@ def getExp(id):
         # Renvoie d'une erreur 503 si la tentative de connexion
         return "Impossible de se connecter à la BDD", 503 # HTTP status 503 = "Service unavailable"
 
-    # Récupère l'expérience depuis la BDD 
+    # Récupère l'expérience depuis la BDD
     try :
         cur = con.cursor()
         cur.execute(""" SELECT * FROM "Experience" WHERE ident_exp = %s""", (id,))
