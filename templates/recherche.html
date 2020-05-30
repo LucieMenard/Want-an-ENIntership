@@ -73,20 +73,20 @@
 										<!-- Radio content -->
 										<div class="col-md-3 widget">
 											<label for="validationServer01">Domaine</label>
-											<div class="form-check">
+											<div class="form-check" >
 												<input class="form-check-input" type="radio" name="radios"
-													id="radioDomaine" value="Informatique">
-												<label class="form-check-label" for="radioDomaine">Informatique</label>
+													id="filterDomain" onkeyup="myFunction()" value="Informatique">
+												<label class="form-check-label" for="filterDomain">Informatique</label>
 											</div>
 											<div class="form-check">
 												<input class="form-check-input" type="radio" name="radios"
-													id="radioDomaine" value="Electronique">
-												<label class="form-check-label" for="radioDomaine">Electronique</label>
+													id="filterDomain" onkeyup="myFunction()" value="Electronique">
+												<label class="form-check-label" for="filterDomain">Electronique</label>
 											</div>
 											<div class="form-check">
 												<input class="form-check-input" type="radio" name="radios"
-													id="radioDomaine" value="Mécatronique">
-												<label class="form-check-label" for="radioDomaine">Mécatronique</label>
+													id="filterDomain" onkeyup="myFunction()" value="Mécatronique">
+												<label class="form-check-label" for="filterDomain">Mécatronique</label>
 											</div>
 										</div>
 
@@ -141,13 +141,60 @@
 					</div>
 				</div>
 			</article><!-- /Article -->
+			<article class="col-xs-12 maincontent">
+					<header class="page-header">
+						<h1 class="page-title">Liste des expériences</h1>
+					</header>
+	
+	
+					<article>
+						
+						<table id="infoExp" class="table">
+							<tr class="header">
+								<th scope="col">
+									<h3>Type</h3>
+								</th>
+								<th scope="col">
+									<h3>Domaine</h3>
+								</th>
+								<th scope="col">
+									<h3>Rémunéré ?</h3>
+								</th>
+								<th scope="col">
+									<h3>Durée</h3>
+								</th>
+							</tr>
+							
+							{% for infoExperiences in infoExp %}
+							
+							<tr >
+								<td>
+									<h4>{{infoExperiences[1]}}</h4>
+								</td>
+								<td>
+									<h4>{{infoExperiences[2]}}</h4>
+								</td>
+								<td>
+									<h4>{{infoExperiences[3]}}</h4>
+								</td>
+								<td>
+									<h4>{{infoExperiences[4]}}</h4>
+								</td>
+							</tr>
+							
+							{% endfor %}
+							
+	
+						</table>
+
+			</article>
 	</div> <!-- /container -->
 
 
 	<footer id="footer" class="top-space">
 		{% include 'footer.html' %}
 	</footer>	
-
+	<script type="text/javascript" src="{{url_for('static', filename='js/recherche.js')}}"></script>
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
