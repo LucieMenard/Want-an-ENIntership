@@ -92,8 +92,6 @@ def getInfosCompanies():
     
     return data
 
-
-
 def connexionDB():
     #BDD test Lucie local
     con = psycopg2.connect(database='WAE test local',
@@ -261,7 +259,6 @@ def tryPassword():
     else:
         return 'False'
     
-
 #----- Experiences -----#
 #----- Add Exp -----#
 @app.route('/getExp/<id>', methods=['GET'])
@@ -294,7 +291,7 @@ def saveExp():
     # Vérification de la session
     if 'user' not in session : 
         return "Accès interdit !", 401 # HTTP status 401 = "Authentification necessaire"
-        
+
     # Connexion à la base de données
     try :
         con = connexionDB()
@@ -307,7 +304,7 @@ def saveExp():
 
     # Recupération des données d'expérience saisies dans le formulaire
     exp = json.loads(request.form['newExp'])
-
+    #return request.form['newExp'],503
     # Valide les données transmises, génère une erreur si tout n'est pas ok (-> TODO)
     # if !validate(exp):
     #    return "données incorrectes", 400
@@ -329,6 +326,12 @@ def saveExp():
     #Récupération de l'ID de l'utilisateur
     ident = session['user']
 
+    # Calcul de la note du stage donné par l'user
+    
+    # temp = int(exp['Grade']['q1'])
+    # grade= (temp*100/5 ) * 20
+    # print("grade =",grade)
+
     #Enregistrement des données dans la table Experience de la BDD 
     try :
         #Création du curseur pour faire les requetes SQL
@@ -345,17 +348,6 @@ def saveExp():
 
     #Retourne une réponse JSON 200 (=OK) contenant l'ID
     return {'id':id, 'url':url_for('getExp', id=id)}
-#-- Entreprise --#
-
-@app.route('/getEntreprise', methods=['POST'])
-def getEntreprise():
-    con = connexionDB()
-    cur = con.cursor()
-    id = request.form['id']
-    cur.execute(""" SELECT * FROM "Entreprise" WHERE "Entreprise".name = %s""", (name,))
-    data = fetchToJson(cur.fetchall())
-    con.close()
-    return Response(json.dumps(data[0]))
 
 #-- Contact --#
 @app.route('/getContact', methods=['POST'])
