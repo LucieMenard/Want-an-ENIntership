@@ -106,12 +106,13 @@ def getInfosExp():
 
 
 def connexionDB():
-    #BDD test Lucie local
+    # #BDD test Lucie local
     # con = psycopg2.connect(database='WAE test local',
     #                        user='postgres',
     #                        host='localhost',
     #                        password='luciemenard',
     #                        port='5432')
+    
     # BDD de test 
     con = psycopg2.connect(database='bjiw069frhijwtxapwih',
                            user='uo3wdoc8qcwuds1kkfoq',
