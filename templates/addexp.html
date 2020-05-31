@@ -49,15 +49,12 @@
 							<hr>
 							<!-- Formulaire content -->
 							<form class="needs-validation" novalidate>
-								<!-- DM -->
-								<p v-if="err.length">
-									<b>Please correct the following error(s):</b>
-									<ul style="color: #fff; background-color: #e00">
-										<li v-for="e in err">
-											<pre>[[e]]</pre>
-										</li>
-									</ul>
-								</p>
+                                <p v-if="err.length">
+                                    <b>Please correct the following error(s):</b>
+                                    <ul style="color: #fff; background-color: #e00">
+                                      <li v-for="e in err"><pre>[[e]]</pre></li>
+                                    </ul>
+                                </p>
 
 								<!-- Entreprise content -->
 								<div class="row">
@@ -121,7 +118,6 @@
 
 									<!-- Form control content -->
 									<div class="col-md-3 widget">
-
 										<label>
 											Durée
 											<span class="text-danger"> *</span>
@@ -161,7 +157,6 @@
 						</div>
 						<!-- Bouton content -->
 						<br>
-						<!-- TODO ajouter le formulaire d'évaluation de l'exp -->
 						<button class="btn btn-primary center-block" v-on:click="openModalFormulaire" type="submit">Ajouter mon
 							expérience</button>
 						<br>
@@ -185,18 +180,14 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-xs-12">
-									<label>Nom de l'entreprise
-										<span class="text-danger"> *</span>
-									</label>
+									<label>Nom de l'entreprise</label>
 									<input type="text" v-model="entreprise.Name" class="form-control">
 								</div>
 							</div>
 							<br />
 							<div class="row">
 								<div class="col-xs-12">
-									<label>Adresse
-										<span class="text-danger"> *</span>
-									</label>
+									<label>Adresse</label>
 									<input type="text" v-model="entreprise.Address" class="form-control">
 								</div>
 							</div>
@@ -230,7 +221,7 @@
 				</div>
 			</div>
 		</div> 
-		<!-- Modal Formulaire -->
+		<!-- Modal Formulaire Grade-->
 		<div class="modal fade" id="modifModalFormulaire" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -238,6 +229,12 @@
 						<h3 class="modal-title" id="exampleModalLabel">Formulaire d'évaluation de l'expérience</h3>
 					</div>
 					<div class="modal-body">
+						<p v-if="err.length">
+							<b>Please correct the following error(s):</b>
+							<ul style="color: #fff; background-color: #e00">
+							  <li v-for="e in err"><pre>[[e]]</pre></li>
+							</ul>
+						</p>
 						<!-- Liste des questions -->
 						{% for valueQuestion,labelQuestion in questions.items() %}
 							<div class="form-group col-md-12">
@@ -245,7 +242,7 @@
 								<div class="form-check form-check-inline">
 									{% for valueGrade,labelGrade in grades.items() %}
 										<label class="mx-4">
-											<input name="{{ valueQuestion }}" class="form-check-input" type="radio" value="{{ valueGrade }}">
+											<input name="{{ valueQuestion }}" v-model="grade.{{ valueQuestion }}" class="form-check-input" type="radio" value="{{ valueGrade }}">
 											{{ labelGrade }}
 										</label>
 									{% endfor %}
@@ -256,18 +253,14 @@
 					<div class="modal-footer text-center">
 						<div class="btn-group" role="group" aria-label="Basic example">
 							<button type="button" class="btn btn-secondary center-block" v-on:click="closeModalFormulaire">Annuler</button>
-							<button type="button" class="btn btn-primary center-block"   v-on:click="submitFormulaire">Sauvegarder</button>
+							<button type="button" class="btn btn-primary center-block"   v-on:click="submit">Sauvegarder</button>
 						</div>
-						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<!-- /container -->
-
-
-
 
 	<footer id="footer" class="top-space">
 		{% include 'footer.html' %}

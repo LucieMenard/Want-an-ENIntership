@@ -9,6 +9,13 @@ function Exp() {
     this.FeelGrade = 0
     this.Description = ""
 }
+function Grade() {
+    this.q1 = ""
+    this.q2 = ""
+    this.q3 = ""
+    this.q4 = ""
+    this.q5 = ""
+}
 function Entreprise() {
     this.Name = ""
     this.idEntreprise = 0
@@ -34,6 +41,7 @@ var vm = new Vue({
         entreprise: new Entreprise(),
         contact: new Contact(),
         tempoExp: new Object(),
+        grade: new Grade(),
         confirmPassword: "",
         err: []
     },
@@ -48,7 +56,6 @@ var vm = new Vue({
                 backdrop: false,
             });
             console.log('Test');
-
         },
         closeModalEntreprise: function () {
             this.err = [];
@@ -66,17 +73,16 @@ var vm = new Vue({
         },
         // Formulaire
         openModalFormulaire: function () {
-            this.err = [];
-            this.entreprise = new Entreprise();
-            $('#modifModalFormulaire').modal({
-                show: true,
-                backdrop: false,
-            });
-            console.log('Test');
-
+            this.err=[];
+            this.validate();
+            if (this.err.length == 0) {
+                $('#modifModalFormulaire').modal({
+                    show: true,
+                    backdrop: false,
+                });
+            }
         },
         closeModalFormulaire: function () {
-            this.err = [];
             $('#modifModalFormulaire').modal('hide');
         },
         
@@ -95,10 +101,15 @@ var vm = new Vue({
                 this.err.push('Tous les champs sont obligatoires');
             }
         },
+        validateFormulaire : function() {
+            if (!this.exp.Grade.q1 || !this.exp.Grade.q2 || !this.exp.Grade.q3 || !this.exp.Grade.q4 || !this.exp.Grade.q5 ) {
+                this.err.push('Les questions sont obligatoires.');
+            }
+        },
 
         submit: function () {
             this.err = [];
-            this.validate();
+            // this.validateFormulaire();
             if (this.err.length == 0) {
                 $.ajax({
                     url: '/saveExp',
@@ -147,10 +158,6 @@ var vm = new Vue({
                 })
             }
 
-        },
-        submitFormulaire: function() {
-            // TODO Faire l'enregistrement et la note 
-            this.closeModalFormulaire();
         }
     }
 })
