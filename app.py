@@ -1,11 +1,13 @@
 import psycopg2
 import json
 import datetime
+import geocoder
 from flask import Flask, jsonify, render_template, request, Response, redirect, url_for, session
 from pprint import pprint
 
 app = Flask(__name__)
 app.secret_key='enib'
+
 
 ##############################################################################
 # Tables de référence
@@ -80,6 +82,7 @@ def getAllCompanies():
     data = cur.fetchall()
     
     return data
+@app.route('/getInfosCompanies', methods=['GET'])
 def getInfosCompanies():
     try:
         con = connexionDB()
@@ -87,7 +90,7 @@ def getInfosCompanies():
         return "Impossible de se connecter à la base de données", 503 # http status 503 = "Service unavailable"
     
     cur = con.cursor()
-    cur.execute(""" SELECT id_entreprise,name,city,country FROM "Entreprise" """)
+    cur.execute(""" SELECT id_entreprise,name,city,country,latitude, longitude FROM "Entreprise" """)
     data = cur.fetchall()
     
     return data
@@ -455,8 +458,20 @@ def saveEntreprise():
     test = cur.fetchone()[0]
     if (test>0):
         return 'False'
-    cur.execute("""INSERT INTO "Entreprise"("name", "address", "postal_code", "city", "country", "grade") VALUES (%s,%s,%s,%s,%s,%s) RETURNING "id_entreprise";""",
-                (entreprise['Name'],entreprise['Address'],entreprise['Postal_Code'],entreprise['City'],entreprise['Country'],0))
+    
+    print(''+entreprise['Address']+', '+entreprise['Postal_Code']+', '+entreprise['Country'])
+    g = geocoder.osm(''+entreprise['Address']+','+entreprise['Postal_Code']+','+entreprise['Country'])
+
+    print(type(g.osm['x']))
+
+    if g.osm['addr:postal']!=entreprise['Postal_Code']:
+        #TODO : Renvoyer une erreur demandant de vérifier l'adresse
+        return 'Adresse Fausse'
+
+
+
+    cur.execute("""INSERT INTO "Entreprise"("name", "address", "postal_code", "city", "country", "grade", "latitude", "longitude") VALUES (%s,%s,%s,%s,%s,%s,%s,%s) RETURNING "id_entreprise";""",
+                (entreprise['Name'],entreprise['Address'],entreprise['Postal_Code'],entreprise['City'],entreprise['Country'],0, g.osm['x'], g.osm['y']))
     a = cur.fetchone()[0]
     con.commit()
     return {
