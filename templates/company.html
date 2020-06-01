@@ -21,11 +21,6 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
 	<script src="https://kit.fontawesome.com/8846054c71.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-	<script src="assets/js/html5shiv.js"></script>
-	<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
 
 </head>
 
@@ -45,11 +40,11 @@
 					<div class="row">
 						<div class="col-md-offset-2 col-md-8">
 							<div class="row">
-								<div class="col-md-5">
+								<div class="col-sm-5">
 									<i class="fas fa-home fa-10x"></i>
 								</div>
 								<article>
-									<div class="col-md-7">
+									<div class="col-sm-7">
 										<div class="row">
 											<p class="text-center" style="font-size: 35px;">[[entreprise.Nom]]</p>
 										</div>
@@ -130,9 +125,5 @@
 	<script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
 	<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
 	<script src=" {{url_for('static', filename='js/template.js')}} "></script>
-
-	<!-- Google Maps -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=&amp;sensor=false&amp;extension=.js"></script>
-	<script src="{{url_for('static', filename='js/google-map.js')}}"></script>
 
 </body>
