@@ -28,11 +28,11 @@ def getGrade():
     
 def getQuestions():
     return {
-        "q1": "Question 1",
-        "q2": "Question 2",
-        "q3": "Question 3",
-        "q4": "Question 4",
-        "q5": "Question 5"
+        "q1": "Avez-vous appris des choses lors de votre stage ?",
+        "q2": "Avez-vous été bien accueillis ?",
+        "q3": "Votre entreprise était-elle engagée dans les ODD ?",
+        "q4": "Votre entreprise utilise-t-elle des touillettes en plastique ?",
+        "q5": "Pouviez-vous venir à l'after-work du mercredi soir lors de votre stage ?"
     }
 
 def getExperienceTypes():
@@ -109,19 +109,19 @@ def getInfosExp():
     return data
 
 def connexionDB():
-    # #BDD test Lucie local
-    # con = psycopg2.connect(database='WAE test local',
-    #                        user='postgres',
-    #                        host='localhost',
-    #                        password='luciemenard',
-    #                        port='5432')
-    
-    # BDD de test 
-    con = psycopg2.connect(database='bjiw069frhijwtxapwih',
-                           user='uo3wdoc8qcwuds1kkfoq',
-                           host='bjiw069frhijwtxapwih-postgresql.services.clever-cloud.com',
-                           password='SvJ4jdq7w3n7dMHiO2t6',
+    #BDD test Lucie local
+    con = psycopg2.connect(database='WAE test local',
+                           user='postgres',
+                           host='localhost',
+                           password='luciemenard',
                            port='5432')
+    
+    # # BDD de test 
+    # con = psycopg2.connect(database='bjiw069frhijwtxapwih',
+    #                        user='uo3wdoc8qcwuds1kkfoq',
+    #                        host='bjiw069frhijwtxapwih-postgresql.services.clever-cloud.com',
+    #                        password='SvJ4jdq7w3n7dMHiO2t6',
+    #                        port='5432')
 
     ## BDD WAE        
     # con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
@@ -190,6 +190,14 @@ def company(id):
     else:
         connect = False
     return render_template('company.html',id = id, connected=connect)
+
+@app.route('/experience/<int:id>')
+def experience(id):
+    if 'user' in session: 
+        connect = True
+    else:
+        connect = False
+    return render_template('experience.html',id = id, connected=connect)
 
 @app.route('/signin')
 def signin():
@@ -289,26 +297,30 @@ def tryPassword():
 @app.route('/getExp/<id>', methods=['GET'])
 # Récupère une expérience à partir de son ID
 def getExp(id):
-    # TODO généraliser les tests aux autres fonctions
-    # Connexion à la base de données
-    try :
+    try : 
         con = connexionDB()
-    except Exception as e :
-        # Renvoie d'une erreur 503 si la tentative de connexion
-        return "Impossible de se connecter à la BDD", 503 # HTTP status 503 = "Service unavailable"
+    except Exception as e:
+        return 'Impossible de se connecter à la BDD \n'+str(e), 503
 
-    # Récupère l'expérience depuis la BDD
     try :
         cur = con.cursor()
-        cur.execute(""" SELECT * FROM "Experience" WHERE ident_exp = %s""", (id,))
-    except Exception as e :
-        return "Experience non trouvé : \n" + str(e), 503 # TODO : trouver le code erreur HTTP qui convient à la place du 503
+        cur.execute(""" SELECT * FROM "Experience" WHERE "ident_exp"=%s """, (id,))
+        comp = cur.fetchone()
+        con.close()
+    except Exception as e:
+        return 'Impossible de récupérer les données:  \n'+str(e), 503
     
-    exp = cur.fetchone()
-    pprint(exp)
-    return "Affichage exp " + id
-    # data = fetchToJson(cur.fetchall())
-    # return Response(json.dumps(data[0]))
+    convertExp = {
+        'domaine': comp[6],
+        'duree':comp[4],
+        'remuneration': comp[5],
+        'type': comp[7],
+        'identite': comp[1],
+        'idCompany':comp[9],
+        'grade':comp[12],
+        'idContact':comp[8]
+    }
+    return convertExp
 
 @app.route('/saveExp', methods=['POST'])
 # Sauvegarde une expérience et renvoie son ID récemment crée.
@@ -329,7 +341,7 @@ def saveExp():
 
     # Recupération des données d'expérience saisies dans le formulaire
     exp = json.loads(request.form['newExp'])
-    #return request.form['newExp'],503
+    
     # Valide les données transmises, génère une erreur si tout n'est pas ok (-> TODO)
     # if !validate(exp):
     #    return "données incorrectes", 400
@@ -351,18 +363,54 @@ def saveExp():
     #Récupération de l'ID de l'utilisateur
     ident = session['user']
 
-    # Calcul de la note du stage donné par l'user
-    
-    # temp = int(exp['Grade']['q1'])
-    # grade= (temp*100/5 ) * 20
-    # print("grade =",grade)
+    # Calcul de la note du stage donné par l'user :
+    # Recupération des données de grade saisies dans le formulaire
+    grade = json.loads(request.form['newGrade'])
+
+    # Calcul de la note pour l'expérience
+    temp = int(grade['q1'])+int(grade['q2'])+int(grade['q3'])+int(grade['q4'])+int(grade['q5'])
+    grade = int((temp*100/5 ) * 20)
+    # print("Grade = %s", grade)
+
+    #Calcul de la moyenne de l'entreprise
+    #Récupération des anciennes grades de l'entreprise
+    try :
+        #Création du curseur pour faire les requetes SQL
+        cur = con.cursor()
+        cur.execute(""" SELECT count(*),sum(env_grade) FROM "Experience" WHERE "company"=%s """, (exp['Company'], ))
+        con.commit()
+    except Exception as e :
+        return "Impossible de récupérer les anciennes grades de l'entreprise : \n" + str(e), 503 # TODO : trouver le code erreur HTTP qui convient à la place du 503
+
+    #Calcul de la nouvelle moyenne de l'entreprise
+    row = cur.fetchone()
+    count = row[0]
+    total = row[1]
+    # Gestion du manque de grade s'il s'agit d'une nouvelle entreprise
+    if (total == None) : 
+        total=int(0)
+        count=1
+    # print("ExGrade =%s",total)
+    total+=grade
+    newCompanyGrade = int(total/(count+1))
+    print("count =",count)
+    # print("GradeCompany = " + str(newCompanyGrade))
+
+    #Update du grade de l'entreprise
+    try :
+        #Création du curseur pour faire les requetes SQL
+        cur = con.cursor()
+        cur.execute("""UPDATE "Entreprise" SET "grade"=%s WHERE "id_entreprise" = %s""", (newCompanyGrade,exp['Company'], ))
+        con.commit()
+    except Exception as e :
+        return "Impossible d'update le grade de l'entreprise : \n" + str(e), 503 # TODO : trouver le code erreur HTTP qui convient à la place du 503
 
     #Enregistrement des données dans la table Experience de la BDD 
     try :
         #Création du curseur pour faire les requetes SQL
         cur = con.cursor()
         cur.execute("""INSERT INTO "Experience"("ident","env_grade","type", "domain", "start_date", "end_date", "money", "feel_grade", "duration", "contact", "company", "description") VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s); """,
-                                                 (ident,1,exp['Type'], exp['Domain'], exp['StartDate'],exp['EndDate'], exp['Money'], exp['FeelGrade'], exp['Duration'], idContact, exp['Company'], exp['Description']))
+                                                 (ident,grade,exp['Type'], exp['Domain'], exp['StartDate'],exp['EndDate'], exp['Money'], exp['FeelGrade'], exp['Duration'], idContact, exp['Company'], exp['Description']))
         con.commit()
     except Exception as e :
         return "Impossible d'enregistrer l'expérience : \n" + str(e), 503 # TODO : trouver le code erreur HTTP qui convient à la place du 503
@@ -373,8 +421,8 @@ def saveExp():
 
     #Retourne une réponse JSON 200 (=OK) contenant l'ID
     return {'id':id, 'url':url_for('getExp', id=id)}
-#-- Entreprise --#
 
+#-- Entreprise --#
 
 @app.route('/getAllExpesFromComp/<id>', methods=['GET'])
 def getAllExpesFromComp(id):
@@ -500,7 +548,7 @@ def getCompany():
         comp = cur.fetchone()
         con.close()
     except Exception as e:
-        return 'Impossible de fécupérer les données:  \n'+str(e), 503
+        return 'Impossible de récupérer les données:  \n'+str(e), 503
     
     convertComp = {
         'nom': comp[0],
@@ -513,11 +561,7 @@ def getCompany():
     }
     return convertComp
 
-
-
-
 #----- Connexion -----#
-
 @app.route('/connexion', methods=['POST'])
 def connexion():
     email = request.form['email']
@@ -533,14 +577,10 @@ def connexion():
             return 'Mdp'
 
 #----- Deconnexion -----#
-
 @app.route('/logout')
 def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
-
-
-
 
 ########################
 #      DB Request      #
