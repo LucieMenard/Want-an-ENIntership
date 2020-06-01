@@ -368,8 +368,6 @@ def saveExp():
 
     #Retourne une réponse JSON 200 (=OK) contenant l'ID
     return {'id':id, 'url':url_for('getExp', id=id)}
-<<<<<<< HEAD
-=======
 #-- Entreprise --#
 
 
@@ -394,7 +392,6 @@ def getAllExpesFromComp(id):
 
     return Response(json.dumps(expesConv))
 
->>>>>>> 658c3af298ae325d9ebfd962e3dd71d1ce63bc9b
 
 #-- Contact --#
 @app.route('/getContact', methods=['POST'])

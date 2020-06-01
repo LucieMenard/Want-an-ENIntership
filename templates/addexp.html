@@ -94,7 +94,7 @@
 											<select class="form-control custom-select is-invalid" v-model="exp.Type" required>
 												<option>...</option>
 												{% for value,label in types.items() %}
-												<option value="{{ value }}">{{ label }}</option>
+												<option value="{{ label }}">{{ label }}</option>
 												{% endfor %}
 											</select>
 										</label>
@@ -109,7 +109,7 @@
 										{% for domain in domains %}
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="radio" value="{{ domain.value}}" v-model="exp.Domain"> {{ domain.label}}
+												<input class="form-check-input" type="radio" value="{{ domain.label}}" v-model="exp.Domain"> {{ domain.label}}
 											</label>
 										</div>
 										{% endfor %}
@@ -129,7 +129,7 @@
 											<select class="form-control custom-select is-invalid" v-model="exp.Duration" required>
 												<option>...</option>
 												{% for value,label in durations.items() %}
-												<option value="{{ value }}">{{ label }}</option>
+												<option value="{{ label }}">{{ label }}</option>
 												{% endfor %}
 											</select>
 										</label>
