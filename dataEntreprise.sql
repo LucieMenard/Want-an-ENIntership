@@ -11,6 +11,8 @@ CREATE TABLE public."Entreprise"
     city character varying(100) COLLATE pg_catalog."default" NOT NULL,
     country character varying(100) COLLATE pg_catalog."default" NOT NULL,
     grade integer NOT NULL,
+    latitude numeric NOT NULL,
+    longitude numeric NOT NULL,
     CONSTRAINT "Entreprise_pkey" PRIMARY KEY (id_entreprise)
 )
 
