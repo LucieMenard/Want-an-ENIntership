@@ -36,10 +36,18 @@ function Contact(nom, prenom, id, telephone,email, enibien){
     this.Enibien = enibien
 }
 
-function fullExpe(expe, contact, companyName){
-    this.Experience = expe
-    this.Contact = contact
-    this.CompanyName = companyName
+function Company(nom, adresse, cp, ville, pays){
+    this.Nom = nom
+    this.Adresse = adresse
+    this.CodeP = cp
+    this.Ville = ville
+    this.Pays = pays
+}
+
+function fullExpe(){
+    this.Experience = new Object()
+    this.Contact = new Object()
+    this.CompanyName = new Object()
 }
 
 
@@ -56,7 +64,7 @@ var vm = new Vue({
         confirmMdp: '',
         err: [],
         badPassword: false,
-        expes: [1,2]
+        expes: []
     },
     methods: {
         openModal: function () {
@@ -164,6 +172,7 @@ var vm = new Vue({
                 data: {
                     'id': this.id
                 },
+                async: false,
                 type: 'POST',
                 success: function (user) {
                     user = JSON.parse(user)
@@ -201,11 +210,77 @@ var vm = new Vue({
 
         getExps: function(){
             //Ajax pour avoir l'entreprise. 
-            
+            let vue = this
+            $.ajax({
+                url: '/getAllExpesFromUser/'+vue.user.Id,
+                type: 'GET',
+                success: function(d, status, xhr){
+                    expes = JSON.parse(d)
+                    expes.forEach(e=>{
+                        c = vue.convertExpObj(e)
+                        vue.expes.push(c)
+                    })
+                },
+                error: function(xhr, status, error){
+                    console.log(xhr.responseText)
+                    console.log('Erreur : ' + error + '\nStatus : ' + status+'\n')
+                }
+            })
         },
 
-        convertExpObj: function(){
-            //
+        convertExpObj: function(e){
+            var vue = this
+            convertExpe = new fullExpe()
+            $.ajax({
+                url: '/getContact',
+                type: 'POST', 
+                async: false,
+                data: {
+                    'newExp': e['idContact']
+                },
+                success: function(d, status, xhr){
+                    convertExpe.Contact = new Contact(d['nom'], d['prenom'], d['id'], d['phone'], d['mail'], d['enibien'])
+                },
+                error: function(xhr, status, error){
+                    console.log(xhr.responseText)
+                    console.log('Erreur : ' + error + '\nStatus : ' + status+'\n')
+                }
+            })
+
+            $.ajax({
+                url: '/getCompany',
+                data: {
+                    'id': e['idEntreprise']
+                },
+                type: 'POST',
+                async: false,
+                success: function(d, status, xhr){
+                    convertExpe.Company = new Company(d['nom'],
+                                                          d['adresse'],
+                                                          d['cp'], 
+                                                          d['ville'],
+                                                          d['pays'])
+                },
+                error: function(xhr, status, error){
+                    console.log(xhr.responseText)
+                    console.log('Erreur : ' + error + '\nStatus : ' + status+'\n')
+                }
+            })
+            convertExpe.Experience = new Experience(e['id'],
+                                                    e['idUser'],
+                                                    e['debut'], 
+                                                    e['fin'],
+                                                    e['duree'], 
+                                                    e['payee'],
+                                                    e['domaine'], 
+                                                    e['type'],
+                                                    e['idContact'],
+                                                    e['idEntreprise'],
+                                                    e['note'], 
+                                                    e['description'],
+                                                    e['noteDD'])
+
+            return convertExpe            
         }
 
 
@@ -216,7 +291,7 @@ var vm = new Vue({
         var link = document.location.href.split('/');
         this.id = link[link.length - 1]
         this.getUser()
-
+        this.getExps()
     }
 })
 

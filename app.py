@@ -109,19 +109,19 @@ def getInfosExp():
     return data
 
 def connexionDB():
-    #BDD test Lucie local
-    con = psycopg2.connect(database='WAE test local',
-                           user='postgres',
-                           host='localhost',
-                           password='luciemenard',
-                           port='5432')
-    
-    # # BDD de test 
-    # con = psycopg2.connect(database='bjiw069frhijwtxapwih',
-    #                        user='uo3wdoc8qcwuds1kkfoq',
-    #                        host='bjiw069frhijwtxapwih-postgresql.services.clever-cloud.com',
-    #                        password='SvJ4jdq7w3n7dMHiO2t6',
+    # #BDD test Lucie local
+    # con = psycopg2.connect(database='WAE test local',
+    #                        user='postgres',
+    #                        host='localhost',
+    #                        password='luciemenard',
     #                        port='5432')
+    
+    # BDD de test 
+    con = psycopg2.connect(database='bjiw069frhijwtxapwih',
+                           user='uo3wdoc8qcwuds1kkfoq',
+                           host='bjiw069frhijwtxapwih-postgresql.services.clever-cloud.com',
+                           password='SvJ4jdq7w3n7dMHiO2t6',
+                           port='5432')
 
     ## BDD WAE        
     # con = psycopg2.connect(database='bn1io6th4a3umkgpylvg',
@@ -445,6 +445,28 @@ def getAllExpesFromComp(id):
 
     return Response(json.dumps(expesConv))
 
+@app.route('/getAllExpesFromUser/<id>', methods=['GET'])
+def getAllExpesFromUser(id):
+    try:
+        con = connexionDB()
+    except Exception as e :
+        return "Impossible de se connecter à la BDD", 503 # HTTP status 503 = "Service unavailable"
+
+    try:
+        cur = con.cursor()
+        cur.execute(""" SELECT * FROM "Experience" WHERE "ident"=%s """, (id,))
+    except Exception as e:
+        return "Problème lors de la récupération des entreprises"+str(e), 503
+
+    expes = cur.fetchall()
+    expesConv = []
+    for e in expes:
+        convertie = convertJsonExpe(e)
+        expesConv.append(convertie)
+    
+    return Response(json.dumps(expesConv))
+
+
 
 #-- Contact --#
 @app.route('/getContact', methods=['POST'])
@@ -453,10 +475,10 @@ def getContact():
     con = connexionDB()
     cur = con.cursor()
     id = request.form['newExp']
-    cur.execute(""" SELECT * FROM "Contact" WHERE "Contact".ident = %s""", (id,))
-    data = fetchToJson(cur.fetchall())
+    cur.execute(""" SELECT * FROM "Contact" WHERE "id_contact"= %s""", (id,))
+    data = convertJsonContact(cur.fetchall())
     con.close()
-    return Response(json.dumps(data[0]))
+    return data
 
 @app.route('/getContactFromComp/<id>', methods=['GET'])
 def getContactFromComp(id):
@@ -625,15 +647,18 @@ def convertJsonExpe(expe):
     return convertExpe
 
 def convertJsonContact(c):
-    convertContact = {
-        'nom': c[0],
-        'prenom': c[1],
-        'id':c[2],
-        'phone': c[3],
-        'mail':c[4],
-        'enibien': c[5]
-    }
+    for con in c:
+        convertContact = {
+            'nom': con[0],
+            'prenom': con[1],
+            'id':con[2],
+            'phone': con[3],
+            'mail':con[4],
+            'enibien': con[5]
+        }
     return convertContact
+
+
 
 ########################
 #      DB Request      #
