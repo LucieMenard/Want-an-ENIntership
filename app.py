@@ -587,7 +587,7 @@ def getContactFromComp(id):
     for id in ids:
         try:
             cur.execute(""" SELECT * FROM "Contact" WHERE "id_contact"=%s""", (id,))
-            contact = convertJsonContact(cur.fetchone())
+            contact = convertJsonContact(cur.fetchall())
         except Exception as e :
             return "Problème lors de la réccupération : "+str(e), 503
 
