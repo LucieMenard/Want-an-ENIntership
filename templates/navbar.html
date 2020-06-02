@@ -14,23 +14,21 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="recherche">Expérience</a></li>
-                        <li><a href="searchEntreprise">Entreprise</a></li>
+                        <li><a href="/recherche">Expérience</a></li>
+                        <li><a href="/searchEntreprise">Entreprise</a></li>
                     </ul>
                 </li>
                 <li><a href="/addexp">Ajouter une expérience</a></li>
                 <li>
                     {% if id %}
-                        <a class="btn" href="profil/{{ id }}">
+                        <a class="btn" href="/profil/{{ id }}">
                             <i class="fas fa-users"></i> Profil
                         </a>
                     {% else %}
-                        <a class="btn" href="signin">S'INSCRIRE / SE CONNECTER</a>
+                        <a class="btn" href="/signin">S'INSCRIRE / SE CONNECTER</a>
                     {% endif %}
                     </a>
                 </li>
-                <!-- <li><a class="btn" href="/testConn"> <i class="fas fa-users"></i> Profil -->
-                </a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
