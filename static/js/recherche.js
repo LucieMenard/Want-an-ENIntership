@@ -1,29 +1,18 @@
-function myFunction() {
-    // Declare variables
-    var input, filter, table, tr, td, i, txtValue;
-    inputDomain = document.getElementById("filterDomain");
-    //inputCity = document.getElementById("filterCity");
-    //inputCountry = document.getElementById("filterCountry");
-    filterDomain = inputDomain.value.toUpperCase();
-    //filterCity = inputCity.value.toUpperCase();
-    //filterCountry = inputCountry.value.toUpperCase();
-    table = document.getElementById("infoExp");
-    tr = table.getElementsByTagName("tr");
+$('input[type="radio"]').change(function () {
+    var domain = $('input[name="filterDomain"]:checked').prop('value') || '';
+    var money = $('input[name="filterMoney"]:checked').prop('value') || '';
+    var type = $('input[name="filterType"]:checked').prop('value') || '';
+    var country = $('input[name="filterCountry"]:checked').prop('value') || '';
 
-    // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < tr.length; i++) {
-        tdDomain = tr[i].getElementsByTagName("td")[0];
-        //tdCity = tr[i].getElementsByTagName("td")[1];
-        //tdCountry = tr[i].getElementsByTagName("td")[2];
-        if (tdDomain) {
-            txtValueDomain = tdDomain.textContent || tdDomain.innerText;
-            //txtValueCity = tdCity.textContent || tdCity.innerText;
-            //txtValueCountry = tdCountry.textContent || tdCountry.innerText;
-            if (txtValueDomain.toUpperCase().indexOf(filterDomain) > -1 ) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
-    }
-}
+    $('tbody').hide();
+    $('tbody:contains(' + type + ')').show();
+    $('tbody').not(':contains(' + domain + ')').hide();
+    $('tbody').not(':contains(' + money + ')').hide();
+
+    // if(country==France){
+    // 	$('tbody:contains(' + France + ')').show();
+    // }
+    // else{
+    // 	$('tbody').not(':contains(' + France + ')').show();
+    // }
+});

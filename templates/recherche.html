@@ -36,7 +36,9 @@
 	<div class="container">
 
 		<ol class="breadcrumb">
-			<li><a href="/">Home</a></li>
+			<li>
+				<a href="/">Home</a>
+			</li>
 			<li class="active">Recherche</li>
 		</ol>
 
@@ -57,91 +59,114 @@
 								<hr>
 								<!-- Formulaire content -->
 								<form>
-									<div class="row mb-3">
+									<div class="row mb-4">
 										<!-- Form control content -->
 										<div class="col-md-3 widget">
-											<label for="validationServer04">Type</label>
-											<select class="custom-select is-invalid" id="validationServer04" required>
-												<option>...</option>
-												<option>CDI</option>
-												<option>CDD</option>
-												<option>Stage</option>
-												<option>Alternance</option>
-											</select>
+											<label for="validationServer01">Type</label>
+											<form>
+												<fieldset>
+													{% for value,label in types.items() %}
+													<input type="radio" value="{{ label }}" name="filterType">{{ label }}
+													<br> {% endfor %}
+													</select>
+											</form>
 										</div>
 
-										<!-- Radio content -->
-										<div class="col-md-3 widget">
+										<div class="col-md-4 widget">
 											<label for="validationServer01">Domaine</label>
-											<div class="form-check" >
-												<input class="form-check-input" type="radio" name="radios"
-													id="filterDomain" onkeyup="myFunction()" value="Informatique">
-												<label class="form-check-label" for="filterDomain">Informatique</label>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radios"
-													id="filterDomain" onkeyup="myFunction()" value="Electronique">
-												<label class="form-check-label" for="filterDomain">Electronique</label>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radios"
-													id="filterDomain" onkeyup="myFunction()" value="Mécatronique">
-												<label class="form-check-label" for="filterDomain">Mécatronique</label>
-											</div>
+											<form>
+												<fieldset>
+													<input type="radio" value="Mécatronique" name="filterDomain">Mécatronique
+													<br>
+													<input type="radio" value="Electronique" name="filterDomain">Electronique
+													<br>
+													<input type="radio" value="Informatique" name="filterDomain">Informatique
+												</fieldset>
+											</form>
 										</div>
 
 										<!-- Radio content -->
-										<div class="col-md-3 widget">
+										<div class="col-md-4 widget">
 											<label for="validationServer01">Rémunéré</label>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radios"
-													id="radioMoney" value="Informatique">
-												<label class="form-check-label" for="radioMoney">Oui</label>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radios"
-													id="radioMoney" value="Electronique">
-												<label class="form-check-label" for="radioMoney">Non</label>
-											</div>
+											<form>
+												<fieldset>
+													<input type="radio" value="Oui" name="filterMoney">Oui
+													<br>
+													<input type="radio" value="Non" name="filterMoney">Non
+												</fieldset>
+											</form>
 										</div>
+										<!-- Radio content -->
+										<!-- <div class="col-md-3 widget">
+												<label for="validationServer01">France/Étranger ?</label>
+												<form>
+													<fieldset>
+														<input type="radio" value="France" name="filterCountry">France
+														<br>
+														<input type="radio" value="Strange" name="filterCountry">Étranger
+													</fieldset>
+												</form>
+										</div> -->
 
-										<!-- Form control content -->
-										<div class="col-md-3 widget">
-											<label for="validationServer04">Durée</label>
-											<select class="custom-select is-invalid" id="validationServer04">
-												<option>...</option>
-												<option>1 mois</option>
-												<option>3 mois</option>
-												<option>4 mois</option>
-												<option>5 mois</option>
-												<option>6 mois</option>
-											</select>
-										</div>
+
+
 									</div>
 									<hr>
-									<!-- Entreprise content -->
-									<div class="row mb-3">
-										<div class="col-md-6 widget">
-											<input type="text" class="form-control" placeholder="Entreprise">	
-										</div>
-										<!-- Addresse content -->
-										<div class="form-row col-md-3 widget">
-											<input type="text" class="form-control" placeholder="Pays">
-										</div>
-										<div class="form-row col-md-3 widget">
-											<input type="text" class="form-control" placeholder="Ville">
-										</div>
-										</div>
-									</div>
+
+
 								</form>
 							</div>
 						</div>
-						<!-- Bouton content -->
-						<button class="btn btn-primary" type="submit">Rechercher</button>
+
 					</div>
 				</div>
-			</article><!-- /Article -->
+			</article>
+			<!-- /Article -->
 			<article class="col-xs-12 maincontent">
+<<<<<<< HEAD
+				<header class="page-header">
+					<h1 class="page-title">Liste des expériences</h1>
+				</header>
+
+
+				<article>
+
+					<table id="infoExp" class="table">
+						<thead>
+							<th scope="col">
+								<h3>Type</h3>
+							</th>
+							<th scope="col">
+								<h3>Domaine</h3>
+							</th>
+							<th scope="col">
+								<h3>Rémunéré ?</h3>
+							</th>
+							<th scope="col">
+								<h3>Durée</h3>
+							</th>
+							<th scope="col">
+								<h3>Entreprise</h3>
+							</th>
+							<th scope="col">
+								<h3>Ville</h3>
+							</th>
+							<th scope="col">
+								<h3>Pays</h3>
+							</th>
+
+						</thead>
+
+						{% for infoExperiences in infoExp %} {% if infoExperiences[8]>400 %}
+
+						<tbody>
+							<td style="color:green;">
+								<h4>{{infoExperiences[1]}}</h4>
+							</td>
+							<td style="color:green;">
+								<h4>{{infoExperiences[2]}}</h4>
+							</td>
+=======
 					<header class="page-header">
 						<h1 class="page-title">Liste des expériences</h1>
 					</header>
@@ -180,27 +205,118 @@
 								<td>
 									<h4>{{infoExperiences[4]}}</h4>
 								</td>
+								<td>
+									<a class="btn btn-primary" href="/experience/{{infoExperiences[0]}}"><i
+											class="fas fa-address-card"></i></a>
+								</td>
 							</tr>
+>>>>>>> 28fc05906797dc0ee065fd9980a97e1925978b0d
 							
-							{% endfor %}
+							<td style="color:green;">
+								<h4>
+									{% if infoExperiences[3] %}
+										Oui
+									{% else %}
+										Non
+									{% endif %}
+									<!-- {{infoExperiences[3]}} -->
+								</h4>
+							</td>
 							
-	
-						</table>
+							<td style="color:green;">
+								<h4>{{infoExperiences[4]}}</h4>
+							</td>
+							<td style="color:green;">
+								<h4>{{infoExperiences[5]}}</h4>
+							</td>
+							<td style="color:green;">
+								<h4>{{infoExperiences[6]}}</h4>
+							</td>
+							<td style="color:green;">
+								<h4>{{infoExperiences[7]}}</h4>
+							</td>
+							<td style="color:green;">
+								<h4>{{infoExperiences[8]}}</h4>
+							</td>
 
-			</article>
-	</div> <!-- /container -->
+						</tbody>
+						{% else %}
+						<tbody>
+							<td style="color:black;">
+								<h4>{{infoExperiences[1]}}</h4>
+							</td>
+							<td style="color:black;">
+								<h4>{{infoExperiences[2]}}</h4>
+							</td>
+							<td style="color:black;">
+								<h4>
+									{% if infoExperiences[3] %}
+										Oui
+									{% else %}
+										Non
+									{% endif %}
+								</h4>
+							</td>
+							<td style="color:black;">
+								<h4>{{infoExperiences[4]}}</h4>
+							</td>
+							<td style="color:black;">
+								<h4>{{infoExperiences[5]}}</h4>
+							</td>
+							<td style="color:black;">
+								<h4>{{infoExperiences[6]}}</h4>
+							</td>
+							<td style="color:black;">
+								<h4>{{infoExperiences[7]}}</h4>
+							</td>
+							<td style="color:black;">
+								<h4>{{infoExperiences[8]}}</h4>
+							</td>
+
+						</tbody>
+						{%endif%} {% endfor %}
 
 
-	<footer id="footer" class="top-space">
-		{% include 'footer.html' %}
-	</footer>	
-	<script type="text/javascript" src="{{url_for('static', filename='js/recherche.js')}}"></script>
-	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-	<script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
-	<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
-	<script src=" {{url_for('static', filename='js/template.js')}} "></script>
+					</table>
+
+				</article>
+		</div>
+		<!-- /container -->
+
+
+		<footer id="footer" class="top-space">
+			{% include 'footer.html' %}
+		</footer>
+		<!-- <script type="text/javascript" src="{{url_for('static', filename='js/recherche.js')}}"></script> -->
+		<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
+		<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
+		<script src=" {{url_for('static', filename='js/template.js')}} "></script>
+		<script>
+			$('input[type="radio"]').change(function () {
+				var domain = $('input[name="filterDomain"]:checked').prop('value') || '';
+				var money = $('input[name="filterMoney"]:checked').prop('value') || '';
+				var type = $('input[name="filterType"]:checked').prop('value') || '';
+				var country = $('input[name="filterCountry"]:checked').prop('value') || '';
+
+				$('tbody').hide();
+				$('tbody:contains(' + type + ')').show();
+				$('tbody').not(':contains(' + domain + ')').hide();
+				$('tbody').not(':contains(' + money + ')').hide();
+
+				// if(country==France){
+				// 	$('tbody:contains(' + France + ')').show();
+				// }
+				// else{
+				// 	$('tbody').not(':contains(' + France + ')').show();
+				// }
+			});
+
+
+		</script>
+
 </body>
 
 </html>

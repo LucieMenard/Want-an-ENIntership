@@ -30,44 +30,44 @@
 
 	<div id="app">
 		<div class="container">
-			<article class="col-xs-12 maincontent">
+			<article class="col-xs-14 maincontent">
 				<header class="page-header">
-					<h1 class="page-title">Experience du profil dont l'id est [[experience.Identite]]</h1>
-				</header>
-
-				<div class="col-md-offset-2 col-md-8">
+					<h1 class="page-title">Experience du profil <a href="/profil/{{ id }}">{{ user['fam_name'] }} {{ user['first_name'] }}</a></h1>
+                </header>
+				<div class="panel panel-default">
 					<div class="row">
-						<div class="col-md-offset-2 col-md-8">
-							<div class="row">
-								<article>
-									<div class="col-md-12">
-										<div class="row">
-											<p class="text-center" style="font-size: 35px;">[[experience.Type]] en [[experience.Domain]] à [[entreprise.Nom]] </p>
-										</div>
-										<div class="row">
-                                            <p style="font-size: 20px;">
-                                                Type : [[experience.Type]] <br>
-                                                Domaine : [[experience.Domain]] <br>
-                                                Durée : [[experience.Duration]] <br>
-                                                Experience rémunéré : [[experience.Money]] <br>
-                                                IDContact : [[experience.IdContact]] <br>
-                                                Evaluation du stage : [[experience.Grade]] <br>
-                                                <script>
-                                                    a=[[experience.Money]]
-                                                    if (a == true)
-                                                        {document.write("<br>Experience rémunéré.")}
-                                                    else 
-                                                        {document.write("<br>Experience non rémunéré.")}
-                                                </script>
-                                            </p>
-										</div>
-									</div>
-								</article>
-							</div>
-						</div>
+                        <p class="text-center" style="font-size: 35px;">{{ types.get(exp['type']) }} en {{ domains.get(exp['domain']) }} à {{ company['name'] }} </p>
+                        <p class="text-center" style="font-size: 25px;"> Evaluation du stage : {{ (exp['env_grade'] /100) | int }}/5 <br></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-5">
+                            <p style="font-size: 20px;">   
+                                Type : {{ types.get(exp['type']) }} <br>
+                                Domaine : {{ domains.get(exp['domain']) }} <br>
+                                Durée : {{ durations.get(exp['duration']) }} <br>
+                                Contact : {{ contact['last_Name'] }} {{ contact['first_Name'] }} <br>
+                                {% if  exp['money']  %}
+                                    Experience : rémunérée<br>
+                                {% else %}
+                                    Experience : non rémunérée<br>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p style="font-size: 20px;">
+                                Entreprise : {{ company['name'] }} 
+                                <a href="/company/{{ company['id_entreprise'] }} "><i class="fas fa-address-card"></i></a><br>
+                                Adresse : {{ company['address'] }} <br>
+                                Ville : {{ company['city'] }} <br>
+                                Code Postal : {{ company['postal_code'] }} <br>
+                                Pays : {{ company['country'] }} <br>
+                                Note de l'entreprise : {{ company['grade'] }} <br>
+                            </p>
+                        </div>
+                        <br>
 					</div>
-					<br>
-					<br>
+                </div>
+                
 			</article>
 		</div>
 	</div>
@@ -82,6 +82,6 @@
 	<script src="{{ url_for('static', filename='js/headroom.min.js')}}"></script>
 	<script src=" {{ url_for('static', filename='js/jQuery.headroom.min.js')}}"></script>
     <script src=" {{url_for('static', filename='js/template.js')}} "></script>
-    <script src="{{ url_for('static', filename='js/experience.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/experience.js') }}"></script> -->
 
 </body>
