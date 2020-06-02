@@ -11,7 +11,36 @@ function User(id, nom, prenom, surnom, naissance, email, telephone, mdp, diplome
     this.DateDiplome = dateDiplome
 }
 
+function Experience(id, idUser, debut, fin, duree, payee, domaine, type, idContact, idCompany, note, descr, noteDD){
+    this.Id = id
+    this.IdUser = idUser
+    this.Debut = debut
+    this.Fin = fin
+    this.Duree = duree
+    this.Payee = payee
+    this.Domaine = domaine
+    this.Type = type
+    this.IdContact = idContact
+    this.idCompany = idCompany
+    this.Note = note
+    this.Descr = descr
+    this.NoteDD = noteDD
+}
 
+function Contact(nom, prenom, id, telephone,email, enibien){
+    this.Nom = nom
+    this.Prenom = prenom
+    this.Id = id
+    this.Telephone = telephone
+    this.Email = email
+    this.Enibien = enibien
+}
+
+function fullExpe(expe, contact, companyName){
+    this.Experience = expe
+    this.Contact = contact
+    this.CompanyName = companyName
+}
 
 
 var vm = new Vue({
@@ -26,7 +55,8 @@ var vm = new Vue({
         afficheDateDiplome: new Object(),
         confirmMdp: '',
         err: [],
-        badPassword: false
+        badPassword: false,
+        expes: [1,2]
     },
     methods: {
         openModal: function () {
@@ -164,7 +194,22 @@ var vm = new Vue({
 
         convAffichage: function (date) {
             return moment(date).format('DD/MM/YYYY')
+        },
+
+
+        //----- Experiences -----
+
+        getExps: function(){
+            //Ajax pour avoir l'entreprise. 
+            
+        },
+
+        convertExpObj: function(){
+            //
         }
+
+
+
     },
 
     mounted() {

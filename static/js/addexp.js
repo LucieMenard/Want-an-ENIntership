@@ -102,20 +102,21 @@ var vm = new Vue({
             }
         },
         validateFormulaire : function() {
-            if (!this.exp.Grade.q1 || !this.exp.Grade.q2 || !this.exp.Grade.q3 || !this.exp.Grade.q4 || !this.exp.Grade.q5 ) {
+            if (!this.grade.q1 || !this.grade.q2 || !this.grade.q3 || !this.grade.q4 || !this.grade.q5 ) {
                 this.err.push('Les questions sont obligatoires.');
             }
         },
 
         submit: function () {
             this.err = [];
-            // this.validateFormulaire();
+            this.validateFormulaire();
             if (this.err.length == 0) {
                 $.ajax({
                     url: '/saveExp',
                     data: {
                         'newExp': JSON.stringify(vm.exp),
-                        'newContact': JSON.stringify(vm.contact)
+                        'newContact': JSON.stringify(vm.contact),
+                        'newGrade': JSON.stringify(vm.grade)
                     },
                     type: 'POST',
                     success: function (data, status, xhr) {
