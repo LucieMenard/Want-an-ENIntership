@@ -8,6 +8,8 @@ from pprint import pprint
 
 app = Flask(__name__)
 app.secret_key='enib'
+app.config['SESSION_PERMANENT']=False
+
 
 
 ##############################################################################

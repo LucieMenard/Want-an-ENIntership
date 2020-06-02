@@ -106,10 +106,46 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <h3 class="text-center">LISTE DES EXPERIENCES</h3>
+                        <div class="panel panel-default" style="overflow-y: scroll; max-height: 500px;">
+                            <div class="panel-header">
+                                <br>
+                                <p class="text-center" style="font-size: 200%;">Expériences</p>
                             </div>
+                            <div class="panel-body">
+                                <div v-for="e in expes">
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <i class="fas fa-briefcase fa-7x"></i>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="row">
+                                                <p style="font-size: 130%;">TYPE_EXPE réalisé à ENTREPRISE</p>
+                                            </div>
+                                            <div class="row">
+                                                <p style="font-size: 120%;">A VILLE, en PAYS</p>
+                                            </div>
+                                            <div class="row">
+                                                <p style="font-size: 120%;">Experience de X mois</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="row text-center">
+                                                <button class="btn btn-sm btn-info" ><i class="fas fa-edit"></i></button>
+                                            </div>
+                                            <div class="row text-center">
+                                                <a class="btn btn-sm btn-danger" style="margin-top: 10px;" ><i class="fas fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+
                         </div>
                     </div>
 
