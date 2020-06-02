@@ -61,7 +61,7 @@
                                 Ville : {{ company['city'] }} <br>
                                 Code Postal : {{ company['postal_code'] }} <br>
                                 Pays : {{ company['country'] }} <br>
-                                Note de l'entreprise : {{ company['grade'] }} <br>
+                                Note de l'entreprise : {{ (company['grade']/100) }}/5 <br>
                             </p>
                         </div>
                         <br>

@@ -123,11 +123,9 @@
 			</article>
 			<!-- /Article -->
 			<article class="col-xs-12 maincontent">
-<<<<<<< HEAD
 				<header class="page-header">
 					<h1 class="page-title">Liste des expériences</h1>
 				</header>
-
 
 				<article>
 
@@ -166,51 +164,6 @@
 							<td style="color:green;">
 								<h4>{{infoExperiences[2]}}</h4>
 							</td>
-=======
-					<header class="page-header">
-						<h1 class="page-title">Liste des expériences</h1>
-					</header>
-	
-	
-					<article>
-						
-						<table id="infoExp" class="table">
-							<tr class="header">
-								<th scope="col">
-									<h3>Type</h3>
-								</th>
-								<th scope="col">
-									<h3>Domaine</h3>
-								</th>
-								<th scope="col">
-									<h3>Rémunéré ?</h3>
-								</th>
-								<th scope="col">
-									<h3>Durée</h3>
-								</th>
-							</tr>
-							
-							{% for infoExperiences in infoExp %}
-							
-							<tr >
-								<td>
-									<h4>{{infoExperiences[1]}}</h4>
-								</td>
-								<td>
-									<h4>{{infoExperiences[2]}}</h4>
-								</td>
-								<td>
-									<h4>{{infoExperiences[3]}}</h4>
-								</td>
-								<td>
-									<h4>{{infoExperiences[4]}}</h4>
-								</td>
-								<td>
-									<a class="btn btn-primary" href="/experience/{{infoExperiences[0]}}"><i
-											class="fas fa-address-card"></i></a>
-								</td>
-							</tr>
->>>>>>> 28fc05906797dc0ee065fd9980a97e1925978b0d
 							
 							<td style="color:green;">
 								<h4>
@@ -236,7 +189,7 @@
 								<h4>{{infoExperiences[7]}}</h4>
 							</td>
 							<td style="color:green;">
-								<h4>{{infoExperiences[8]}}</h4>
+								<h4>{{infoExperiences[8]/100}}/5</h4>
 							</td>
 
 						</tbody>
@@ -270,7 +223,7 @@
 								<h4>{{infoExperiences[7]}}</h4>
 							</td>
 							<td style="color:black;">
-								<h4>{{infoExperiences[8]}}</h4>
+								<h4>{{infoExperiences[8]/100}}/5</h4>
 							</td>
 
 						</tbody>
