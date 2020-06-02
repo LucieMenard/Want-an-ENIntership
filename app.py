@@ -101,7 +101,7 @@ def getInfosExp():
         return "Impossible de se connecter à la base de données", 503 # http status 503 = "Service unavailable"
     
     cur = con.cursor()
-    cur.execute(""" SELECT ident_exp,type,domain,money,duration FROM "Experience" """)
+    cur.execute(""" SELECT "Experience".ident_exp,"Experience".type,"Experience".domain,"Experience".money,"Experience".duration,"Entreprise".name,"Entreprise".city,"Entreprise".country FROM "Experience" NATURAL JOIN "Entreprise" ORDER BY duration """)
     data = cur.fetchall()
     
     return data
@@ -150,6 +150,8 @@ def recherche():
     return render_template(
         'recherche.html',
         infoExp=getInfosExp(),
+        types=getExperienceTypes(),
+        durations=getExperienceDurations(),
         id = getCurrentUser()
     )
 
