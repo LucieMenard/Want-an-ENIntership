@@ -1,4 +1,5 @@
 import psycopg2
+import psycopg2.extras
 import json
 import datetime
 import geocoder
@@ -116,7 +117,7 @@ def connexionDB():
     #                        password='luciemenard',
     #                        port='5432')
     
-    # # BDD de test 
+    # BDD de test 
     con = psycopg2.connect(database='bjiw069frhijwtxapwih',
                            user='uo3wdoc8qcwuds1kkfoq',
                            host='bjiw069frhijwtxapwih-postgresql.services.clever-cloud.com',
@@ -195,11 +196,58 @@ def company(id):
 
 @app.route('/experience/<int:id>')
 def experience(id):
-    if 'user' in session: 
-        connect = True
-    else:
-        connect = False
-    return render_template('experience.html',id = id, connected=connect)
+    try : 
+        con = connexionDB()
+        # Création d'un curseur sous forme de dictionnaire au lieu de tableau 
+        cur = con.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    except Exception as e:
+        return 'Impossible de se connecter à la BDD \n'+str(e), 503
+
+    # Récupération des données de l'expérience id
+    try :
+        cur.execute(""" SELECT * FROM "Experience" WHERE "ident_exp"=%s """, (id,))
+        exp = cur.fetchone()
+    except Exception as e:
+        return 'Impossible de récupérer le record de l experience:  \n'+str(e), 503
+    
+    # Récupération des données de l'entreprise
+    try :
+        cur.execute(""" SELECT * FROM "Entreprise" WHERE "id_entreprise"=%s """, (exp['company'],))
+        company = cur.fetchone()
+    except Exception as e:
+        return 'Impossible de récupérer les données de l entreprise:  \n'+str(e), 503
+
+    # Récupération des données du contact
+    try :
+        cur.execute(""" SELECT * FROM "Contact" WHERE "id_contact"=%s """, (exp['contact'],))
+        contact = cur.fetchone()
+    except Exception as e:
+        return 'Impossible de récupérer les données du contact:  \n'+str(e), 503
+
+    # Récupération des données de l'user
+    try :
+        cur.execute(""" SELECT * FROM "Utilisateur" WHERE "ident"=%s """, (exp['ident'],))
+        user = cur.fetchone()
+    except Exception as e:
+        return 'Impossible de récupérer les données de l user:  \n'+str(e), 503
+
+    cur.close()
+
+    # Mise des domaines sous la bonne forme
+    domains = {}
+    for item in getExperienceDomains() :
+        domains[ item['value'] ] = item['label']
+    
+    return render_template('experience.html', 
+                            id=id, 
+                            exp=exp, 
+                            company=company, 
+                            contact=contact, 
+                            user=user,
+                            domains = domains,
+                            durations = getExperienceDurations(),
+                            types = getExperienceTypes()
+                            )
 
 @app.route('/signin')
 def signin():
@@ -240,6 +288,25 @@ def getUser():
     data = fetchToJson(cur.fetchall())
     con.close()
     return Response(json.dumps(data[0]))
+
+@app.route('/getOneUser/<id>', methods=['GET'])
+# Récupère un user à partir de son ID mais d'une autre manière mdr
+def getOneUser():
+    try : 
+        con = connexionDB()
+    except Exception as e:
+        return 'Impossible de se connecter à la BDD \n'+str(e), 503
+    try :
+        cur = con.cursor()
+        id = request.form['id']
+        cur.execute(""" SELECT * FROM "Utilisateur" WHERE "ident"=%s """, (id,))
+        user = cur.fetchone()
+        con.close()
+    except Exception as e:
+        return 'Impossible de récupérer les données:  \n'+str(e), 503
+    
+    convertUser = {'name': user[1],'surname': user[2]}
+    return convertUser
 
 
 @app.route('/saveUser', methods=['POST'])
@@ -371,7 +438,7 @@ def saveExp():
 
     # Calcul de la note pour l'expérience
     temp = int(grade['q1'])+int(grade['q2'])+int(grade['q3'])+int(grade['q4'])+int(grade['q5'])
-    grade = int((temp*100/5 ) * 20)
+    grade = int(temp*100/5)
     # print("Grade = %s", grade)
 
     #Calcul de la moyenne de l'entreprise
@@ -390,13 +457,14 @@ def saveExp():
     total = row[1]
     # Gestion du manque de grade s'il s'agit d'une nouvelle entreprise
     if (total == None) : 
-        total=int(0)
-        count=1
+        total = 0
+        count = 0
     # print("ExGrade =%s",total)
-    total+=grade
-    newCompanyGrade = int(total/(count+1))
+    total += grade
+    count += 1
+    newCompanyGrade = int(total/count)
     print("count =",count)
-    # print("GradeCompany = " + str(newCompanyGrade))
+    print("GradeCompany = " + str(newCompanyGrade))
 
     #Update du grade de l'entreprise
     try :
@@ -459,6 +527,25 @@ def getContact():
     con.close()
     return Response(json.dumps(data[0]))
 
+@app.route('/getOneContact/<id>', methods=['GET'])
+# Récupère un contact à partir de son ID mais d'une autre manière mdr
+def getOneContact(id):
+    try : 
+        con = connexionDB()
+    except Exception as e:
+        return 'Impossible de se connecter à la BDD \n'+str(e), 503
+
+    try :
+        cur = con.cursor()
+        cur.execute(""" SELECT * FROM "Contact" WHERE "id_contact"=%s """, (id,))
+        comp = cur.fetchone()
+        con.close()
+    except Exception as e:
+        return 'Impossible de récupérer les données:  \n'+str(e), 503
+    
+    convertContact = {'name': comp[0],'surname':comp[1]}
+    return convertContact
+
 @app.route('/getContactFromComp/<id>', methods=['GET'])
 def getContactFromComp(id):
     try :
@@ -516,7 +603,7 @@ def saveEntreprise():
     print(''+entreprise['Address']+', '+entreprise['Postal_Code']+', '+entreprise['Country'])
     g = geocoder.osm(''+entreprise['Address']+','+entreprise['Postal_Code']+','+entreprise['Country'])
 
-    print(type(g.osm['x']))
+    # print(type(g.osm['x']))
 
     if g.osm['addr:postal']!=entreprise['Postal_Code']:
         #TODO : Renvoyer une erreur demandant de vérifier l'adresse

@@ -123,7 +123,7 @@ var vm = new Vue({
                         alert("L'expérience a bien été créée ! Son id :" + data.id);
                         //TODO supprimer les dates et la description
                         //Redirection sur la page de l'expérience
-                        document.location.href = data.url;
+                        document.location.href = '/experience/'+data.id;
                     },
                     error: function (xhr, status, error) {
                         vm.err.push(xhr.responseText);
