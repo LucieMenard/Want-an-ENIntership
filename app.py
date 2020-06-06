@@ -58,7 +58,7 @@ def getExperienceDurations():
         "10m": "10 mois",
         "11m": "11 mois",
         "12m": "1 an",
-        "more": "+",  
+        "more": "Plus d'un an",  
     }
 
 def getExperienceDomains():
@@ -104,7 +104,7 @@ def getInfosExp():
         return "Impossible de se connecter à la base de données", 503 # http status 503 = "Service unavailable"
     
     cur = con.cursor()
-    cur.execute(""" SELECT "Experience".ident_exp,"Experience".type,"Experience".domain,"Experience".money,"Experience".duration,"Entreprise".name,"Entreprise".city,"Entreprise".country,"Experience".env_grade FROM "Experience" NATURAL JOIN "Entreprise" ORDER BY env_grade DESC """)
+    cur.execute(""" SELECT  "Experience".ident_exp,"Experience".type,"Experience".domain,"Experience".money,"Experience".duration,"Entreprise".name,"Entreprise".city,"Entreprise".country,"Experience".env_grade FROM "Experience" NATURAL JOIN "Entreprise" ORDER BY env_grade DESC """)
     data = cur.fetchall()
     
     return data
@@ -186,13 +186,10 @@ def addexp():
 def contact():
     return render_template('contact.html')
 
-@app.route('/company/<int:id>')
-def company(id):
-    if 'user' in session: 
-        connect = True
-    else:
-        connect = False
-    return render_template('company.html',id = id, connected=connect)
+@app.route('/company/<int:idComp>')
+def company(idComp):
+    
+    return render_template('company.html',idComp = id, id=getCurrentUser())
 
 @app.route('/experience/<int:id>')
 def experience(id):

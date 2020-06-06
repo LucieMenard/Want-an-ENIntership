@@ -96,22 +96,10 @@
 												</fieldset>
 											</form>
 										</div>
-										<!-- Radio content -->
-										<!-- <div class="col-md-3 widget">
-												<label for="validationServer01">France/Étranger ?</label>
-												<form>
-													<fieldset>
-														<input type="radio" value="France" name="filterCountry">France
-														<br>
-														<input type="radio" value="Strange" name="filterCountry">Étranger
-													</fieldset>
-												</form>
-										</div> -->
 
 
 
 									</div>
-									<hr>
 
 
 								</form>
@@ -138,7 +126,7 @@
 								<h3>Domaine</h3>
 							</th>
 							<th scope="col">
-								<h3>Rémunéré ?</h3>
+								<h3>Rémunérée ?</h3>
 							</th>
 							<th scope="col">
 								<h3>Durée</h3>
@@ -151,6 +139,12 @@
 							</th>
 							<th scope="col">
 								<h3>Pays</h3>
+							</th>
+							<th scope="col">
+								<h3>Note</h3>
+							</th>
+							<th scope="col">
+								<h3>Fiche Entreprise</h3>
 							</th>
 
 						</thead>
@@ -191,6 +185,10 @@
 							<td style="color:green;">
 								<h4>{{infoExperiences[8]/100}}/5</h4>
 							</td>
+							<td>
+								<a class="btn btn-primary" href="/experience/{{infoExperiences[0]}}"><i
+									class="fas fa-address-card"></i></a>
+							</td>
 
 						</tbody>
 						{% else %}
@@ -224,6 +222,10 @@
 							</td>
 							<td style="color:black;">
 								<h4>{{infoExperiences[8]/100}}/5</h4>
+							</td>
+							<td>
+								<a class="btn btn-primary" href="/experience/{{infoExperiences[0]}}"><i
+									class="fas fa-address-card"></i></a>
 							</td>
 
 						</tbody>

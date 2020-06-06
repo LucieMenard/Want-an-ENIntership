@@ -1,5 +1,5 @@
 
-var macarte = L.map('maCarte').setView([48.3606, -4.5666], 16)
+var macarte = L.map('maCarte').setView([48.866667, 2.333333], 4)
 L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
     // Il est toujours bien de laisser le lien vers la source des données
     attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
@@ -11,9 +11,12 @@ tr = table.getElementsByTagName("tr");
 console.log(tr)
 var markerList = L.markerClusterGroup()
 for (i = 1; i < tr.length; i++) {
+    name = tr[i].getElementsByTagName("td")[0].textContent.split(' ').join('').split('\n').join('')
+    console.log(name)
     x = parseFloat(tr[i].getElementsByTagName("td")[4].textContent.split(' ').join('').split('\n').join(''))
     y = parseFloat(tr[i].getElementsByTagName("td")[5].textContent.split(' ').join('').split('\n').join(''))
     var marker = L.marker([x, y])
+    marker.bindPopup(name)
     markerList.addLayer(marker)
 }
 macarte.addLayer(markerList)

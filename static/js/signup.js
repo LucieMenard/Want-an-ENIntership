@@ -8,7 +8,12 @@ function User(){
     this.Mdp = ""
     this.Diplome = false
     this.DateDiplome = ""
+    this.save =  function(){
+        console.log('Test')
+    }
 }
+
+
 
 
 var vm = new Vue({
@@ -50,6 +55,7 @@ var vm = new Vue({
             let vue = this
             this.err = []
             this.validate()
+            vue.User.save()
             if (this.err.length == 0){
                 $.ajax({
                     url: '/saveUser',

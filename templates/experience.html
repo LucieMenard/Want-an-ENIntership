@@ -36,15 +36,15 @@
                 </header>
 				<div class="panel panel-default">
 					<div class="row">
-                        <p class="text-center" style="font-size: 35px;">{{ types.get(exp['type']) }} en {{ domains.get(exp['domain']) }} à {{ company['name'] }} </p>
+                        <p class="text-center" style="font-size: 35px;">{{ exp['type'] }} en {{ exp['domain'] }} à {{ company['name'] }} </p>
                         <p class="text-center" style="font-size: 25px;"> Evaluation du stage : {{ (exp['env_grade'] /100) | int }}/5 <br></p>
                     </div>
                     <div class="row">
                         <div class="col-md-offset-1 col-md-5">
                             <p style="font-size: 20px;">   
-                                Type : {{ types.get(exp['type']) }} <br>
-                                Domaine : {{ domains.get(exp['domain']) }} <br>
-                                Durée : {{ durations.get(exp['duration']) }} <br>
+                                Type : {{ exp['type'] }} <br>
+                                Domaine : {{ exp['domain']}} <br>
+                                Durée : {{ exp['duration'] }} <br>
                                 Contact : {{ contact['last_Name'] }} {{ contact['first_Name'] }} <br>
                                 {% if  exp['money']  %}
                                     Experience : rémunérée<br>

@@ -119,7 +119,7 @@ var vm = new Vue({
                     },
                     type: 'POST',
                     success: function (data, status, xhr) {
-                        alert("L'expérience a bien été créée ! Son id :" + data.id);
+                        //alert("L'expérience a bien été créée ! Son id :" + data.id);
                         //Redirection sur la page de l'expérience
                         document.location.href = '/experience/'+data.id;
                     },
